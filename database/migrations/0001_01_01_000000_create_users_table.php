@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('course_id')->nullable();
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
-            $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->string('dob')->nullable();
