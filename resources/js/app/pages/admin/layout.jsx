@@ -14,7 +14,7 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AssignmentInd, HistoryEdu, School } from "@mui/icons-material";
+import { AssignmentInd, Engineering, FolderShared, HistoryEdu, School, SupervisedUserCircle } from "@mui/icons-material";
 
 const NAVIGATION = [
     {
@@ -27,9 +27,19 @@ const NAVIGATION = [
         icon: <DashboardIcon />,
     },
     {
+        segment: "instructor",
+        title: "Instructor",
+        icon: <SupervisedUserCircle />,
+    },
+    {
         segment: "students",
         title: "Students",
         icon: <AssignmentInd />,
+    },
+    {
+        segment: "department",
+        title: "Department",
+        icon: <FolderShared />,
     },
     {
         segment: "courses",
@@ -40,6 +50,11 @@ const NAVIGATION = [
         segment: "subjects",
         title: "Subjects",
         icon: <HistoryEdu />,
+    },
+    {
+        segment: "grades",
+        title: "Grades",
+        icon: <BarChartIcon />,
     },
     {
         kind: "divider",
@@ -66,9 +81,9 @@ const NAVIGATION = [
     //     ],
     // },
     {
-        segment: "integrations",
-        title: "Integrations",
-        icon: <LayersIcon />,
+        segment: "settings",
+        title: "Settings",
+        icon: <Engineering />,
     },
 ];
 
@@ -114,8 +129,8 @@ function AdminLayout({ children }, props) {
             theme={demoTheme}
             window={demoWindow}
             branding={{
-                logo: "",
-                title: "Starter",
+                logo: <img src="/images/logo.png" />,
+                title: "CSR Grading System",
             }}
         >
             <DashboardLayout>

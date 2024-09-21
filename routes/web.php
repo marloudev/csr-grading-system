@@ -23,14 +23,27 @@ Route::prefix('administrator')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('admin/dashboard/page');
     });
+    Route::get('/instructor', function () {
+        return Inertia::render('admin/instructor/page');
+    });
     Route::get('/students', function () {
         return Inertia::render('admin/students/page');
+    });
+    Route::get('/department', function () {
+        return Inertia::render('admin/department/page');
     });
     Route::get('/courses', function () {
         return Inertia::render('admin/courses/page');
     });
     Route::get('/subjects', function () {
         return Inertia::render('admin/subjects/page');
+    });
+   
+    Route::get('/grades', function () {
+        return Inertia::render('admin/grades/page');
+    });
+    Route::get('/settings', function () {
+        return Inertia::render('admin/settings/page');
     });
 });
 // Route::get('/dashboard', function () {
