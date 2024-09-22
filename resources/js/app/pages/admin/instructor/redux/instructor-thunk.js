@@ -1,11 +1,12 @@
 import { store_instructor_service, delete_instructor_service, update_instructor_service, get_instructor_by_id_service, get_instructor_service } from "@/app/services/instructor-service";
+import { instructorSlice } from "./instructor-slice";
 
 
 
 export function get_instructor_thunk() {
   return async function (dispatch, getState) {
-    // dispatch(appSlice.actions.incrementByAmount(10));
-    const res = get_instructor_service()
+    const res = await get_instructor_service()
+    dispatch(instructorSlice.actions.setInstructors(res.data.response));
     return res
   };
 }

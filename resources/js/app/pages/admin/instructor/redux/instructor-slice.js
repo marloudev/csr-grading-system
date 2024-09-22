@@ -6,7 +6,9 @@ const hash = path.split('&')[0];
 export const instructorSlice = createSlice({
   name: 'instructor',
   initialState: {
-    instructors: [],
+    instructors: {
+      data:[]
+    },
     instructor: {},
   },
   reducers: {

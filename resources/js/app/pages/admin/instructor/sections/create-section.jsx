@@ -2,22 +2,57 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { CircularProgress, TextField } from '@mui/material';
+import { Alert, CircularProgress, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
+import store from '@/app/pages/store/store';
+import { get_instructor_thunk, store_instructor_thunk } from '../redux/instructor-thunk';
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false)
+    const [data, setData] = useState({})
+    const [error, setError] = useState({})
+    const [notify, setNotify] = useState(false)
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
 
-    function submitForm(params) {
-        
+    async function submitForm(params) {
+        setLoading(true)
+        const result = await store.dispatch(store_instructor_thunk(data))
+        if (result.status == 200) {
+            await store.dispatch(get_instructor_thunk())
+            setNotify(true)
+            setError({})
+            setLoading(false)
+        } else {
+            setLoading(false)
+            setError(result.response.data.errors)
+        }
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setNotify(false)
+        setOpen(false);
+    };
     return (
         <div>
+            <Snackbar open={notify}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                autoHideDuration={3000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Successfully Created!
+                </Alert>
+            </Snackbar>
             <Button variant='contained' onClick={toggleDrawer(true)}>Create Instructor</Button>
             <Drawer
 
@@ -29,16 +64,101 @@ export default function CreateSection() {
                             <div className='text-2xl font-black'>
                                 Create Instructor
                             </div>
-                            <TextField type='text' id="outlined-basic" label="First Name" variant="outlined" />
-                            <TextField type='text' id="outlined-basic" label="Last Name" variant="outlined" />
-                            <TextField type='email' id="outlined-basic" label="Email" variant="outlined" />
-                            <TextField id="outlined-basic" label="Department" variant="outlined" />
-                            <TextField id="outlined-basic" label="Course" variant="outlined" />
-                            <TextField type='date' id="outlined-basic" variant="outlined" />
-                            <TextField id="outlined-basic" label="Address" variant="outlined" />
+                            <TextField onChange={(e) => setData({
+                                ...data,
+                                [e.target.name]: e.target.value
+                            })}
+                                error={error?.fname ? true : false}
+                                helperText={error?.fname ?? ''}
+                                name="fname"
+                                type='text'
+                                id="outlined-basic"
+                                label="First Name"
+                                variant="outlined"
+                            />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.lname ? true : false}
+                                helperText={error?.lname ?? ''}
+                                name='lname'
+                                type='text'
+                                id="outlined-basic"
+                                label="Last Name"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.email ? true : false}
+                                helperText={error?.email ?? ''}
+                                name='email'
+                                type='email'
+                                id="outlined-basic"
+                                label="Email"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.password ? true : false}
+                                helperText={error?.password ?? ''}
+                                name='password'
+                                type='password'
+                                id="outlined-basic"
+                                label="Password"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.department ? true : false}
+                                helperText={error?.department ?? ''}
+                                name='department'
+                                id="outlined-basic"
+                                label="Department"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.course ? true : false}
+                                helperText={error?.course ?? ''}
+                                name='course'
+                                id="outlined-basic"
+                                label="Course"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.dob ? true : false}
+                                helperText={error?.dob ?? ''}
+                                name='dob'
+                                type='date'
+                                id="outlined-basic"
+                                variant="outlined" />
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.address ? true : false}
+                                helperText={error?.address ?? ''}
+                                name='address'
+                                id="outlined-basic"
+                                label="Address"
+                                variant="outlined" />
                         </div>
                         <Button
-                            onSubmit={submitForm}
+                            onClick={submitForm}
                             disabled={loading}
                             variant='contained'
                             className=' w-full'>

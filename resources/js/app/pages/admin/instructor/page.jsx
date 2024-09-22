@@ -4,8 +4,16 @@ import TableSection from './sections/table-section'
 import CreateSection from './sections/create-section'
 import PaginationSection from './sections/pagination-section'
 import SearchSection from './sections/search-section'
+import { useEffect } from 'react'
+import store from '../../store/store'
+import { get_instructor_thunk } from './redux/instructor-thunk'
 
 export default function AdminInstructorPage() {
+
+
+  useEffect(()=>{
+    store.dispatch(get_instructor_thunk())
+  },[])
   return (
     <AdminLayout>
       <div className='flex flex-col gap-4'>

@@ -8,25 +8,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import UpdateSection from './update-section';
 import DeleteSection from './delete-section';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-function createData(name, calories, fat, carbs, protein, action) {
-  return { name, calories, fat, carbs, protein, action };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Eclair', 262, 16.0, 24, 6.0, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Cupcake', 305, 3.7, 67, 4.3, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Eclair', 262, 16.0, 24, 6.0, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Cupcake', 305, 3.7, 67, 4.3, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, <div className='flex gap-2'><UpdateSection /> <DeleteSection /></div>),
-];
 
 export default function TableSection() {
+  const { instructors } = useSelector((state) => state.instructors)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -44,26 +31,35 @@ export default function TableSection() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">{row.calories}</TableCell>
-              <TableCell>
-                {row.name}
-              </TableCell>
-              <TableCell>
-                {row.name}
-              </TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-              <TableCell>{row.action}</TableCell>
-            </TableRow>
-          ))}
+          {instructors?.data.map((res,i) => {
+            const dob = moment(res.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
+            const age = moment().diff(dob, 'years');
+            return (
+              <TableRow
+                key={i}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">{res.user_id}</TableCell>
+                <TableCell>
+                  {res.fname}
+                </TableCell>
+                <TableCell>
+                  {res.lname}
+                </TableCell>
+                <TableCell>{res.email}</TableCell>
+                <TableCell>{res.department}</TableCell>
+                <TableCell>{res.course}</TableCell>
+                <TableCell>{age}</TableCell>
+                <TableCell>{res.address}</TableCell>
+                <TableCell>
+                  <div className='flex gap-2'>
+                    <UpdateSection data={res} />
+                    <DeleteSection data={res} />
+                  </div>
+                </TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </TableContainer>

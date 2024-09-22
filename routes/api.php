@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ClassParticipationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
@@ -20,8 +21,8 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('class_participation', ClassParticipationController::class);
 Route::resource('course', CourseController::class);
+Route::resource('account', AccountController::class);
 Route::resource('dashboard', DashboardController::class);
-Route::resource('course', CourseController::class);
 Route::resource('department', DepartmentController::class);
 Route::resource('enrollment', EnrollmentController::class);
 Route::resource('examination', ExaminationController::class);
