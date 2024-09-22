@@ -51,11 +51,11 @@ const NAVIGATION = [
         title: "Subjects",
         icon: <HistoryEdu />,
     },
-    {
-        segment: "grades",
-        title: "Grades",
-        icon: <BarChartIcon />,
-    },
+    // {
+    //     segment: "grades",
+    //     title: "Grades",
+    //     icon: <BarChartIcon />,
+    // },
     {
         kind: "divider",
     },
