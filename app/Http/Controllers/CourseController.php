@@ -9,7 +9,9 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Course::get();
+        $a = Course::paginate(10);
+
+        // Return the paginated response
         return response()->json([
             'response' => $a,
         ], 200);
@@ -31,7 +33,12 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $a = Course::where('id', $id);
-        $a->update($request->all());
+        $a->update([
+            'semester' => $request->semester,
+            'instructor_id' => $request->instructor_id,
+            'academic_year' => $request->academic_year,
+            'name' => $request->name,
+        ]);
         return response()->json([
             'response' => 'success',
         ], 200);
@@ -44,3 +51,4 @@ class CourseController extends Controller
         ], 200);
     }
 }
+

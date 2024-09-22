@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('subject_id')->nullable();
             $table->bigInteger('instructor_id')->nullable();
+            $table->string('name')->nullable();
             $table->string('semester')->nullable();
             $table->string('academic_year')->nullable();
             $table->string('section')->nullable();

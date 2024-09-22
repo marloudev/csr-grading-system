@@ -23,7 +23,10 @@ export default function CreateSection() {
 
     async function submitForm(params) {
         setLoading(true)
-        const result = await store.dispatch(store_instructor_thunk(data))
+        const result = await store.dispatch(store_instructor_thunk({
+            ...data,
+            user_type:2
+        }))
         if (result.status == 200) {
             await store.dispatch(get_instructor_thunk())
             setNotify(true)

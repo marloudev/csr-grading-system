@@ -5,7 +5,7 @@ import { instructorSlice } from "./instructor-slice";
 
 export function get_instructor_thunk() {
   return async function (dispatch, getState) {
-    const res = await get_instructor_service()
+    const res = await get_instructor_service(2)
     dispatch(instructorSlice.actions.setInstructors(res.data.response));
     return res
   };
