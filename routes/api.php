@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassParticipationController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ExaminationController;
@@ -19,7 +20,9 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('class_participation', ClassParticipationController::class);
 Route::resource('course', CourseController::class);
-Route::resource('dpartment', DepartmentController::class);
+Route::resource('dashboard', DashboardController::class);
+Route::resource('course', CourseController::class);
+Route::resource('department', DepartmentController::class);
 Route::resource('enrollment', EnrollmentController::class);
 Route::resource('examination', ExaminationController::class);
 Route::resource('grade', GradeController::class);

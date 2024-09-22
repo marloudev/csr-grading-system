@@ -4,8 +4,9 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import { CircularProgress, TextField } from '@mui/material';
 import { useState } from 'react';
+import { Edit } from '@mui/icons-material';
 
-export default function CreateSection() {
+export default function UpdateSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false)
     const toggleDrawer = (newOpen) => () => {
@@ -13,12 +14,10 @@ export default function CreateSection() {
     };
 
 
-    function submitForm(params) {
-        
-    }
+
     return (
         <div>
-            <Button variant='contained' onClick={toggleDrawer(true)}>Create Instructor</Button>
+            <Button size='small' variant='contained' onClick={toggleDrawer(true)}><Edit /></Button>
             <Drawer
 
                 anchor='right'
@@ -27,7 +26,7 @@ export default function CreateSection() {
                     <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
-                                Create Instructor
+                                Update Instructor
                             </div>
                             <TextField type='text' id="outlined-basic" label="First Name" variant="outlined" />
                             <TextField type='text' id="outlined-basic" label="Last Name" variant="outlined" />
@@ -38,7 +37,6 @@ export default function CreateSection() {
                             <TextField id="outlined-basic" label="Address" variant="outlined" />
                         </div>
                         <Button
-                            onSubmit={submitForm}
                             disabled={loading}
                             variant='contained'
                             className=' w-full'>

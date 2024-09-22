@@ -13,9 +13,7 @@ export default function CreateSection() {
     };
 
 
-    function submitForm(params) {
-        
-    }
+
     return (
         <div>
             <Button variant='contained' onClick={toggleDrawer(true)}>Create Instructor</Button>
@@ -38,7 +36,6 @@ export default function CreateSection() {
                             <TextField id="outlined-basic" label="Address" variant="outlined" />
                         </div>
                         <Button
-                            onSubmit={submitForm}
                             disabled={loading}
                             variant='contained'
                             className=' w-full'>

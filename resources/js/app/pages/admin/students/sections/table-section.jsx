@@ -32,7 +32,7 @@ export default function TableSection() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Employee ID</TableCell>
+            <TableCell>Student ID</TableCell>
             <TableCell>Firstname</TableCell>
             <TableCell >Lastname</TableCell>
             <TableCell>Email</TableCell>
