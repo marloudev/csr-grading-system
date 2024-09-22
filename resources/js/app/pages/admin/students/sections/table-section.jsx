@@ -10,6 +10,9 @@ import UpdateSection from './update-section';
 import DeleteSection from './delete-section';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { Visibility } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { router } from '@inertiajs/react';
 
 
 export default function TableSection() {
@@ -19,7 +22,7 @@ export default function TableSection() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Employee ID</TableCell>
+            <TableCell>Student ID</TableCell>
             <TableCell>Firstname</TableCell>
             <TableCell >Lastname</TableCell>
             <TableCell>Email</TableCell>
@@ -31,7 +34,7 @@ export default function TableSection() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {students?.data.map((res,i) => {
+          {students?.data.map((res, i) => {
             const dob = moment(res.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
             const age = moment().diff(dob, 'years');
             return (
@@ -47,14 +50,21 @@ export default function TableSection() {
                   {res.lname}
                 </TableCell>
                 <TableCell>{res.email}</TableCell>
-                <TableCell>{res?.department?.name??''}</TableCell>
-                <TableCell>{res?.course?.name??''}</TableCell>
+                <TableCell>{res?.department?.name ?? ''}</TableCell>
+                <TableCell>{res?.course?.name ?? ''}</TableCell>
                 <TableCell>{age}</TableCell>
                 <TableCell>{res.address}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
+                    <Button
+                      onClick={()=>router.visit(`/administrator/students/${res.id}`)}
+                      size='small'
+                      variant='contained'
+                      color='success'>
+                      <Visibility />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

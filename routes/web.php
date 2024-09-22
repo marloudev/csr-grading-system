@@ -26,8 +26,13 @@ Route::prefix('administrator')->group(function () {
     Route::get('/instructor', function () {
         return Inertia::render('admin/instructor/page');
     });
-    Route::get('/students', function () {
-        return Inertia::render('admin/students/page');
+    Route::prefix('students')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('admin/students/page');
+        });
+        Route::get('/{user_id}', function () {
+            return Inertia::render('admin/students/id/page');
+        });
     });
     Route::get('/department', function () {
         return Inertia::render('admin/department/page');
@@ -38,7 +43,7 @@ Route::prefix('administrator')->group(function () {
     Route::get('/subjects', function () {
         return Inertia::render('admin/subjects/page');
     });
-   
+
     Route::get('/grades', function () {
         return Inertia::render('admin/grades/page');
     });
