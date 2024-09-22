@@ -2,12 +2,13 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, Snackbar, TextField } from '@mui/material';
+import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { useEffect } from 'react';
 import store from '@/app/pages/store/store';
 import { get_instructor_thunk, update_instructor_thunk } from '../redux/instructor-thunk';
+import { useSelector } from 'react-redux';
 
 export default function UpdateSection({ data }) {
     const [open, setOpen] = React.useState(false);
@@ -15,6 +16,7 @@ export default function UpdateSection({ data }) {
     const [error, setError] = useState({})
     const [notify, setNotify] = useState(false)
     const [loading, setLoading] = useState(false)
+    const { departments } = useSelector((state) => state.department)
 
     useEffect(() => {
         setForm(data)
@@ -108,7 +110,7 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Last Name"
                                 variant="outlined" />
-                            <TextField
+                            {/* <TextField
                                 onChange={(e) => setForm({
                                     ...form,
                                     [e.target.name]: e.target.value
@@ -120,7 +122,7 @@ export default function UpdateSection({ data }) {
                                 type='email'
                                 id="outlined-basic"
                                 label="Email"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                             <TextField
                                 onChange={(e) => setForm({
                                     ...form,
@@ -133,18 +135,26 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Password"
                                 variant="outlined" />
-                            <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.department ? true : false}
-                                helperText={error?.department ?? ''}
-                                value={form.department}
-                                name='department'
-                                id="outlined-basic"
-                                label="Department"
-                                variant="outlined" />
+                        
+                        <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='department_id'
+                                    label="Department"
+                                    value={form.department_id}
+                                    onChange={(e) => setForm({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    {
+                                        departments.data.map((res, i) => {
+                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
                             {/* <TextField
                                 onChange={(e) => setForm({
                                     ...form,

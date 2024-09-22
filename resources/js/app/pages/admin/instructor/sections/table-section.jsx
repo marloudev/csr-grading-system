@@ -24,7 +24,7 @@ export default function TableSection() {
             <TableCell >Lastname</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Department</TableCell>
-            <TableCell>Course</TableCell>
+            {/* <TableCell>Course</TableCell> */}
             <TableCell>Age</TableCell>
             <TableCell>Address</TableCell>
             <TableCell>Action</TableCell>
@@ -47,8 +47,8 @@ export default function TableSection() {
                   {res.lname}
                 </TableCell>
                 <TableCell>{res.email}</TableCell>
-                <TableCell>{res.department}</TableCell>
-                <TableCell>{res.course}</TableCell>
+                <TableCell>{res.department_id}</TableCell>
+                {/* <TableCell>{res.course}</TableCell> */}
                 <TableCell>{age}</TableCell>
                 <TableCell>{res.address}</TableCell>
                 <TableCell>
