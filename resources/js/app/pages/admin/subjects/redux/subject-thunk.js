@@ -1,11 +1,13 @@
 import { store_subject_service, delete_subject_service, update_subject_service, get_subject_by_id_service, get_subject_service } from "@/app/services/subject-service";
+import {subjectSlice} from "./subject-slice";
 
 
 
 export function get_subject_thunk() {
   return async function (dispatch, getState) {
-    // dispatch(appSlice.actions.incrementByAmount(10));
-    const res = get_subject_service()
+    const res = await get_subject_service()
+    console.log('res.data.response',res.data.response)
+    dispatch(subjectSlice.actions.setSubjects(res.data.response));
     return res
   };
 }

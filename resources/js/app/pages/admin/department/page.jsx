@@ -7,12 +7,14 @@ import SearchSection from './sections/search-section'
 import { useEffect } from 'react'
 import store from '../../store/store'
 import { get_department_thunk } from './redux/department-thunk'
+import { get_subject_thunk } from '../subjects/redux/subject-thunk'
 
 export default function DepartmentPage() {
 
 
   useEffect(()=>{
     store.dispatch(get_department_thunk())
+    store.dispatch(get_subject_thunk())
   },[])
   return (
     <AdminLayout>

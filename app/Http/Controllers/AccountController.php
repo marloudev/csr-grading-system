@@ -11,7 +11,7 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         // Fetch paginated users, you can specify how many items per page, e.g., 10
-        $users = User::where('user_type',$request->user_type)->paginate(10);
+        $users = User::where('user_type', $request->user_type)->with(['department', 'course'])->paginate(10);
 
         // Return the paginated response
         return response()->json([
@@ -33,7 +33,7 @@ class AccountController extends Controller
             'user_id' => 'required|unique:users,user_id',  // Corrected 'unique' validation for 'user_id'
             'email' => 'required|email|unique:users,email', // Unique validation for email
             'address' => 'required|string|max:255',  // Address must be a string with a max length of 255
-            // 'course' => 'required|string|max:255',  // Course must be a string with a max length of 255
+            'course_id' => 'max:255',  // Course must be a string with a max length of 255
             'department_id' => 'required',  // Department must be a string with a max length of 255
             'dob' => 'required|date',  // Date of birth must be a valid date
             'fname' => 'required|string|max:255',  // First name must be a string with a max length of 255
@@ -46,7 +46,7 @@ class AccountController extends Controller
             'user_id' => $validatedData['user_id'],
             'email' => $validatedData['email'],
             'address' => $validatedData['address'],
-            // 'course' => $validatedData['course'],
+            'course_id' => $validatedData['course_id'] ?? null,
             'department_id' => $validatedData['department_id'],
             'dob' => $validatedData['dob'],
             'fname' => $validatedData['fname'],
@@ -67,6 +67,7 @@ class AccountController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|unique:users,user_id',
             // 'email' => 'required|email|unique:users,email',
+            'course_id' => 'max:255',
             'address' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'dob' => 'required|date',
@@ -82,6 +83,7 @@ class AccountController extends Controller
         $dataToUpdate = [
             'user_id' => $validatedData['user_id'],
             // 'email' => $validatedData['email'],
+            'course_id' => $validatedData['course_id'] ?? null,
             'address' => $validatedData['address'],
             'department' => $validatedData['department'],
             'dob' => $validatedData['dob'],

@@ -9,6 +9,7 @@ import store from '../../store/store'
 import { get_department_thunk } from '../department/redux/department-thunk'
 import { get_course_thunk } from './redux/course-thunk'
 import { get_instructor_thunk } from '../instructor/redux/instructor-thunk'
+import { get_subject_thunk } from '../subjects/redux/subject-thunk'
 
 export default function CoursePage() {
 
@@ -17,6 +18,7 @@ export default function CoursePage() {
     store.dispatch(get_department_thunk())
     store.dispatch(get_instructor_thunk())
     store.dispatch(get_course_thunk())
+    store.dispatch(get_subject_thunk())
   },[])
   return (
     <AdminLayout>

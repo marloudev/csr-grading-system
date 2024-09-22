@@ -13,44 +13,31 @@ import moment from 'moment';
 
 
 export default function TableSection() {
-  const { students } = useSelector((state) => state.students)
+  const { subjects } = useSelector((state) => state.subjects)
+  console.log('subjects',subjects)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Employee ID</TableCell>
-            <TableCell>Firstname</TableCell>
-            <TableCell >Lastname</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Department</TableCell>
-            <TableCell>Course</TableCell>
-            <TableCell>Age</TableCell>
-            <TableCell>Address</TableCell>
+            <TableCell>Name of Course</TableCell>
+            <TableCell>Subject Code</TableCell>
+            <TableCell >Semester</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {students?.data.map((res,i) => {
-            const dob = moment(res.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
-            const age = moment().diff(dob, 'years');
+          {subjects?.data.map((res,i) => {
             return (
               <TableRow
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">{res.user_id}</TableCell>
+                <TableCell component="th" scope="row">{res.name}</TableCell>
                 <TableCell>
-                  {res.fname}
+                  {res.code}
                 </TableCell>
-                <TableCell>
-                  {res.lname}
-                </TableCell>
-                <TableCell>{res.email}</TableCell>
-                <TableCell>{res?.department?.name??''}</TableCell>
-                <TableCell>{res?.course?.name??''}</TableCell>
-                <TableCell>{age}</TableCell>
-                <TableCell>{res.address}</TableCell>
+                <TableCell>{res.semester}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />

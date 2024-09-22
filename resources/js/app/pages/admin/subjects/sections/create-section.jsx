@@ -5,18 +5,19 @@ import Button from '@mui/material/Button';
 import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import store from '@/app/pages/store/store';
-import { get_course_thunk, store_course_thunk } from '../redux/course-thunk';
+import { get_subject_thunk, store_subject_thunk } from '../redux/subject-thunk';
 import { useSelector } from 'react-redux';
 import academic_year from '@/app/lib/academic-year';
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState({})
+    const [data, setData] = useState({
+        semester:'1st Semester'
+    })
     const [error, setError] = useState({})
     const [notify, setNotify] = useState(false)
     const { subjects } = useSelector((state) => state.subjects)
-    const { instructors } = useSelector((state) => state.instructors)
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -25,9 +26,9 @@ export default function CreateSection() {
 
     async function submitForm(params) {
         setLoading(true)
-        const result = await store.dispatch(store_course_thunk(data))
+        const result = await store.dispatch(store_subject_thunk(data))
         if (result.status == 200) {
-            await store.dispatch(get_course_thunk())
+            await store.dispatch(get_subject_thunk())
             setNotify(true)
             setError({})
             setLoading(false)
@@ -44,8 +45,6 @@ export default function CreateSection() {
         setNotify(false)
         setOpen(false);
     };
-    console.log('instructors', instructors)
-    console.log('academic_year', academic_year())
 
 
     return (
@@ -62,7 +61,7 @@ export default function CreateSection() {
                     Successfully Created!
                 </Alert>
             </Snackbar>
-            <Button variant='contained' onClick={toggleDrawer(true)}>Create course</Button>
+            <Button variant='contained' onClick={toggleDrawer(true)}>Create Subject</Button>
             <Drawer
 
                 anchor='right'
@@ -71,7 +70,7 @@ export default function CreateSection() {
                     <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
-                                Create course
+                                Create subject
                             </div>
                             <TextField
                                 onChange={(e) => setData({
@@ -81,52 +80,30 @@ export default function CreateSection() {
                                 error={error?.name ? true : false}
                                 helperText={error?.name ?? ''}
                                 name='name'
-                                type='name'
+                                type='text'
                                 id="outlined-basic"
-                                label="Name of Course"
+                                label="Name of Subject"
                                 variant="outlined" />
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Instructor</InputLabel>
-                                <Select
-                                    id="demo-simple-select"
-                                    name='instructor_id'
-                                    label="course"
-                                    onChange={(e) => setData({
-                                        ...data,
-                                        [e.target.name]: e.target.value
-                                    })}
-                                >
-                                    {
-                                        instructors.data.map((res, i) => {
-                                            return <MenuItem key={i} value={res.id}>{res.fname} {res.lname}</MenuItem>
-                                        })
-                                    }
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Subject</InputLabel>
-                                <Select
-                                    id="demo-simple-select"
-                                    name='subject_id'
-                                    label="course"
-                                    onChange={(e) => setData({
-                                        ...data,
-                                        [e.target.name]: e.target.value
-                                    })}
-                                >
-                                    {
-                                        subjects.data.map((res, i) => {
-                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
-                                        })
-                                    }
-                                </Select>
-                            </FormControl>
+                            <TextField
+                                onChange={(e) => setData({
+                                    ...data,
+                                    [e.target.name]: e.target.value
+                                })}
+                                error={error?.code ? true : false}
+                                helperText={error?.code ?? ''}
+                                name='code'
+                                type='text'
+                                id="outlined-basic"
+                                label="Subject Code"
+                                variant="outlined" />
+                          
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Semester</InputLabel>
                                 <Select
                                     id="demo-simple-select"
                                     name='semester'
                                     label="Semester"
+                                    value="1st Semester"
                                     onChange={(e) => setData({
                                         ...data,
                                         [e.target.name]: e.target.value
@@ -138,23 +115,7 @@ export default function CreateSection() {
                                     <MenuItem value="Summer">Summer</MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="academic-year-label">Academic Year</InputLabel>
-                                <Select
-                                    id="academic-year-select"
-                                    name="academic_year"
-                                    label="Academic Year"
-                                    value={data.academic_year}
-                                    onChange={(e) => setData({
-                                        ...data,
-                                        [e.target.name]: e.target.value
-                                    })}
-                                >
-                                    {academic_year().map((year, index) => (
-                                        <MenuItem key={index} value={year}>{year}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                         
                         </div>
                         <Button
                             onClick={submitForm}

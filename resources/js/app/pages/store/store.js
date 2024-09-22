@@ -18,8 +18,8 @@ const store = configureStore({
         grades: gradeSlice,
         instructors: instructorSlice,
         settings: settingsSlice,
-        student: studentSlice,
-        subject:subjectSlice
+        students: studentSlice,
+        subjects:subjectSlice
     },
 });
 

@@ -9,10 +9,13 @@ class SubjectController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Subject::get();
+        $a = Subject::paginate(10);
+
+        // Return the paginated response
         return response()->json([
             'response' => $a,
         ], 200);
+
     }
     public function show($id)
     {

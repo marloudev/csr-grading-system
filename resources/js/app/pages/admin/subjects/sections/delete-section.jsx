@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Delete } from '@mui/icons-material';
-import { delete_student_thunk, get_student_thunk } from '../redux/student-thunk';
+import { delete_subject_thunk, get_subject_thunk } from '../redux/subject-thunk';
 import store from '@/app/pages/store/store';
 import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import { useState } from 'react';
@@ -30,9 +30,9 @@ export default function DeleteSection({ data }) {
 
   async function delete_data(params) {
     setLoading(true)
-    const result = await store.dispatch(delete_student_thunk(data.id))
+    const result = await store.dispatch(delete_subject_thunk(data.id))
     if (result.status == 200) {
-      await store.dispatch(get_student_thunk())
+      await store.dispatch(get_subject_thunk())
       setNotify(true)
       setLoading(false)
     } else {
@@ -62,7 +62,7 @@ export default function DeleteSection({ data }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Delete student
+            Delete subject
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Are you sure you want to delete?

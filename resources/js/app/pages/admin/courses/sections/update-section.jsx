@@ -18,6 +18,7 @@ export default function UpdateSection({ data }) {
     const [notify, setNotify] = useState(false)
     const [loading, setLoading] = useState(false)
     const { instructors } = useSelector((state) => state.instructors)
+    const { subjects } = useSelector((state) => state.subjects)
 
     useEffect(() => {
         setForm(data)
@@ -100,6 +101,24 @@ export default function UpdateSection({ data }) {
                                     {
                                         instructors.data.map((res, i) => {
                                             return <MenuItem key={i} value={res.id}>{res.fname} {res.lname}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Subject</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='subject_id'
+                                    label="course"
+                                    onChange={(e) => setForm({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    {
+                                        subjects.data.map((res, i) => {
+                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
                                         })
                                     }
                                 </Select>
