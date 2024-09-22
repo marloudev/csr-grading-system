@@ -70,6 +70,19 @@ export default function UpdateSection({ data }) {
                                 Edit Instructor
                             </div>
                             <TextField onChange={(e) => setForm({
+                                ...data,
+                                [e.target.name]: e.target.value
+                            })}
+                                value={form.name}
+                                error={error?.user_id ? true : false}
+                                helperText={error?.user_id ?? ''}
+                                name="user_id"
+                                type='text'
+                                id="outlined-basic"
+                                label="Employee ID"
+                                variant="outlined"
+                            />
+                            <TextField onChange={(e) => setForm({
                                 ...form,
                                 [e.target.name]: e.target.value
                             })}
@@ -132,7 +145,7 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Department"
                                 variant="outlined" />
-                            <TextField
+                            {/* <TextField
                                 onChange={(e) => setForm({
                                     ...form,
                                     [e.target.name]: e.target.value
@@ -142,7 +155,7 @@ export default function UpdateSection({ data }) {
                                 name='course'
                                 id="outlined-basic"
                                 label="Course"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                             <TextField
                                 value={form.dob}
                                 onChange={(e) => setForm({

@@ -2,10 +2,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, Snackbar, TextField } from '@mui/material';
+import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import store from '@/app/pages/store/store';
 import { get_instructor_thunk, store_instructor_thunk } from '../redux/instructor-thunk';
+import { useSelector } from 'react-redux';
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
@@ -13,6 +14,8 @@ export default function CreateSection() {
     const [data, setData] = useState({})
     const [error, setError] = useState({})
     const [notify, setNotify] = useState(false)
+    const { departments } = useSelector((state) => state.department)
+
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -39,6 +42,7 @@ export default function CreateSection() {
         setNotify(false)
         setOpen(false);
     };
+
     return (
         <div>
             <Snackbar open={notify}
@@ -64,6 +68,18 @@ export default function CreateSection() {
                             <div className='text-2xl font-black'>
                                 Create Instructor
                             </div>
+                            <TextField onChange={(e) => setData({
+                                ...data,
+                                [e.target.name]: e.target.value
+                            })}
+                                error={error?.user_id ? true : false}
+                                helperText={error?.user_id ?? ''}
+                                name="user_id"
+                                type='text'
+                                id="outlined-basic"
+                                label="Employee ID"
+                                variant="outlined"
+                            />
                             <TextField onChange={(e) => setData({
                                 ...data,
                                 [e.target.name]: e.target.value
@@ -112,18 +128,27 @@ export default function CreateSection() {
                                 id="outlined-basic"
                                 label="Password"
                                 variant="outlined" />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.department ? true : false}
-                                helperText={error?.department ?? ''}
-                                name='department'
-                                id="outlined-basic"
-                                label="Department"
-                                variant="outlined" />
-                            <TextField
+
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='department_id'
+                                    label="Department"
+                                    onChange={(e) => setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    {
+                                        departments.data.map((res, i) => {
+                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+
+                            {/* <TextField
                                 onChange={(e) => setData({
                                     ...data,
                                     [e.target.name]: e.target.value
@@ -133,7 +158,7 @@ export default function CreateSection() {
                                 name='course'
                                 id="outlined-basic"
                                 label="Course"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                             <TextField
                                 onChange={(e) => setData({
                                     ...data,

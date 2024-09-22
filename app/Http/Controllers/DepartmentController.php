@@ -9,9 +9,11 @@ class DepartmentController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Department::get();
+        $users = Department::paginate(10);
+
+        // Return the paginated response
         return response()->json([
-            'response' => $a,
+            'response' => $users,
         ], 200);
     }
     public function show($id)
@@ -31,7 +33,9 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
         $a = Department::where('id', $id);
-        $a->update($request->all());
+        $a->update([
+            'name' => $request->name
+        ]);
         return response()->json([
             'response' => 'success',
         ], 200);

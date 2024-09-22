@@ -1,11 +1,12 @@
 import { store_department_service, delete_department_service, update_department_service, get_department_by_id_service, get_department_service } from "@/app/services/department-service";
+import {departmentSlice} from "./department-slice";
 
 
 
 export function get_department_thunk() {
   return async function (dispatch, getState) {
-    // dispatch(appSlice.actions.incrementByAmount(10));
-    const res = get_department_service()
+    const res = await get_department_service()
+    dispatch(departmentSlice.actions.setDepartments(res.data.response));
     return res
   };
 }

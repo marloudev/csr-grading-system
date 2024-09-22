@@ -7,11 +7,13 @@ import SearchSection from './sections/search-section'
 import { useEffect } from 'react'
 import store from '../../store/store'
 import { get_instructor_thunk } from './redux/instructor-thunk'
+import { get_department_thunk } from '../department/redux/department-thunk'
 
 export default function AdminInstructorPage() {
 
 
   useEffect(()=>{
+    store.dispatch(get_department_thunk())
     store.dispatch(get_instructor_thunk())
   },[])
   return (

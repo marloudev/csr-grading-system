@@ -30,18 +30,20 @@ class AccountController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'address' => 'required|string|max:255',
-            'course' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'user_id' => 'required|unique:users,user_id',  // Corrected 'unique' validation for 'user_id'
+            'email' => 'required|email|unique:users,email', // Unique validation for email
+            'address' => 'required|string|max:255',  // Address must be a string with a max length of 255
+            'course' => 'required|string|max:255',  // Course must be a string with a max length of 255
+            'department' => 'required|string|max:255',  // Department must be a string with a max length of 255
+            'dob' => 'required|date',  // Date of birth must be a valid date
+            'fname' => 'required|string|max:255',  // First name must be a string with a max length of 255
+            'lname' => 'required|string|max:255',  // Last name must be a string with a max length of 255
+            'password' => 'required|string|min:8',  // Password must be a string with a minimum length of 8
         ]);
 
         // Create the user
         User::create([
+            'user_id' => $validatedData['user_id'],
             'email' => $validatedData['email'],
             'address' => $validatedData['address'],
             'course' => $validatedData['course'],
@@ -62,7 +64,8 @@ class AccountController extends Controller
     {
         // Validate the input with the proper unique rule for the email
         $validatedData = $request->validate([
-            'email' => 'required|email|unique:users,email',  // Exclude the current user from the unique check
+            'user_id' => 'required|user_id|unique:users,user_id',
+            'email' => 'required|email|unique:users,email',
             'address' => 'required|string|max:255',
             'course' => 'required|string|max:255',
             'department' => 'required|string|max:255',
@@ -77,6 +80,7 @@ class AccountController extends Controller
 
         // Prepare data for update
         $dataToUpdate = [
+            'user_id' => $validatedData['user_id'],
             'email' => $validatedData['email'],
             'address' => $validatedData['address'],
             'course' => $validatedData['course'],
