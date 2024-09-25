@@ -23,8 +23,24 @@ Route::prefix('administrator')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('admin/dashboard/page');
     });
-    Route::get('/instructor', function () {
-        return Inertia::render('admin/instructor/page');
+    Route::prefix('instructor')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('admin/instructor/page');
+        });
+        Route::prefix('{user_id}')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('admin/instructor/id/page1');
+            });
+
+            Route::get('/create_grades', function () {
+                return Inertia::render('admin/instructor/id/page2');
+            });
+
+            Route::get('/students', function () {
+                return Inertia::render('admin/instructor/id/page3');
+            });
+        });
+       
     });
     Route::prefix('students')->group(function () {
         Route::get('/', function () {

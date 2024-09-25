@@ -118,7 +118,6 @@ export default function UpdateSection({ data }) {
                                 >
                                     <MenuItem value="1st Semester">1st Semester</MenuItem>
                                     <MenuItem value="2nd Semester">2nd Semester</MenuItem>
-                                    <MenuItem value="Final Semester">Final Semester</MenuItem>
                                     <MenuItem value="Summer">Summer</MenuItem>
                                 </Select>
                             </FormControl>

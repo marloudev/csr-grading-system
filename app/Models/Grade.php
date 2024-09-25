@@ -15,5 +15,6 @@ class Grade extends Model
         'remarks',
         'total',
         'final',
+        'grading_period'
     ];
 }

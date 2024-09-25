@@ -21,6 +21,7 @@ class User extends Authenticatable
         'user_id',
         'department_id',
         'course_id',
+        'section',
         'fname',
         'lname',
         'name',

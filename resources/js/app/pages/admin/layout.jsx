@@ -41,15 +41,16 @@ const NAVIGATION = [
         title: "Department",
         icon: <FolderShared />,
     },
-    {
-        segment: "courses",
-        title: "Courses",
-        icon: <School />,
-    },
+    
     {
         segment: "subjects",
         title: "Subjects",
         icon: <HistoryEdu />,
+    },
+    {
+        segment: "courses",
+        title: "Courses",
+        icon: <School />,
     },
     // {
     //     segment: "grades",

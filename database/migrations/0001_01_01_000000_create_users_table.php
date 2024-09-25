@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('department_id')->nullable();
             $table->bigInteger('course_id')->nullable();
             $table->string('fname')->nullable();
+            $table->string('section')->nullable();
             $table->string('lname')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
