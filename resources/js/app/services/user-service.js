@@ -1,5 +1,15 @@
 import axios from "axios";
 
+
+export async function search_students_service(data) {
+    try {
+        const res = await axios.post('/api/search_students', data);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function get_user_service() {
     try {
         const res = await axios.get("/api/account");

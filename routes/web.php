@@ -46,10 +46,14 @@ Route::prefix('administrator')->group(function () {
         Route::get('/', function () {
             return Inertia::render('admin/students/page');
         });
-        Route::get('/{user_id}', function () {
-            return Inertia::render('admin/students/id/page');
+        Route::get('/registered', function () {
+            return Inertia::render('admin/students/page');
+        });
+        Route::get('/enrollment', function () {
+            return Inertia::render('admin/enrollment/page');
         });
     });
+    
     Route::get('/department', function () {
         return Inertia::render('admin/department/page');
     });
@@ -65,6 +69,10 @@ Route::prefix('administrator')->group(function () {
     });
     Route::get('/settings', function () {
         return Inertia::render('admin/settings/page');
+    });
+
+    Route::get('/sections', function () {
+        return Inertia::render('admin/sections/page');
     });
 });
 // Route::get('/dashboard', function () {

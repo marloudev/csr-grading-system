@@ -14,7 +14,7 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AssignmentInd, Engineering, FolderShared, HistoryEdu, School, SupervisedUserCircle } from "@mui/icons-material";
+import { AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, Groups, Groups2, HistoryEdu, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
 
 const NAVIGATION = [
     {
@@ -29,12 +29,24 @@ const NAVIGATION = [
     {
         segment: "instructor",
         title: "Instructor",
-        icon: <SupervisedUserCircle />,
+        icon: <Diversity1 />,
     },
     {
         segment: "students",
         title: "Students",
-        icon: <AssignmentInd />,
+        icon: <Groups />,
+        children: [
+            {
+              segment: 'registered',
+              title: 'Registered Record',
+              icon: <DescriptionIcon />,
+            },
+            {
+              segment: 'enrollment',
+              title: 'Enrollment Record',
+              icon: <DescriptionIcon />,
+            },
+          ],
     },
     {
         segment: "department",
@@ -51,6 +63,11 @@ const NAVIGATION = [
         segment: "courses",
         title: "Courses",
         icon: <School />,
+    },
+    {
+        segment: "sections",
+        title: "Sections",
+        icon: <Diversity3 />,
     },
     // {
     //     segment: "grades",
@@ -85,6 +102,11 @@ const NAVIGATION = [
         segment: "settings",
         title: "Settings",
         icon: <Engineering />,
+    },
+    {
+        segment: "logout",
+        title: "Logout",
+        icon: <PowerSettingsNew />,
     },
 ];
 
@@ -121,7 +143,6 @@ function AdminLayout({ children }, props) {
 
     // Remove this const when copying and pasting into your project.
     const demoWindow = window !== undefined ? window() : undefined;
-
     return (
         // preview-start
         <AppProvider

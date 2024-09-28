@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Course::class,'id','course_id');
     }
+    public function enrollment(): HasOne
+    {
+        return $this->hasOne(Enrollment::class,'user_id','user_id');
+    }
 }

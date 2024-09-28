@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('grading_period')->nullable();
             $table->string('semester')->nullable();
             $table->string('remarks')->nullable();
+            $table->string('academic_year')->nullable();
             $table->float('total')->nullable();
             $table->float('final')->nullable();
             $table->timestamps();

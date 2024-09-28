@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassParticipation;
+use App\Models\Examination;
 use App\Models\Grade;
+use App\Models\Project;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -23,7 +27,51 @@ class GradeController extends Controller
     }
     public function store(Request $request)
     {
-        Grade::create($request->all());
+      
+        
+        foreach ($request->records as $key => $record) {
+            $grade = Grade::where([
+                ['academic_year', '=', $record['academic_year']],
+                ['enrollment_id', '=', $record['id']],
+            ])->first();
+            if (!$grade) {
+                $grade =  Grade::create([
+                    'academic_year' => $record['academic_year'],
+                    'course_id' => $record['course_id'],
+                    'enrollment_id' => $record['id'],
+                ]);
+            }
+            if ($request->lecture == 'Examination') {
+                Examination::create([
+                    'grade_id'=>$grade['id'],
+                    'score'=>$record['score'],
+                    'percent'=>30,
+                    'date'=>$request->date
+                ]);
+            }else if($request->lecture == 'Quizzes') {
+                Quiz::create([
+                    'grade_id'=>$grade['id'],
+                    'score'=>$record['score'],
+                    'percent'=>30,
+                    'date'=>$request->date
+                ]);
+            }else if($request->lecture == 'Projects/Assignment') {
+                Project::create([
+                    'grade_id'=>$grade['id'],
+                    'score'=>$record['score'],
+                    'percent'=>20,
+                    'date'=>$request->date
+                ]);
+            }else if($request->lecture == 'Class Participation') {
+                ClassParticipation::create([
+                    'grade_id'=>$grade['id'],
+                    'score'=>$record['score'],
+                    'percent'=>20,
+                    'date'=>$request->date
+                ]);
+            }
+           
+        }
         return response()->json([
             'response' => 'success',
         ], 200);

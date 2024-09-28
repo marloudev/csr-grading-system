@@ -17,7 +17,7 @@ import AddEnrollmentSection from './add-enrollment-section';
 
 
 export default function TableSection() {
-  const { students } = useSelector((state) => state.students)
+  const { enrollments } = useSelector((state) => state.enrollments)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,36 +35,33 @@ export default function TableSection() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {students?.data.map((res, i) => {
-            const dob = moment(res.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
+          {enrollments?.data.map((res, i) => {
+            const dob = moment(res.user.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
             const age = moment().diff(dob, 'years');
             return (
               <TableRow
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">{res.user_id}</TableCell>
+                <TableCell component="th" scope="row">{res.user.user_id}</TableCell>
                 <TableCell>
-                  {res.fname}
+                  {res.user.fname}
                 </TableCell>
                 <TableCell>
-                  {res.lname}
+                  {res.user.lname}
                 </TableCell>
-                <TableCell>{res.email}</TableCell>
-                <TableCell>{res?.department?.name ?? ''}</TableCell>
+                <TableCell>{res.user.email}</TableCell>
+                <TableCell>{res?.user?.department?.name ?? ''}</TableCell>
                 <TableCell>{res?.course?.name ?? ''}</TableCell>
                 <TableCell>{age}</TableCell>
-                <TableCell>{res.address}</TableCell>
+                <TableCell>{res.user.address}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
-                    {
-                      !res.enrollment && <AddEnrollmentSection data={res}/>
-                    }
-                    
+                    <AddEnrollmentSection data={res}/>
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                     <Button
-                      onClick={()=>router.visit(`/administrator/students/${res.id}`)}
+                      onClick={()=>router.visit(`/administrator/enrollments/${res.user.id}`)}
                       size='small'
                       variant='contained'
                       color='success'>

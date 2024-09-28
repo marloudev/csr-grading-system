@@ -10,6 +10,7 @@ use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,12 +22,16 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('class_participation', ClassParticipationController::class);
 Route::resource('course', CourseController::class);
+
 Route::resource('account', AccountController::class);
+Route::post('search_students', [EnrollmentController::class, 'search_students']);
+Route::resource('enrollments', EnrollmentController::class);
+
 Route::resource('dashboard', DashboardController::class);
 Route::resource('department', DepartmentController::class);
-Route::resource('enrollment', EnrollmentController::class);
 Route::resource('examination', ExaminationController::class);
 Route::resource('grade', GradeController::class);
 Route::resource('project', ProjectController::class);
 Route::resource('quiz', QuizController::class);
 Route::resource('subject', SubjectController::class);
+Route::resource('sections', SectionController::class);

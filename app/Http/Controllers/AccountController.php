@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
+   
     public function index(Request $request)
     {
         // Fetch paginated users, you can specify how many items per page, e.g., 10
-        $users = User::where('user_type', $request->user_type)->with(['department', 'course'])->paginate(10);
+        $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->paginate(10);
 
         // Return the paginated response
         return response()->json([

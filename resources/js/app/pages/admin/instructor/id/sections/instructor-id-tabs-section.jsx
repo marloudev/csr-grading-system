@@ -44,11 +44,14 @@ export default function InstructorIdTabsSection() {
     function get_active(params) {
         const active = window.location.pathname.split("/")[4];
         if (active == "create_grades") {
+            return 0
+        } else 
+        // if (active == "students") {
+        //     return 1;
+        // } 
+        // else 
+        {
             return 1;
-        } else if (active == "students") {
-            return 2;
-        } else {
-            return 0;
         }
     }
     return (
@@ -59,7 +62,7 @@ export default function InstructorIdTabsSection() {
                     onChange={handleChange}
                     aria-label="basic tabs example"
                 >
-                    <Tab label="Details" id="" />
+                    {/* <Tab label="Details" id="" /> */}
                     <Tab label="Create Grades" id="/create_grades" />
                     <Tab label="Students" id="/students" />
                 </Tabs>
