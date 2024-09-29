@@ -15,6 +15,7 @@ class Enrollment extends Model
         'section_id',
         'semester',
         'academic_year',
+        'year'
     ];
 
     public function user(): HasOne

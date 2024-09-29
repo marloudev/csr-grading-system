@@ -13,7 +13,8 @@ export function get_grade_thunk() {
 
 export function get_grade_by_id_thunk(id) {
   return async function (dispatch, getState) {
-    const res = get_grade_by_id_service(id)
+    const res =await get_grade_by_id_service(id)
+    dispatch(gradesSlice.actions.setUserGrades(res.data.response));
     return res
   };
 }

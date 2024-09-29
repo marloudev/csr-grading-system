@@ -6,6 +6,7 @@ const hash = path.split('&')[0];
 export const gradesSlice = createSlice({
   name: 'grade',
   initialState: {
+    userGrades:[],
     grades: [],
     grade: {},
   },
@@ -16,11 +17,15 @@ export const gradesSlice = createSlice({
     setGrade: (state, action) => {
       state.grade = action.payload
     },
+    setUserGrades: (state, action) => {
+      state.userGrades = action.payload
+    },
   },
 })
 export const { 
   setGrades,
-  setGrade
+  setGrade,
+  setUserGrades
  } = gradesSlice.actions
 
 export default gradesSlice.reducer

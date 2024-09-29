@@ -20,9 +20,9 @@ class GradeController extends Controller
     }
     public function show($id)
     {
-        Grade::where('id', $id)->get();
+        $grades = Grade::where('id', $id)->get();
         return response()->json([
-            'response' => 'success',
+            'response' => $grades,
         ], 200);
     }
     public function store(Request $request)

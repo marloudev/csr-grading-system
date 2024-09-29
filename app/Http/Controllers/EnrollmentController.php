@@ -14,6 +14,7 @@ class EnrollmentController extends Controller
             ['course_id', '=', $request->course_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
+            ['year', '=', $request->year],
         ])->with(['user', 'course','grade'])->get();
         return response()->json([
             'response' => $enrollments,
@@ -28,9 +29,9 @@ class EnrollmentController extends Controller
     }
     public function show($id)
     {
-        Enrollment::where('id', $id)->get();
+        $enrollments =Enrollment::where('user_id', $id)->with(['user','course','grade'])->get();
         return response()->json([
-            'response' => 'success',
+            'response' => $enrollments,
         ], 200);
     }
     public function store(Request $request)
@@ -40,6 +41,7 @@ class EnrollmentController extends Controller
             ['course_id', '=', $request->course_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
+            ['year', '=', $request->year],
         ])->first();
         if ($enrollment) {
             return response()->json([

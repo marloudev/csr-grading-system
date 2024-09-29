@@ -29,6 +29,7 @@ export default function TableSection() {
             <TableCell>Email</TableCell>
             <TableCell>Department</TableCell>
             <TableCell>Course</TableCell>
+            <TableCell>Year</TableCell>
             <TableCell>Age</TableCell>
             <TableCell>Address</TableCell>
             <TableCell>Action</TableCell>
@@ -53,15 +54,16 @@ export default function TableSection() {
                 <TableCell>{res.user.email}</TableCell>
                 <TableCell>{res?.user?.department?.name ?? ''}</TableCell>
                 <TableCell>{res?.course?.name ?? ''}</TableCell>
+                <TableCell>{res?.year ?? ''}</TableCell>
                 <TableCell>{age}</TableCell>
                 <TableCell>{res.user.address}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
-                    <AddEnrollmentSection data={res}/>
+                    {/* <AddEnrollmentSection data={res}/> */}
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                     <Button
-                      onClick={()=>router.visit(`/administrator/enrollments/${res.user.id}`)}
+                      onClick={()=>router.visit(`/administrator/students/enrollment/${res.user.user_id}`)}
                       size='small'
                       variant='contained'
                       color='success'>

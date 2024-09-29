@@ -34,7 +34,7 @@ export default function SearchStudentsSection() {
   }
 
   async function search_students(params) {
-   await store.dispatch(search_students_thunk(search))
+    await store.dispatch(search_students_thunk(search))
   }
   return (
     <div className='w-full'>
@@ -56,6 +56,7 @@ export default function SearchStudentsSection() {
             }
           </Select>
         </FormControl>
+
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Section</InputLabel>
           <Select
@@ -71,6 +72,21 @@ export default function SearchStudentsSection() {
                 return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
               })
             }
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            id="demo-simple-select"
+            name='year'
+            label="year"
+            value={search.year ?? ''}
+            onChange={handleChange}
+          >
+            <MenuItem value="1st Year">1st Year</MenuItem>
+            <MenuItem value="2nd Year">2nd Year</MenuItem>
+            <MenuItem value="3rd Year">3rd Year</MenuItem>
+            <MenuItem value="4th Year">4th Year</MenuItem>
           </Select>
         </FormControl>
         <FormControl fullWidth>

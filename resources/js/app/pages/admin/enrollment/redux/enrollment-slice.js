@@ -10,6 +10,7 @@ export const enrollmentsSlice = createSlice({
       data:[]
     },
     enrollment: {},
+    userEnrollments:[]
   },
   reducers: {
     setEnrollments: (state, action) => {
@@ -18,11 +19,15 @@ export const enrollmentsSlice = createSlice({
     setEnrollment: (state, action) => {
       state.enrollment = action.payload
     },
+    setUserEnrollments: (state, action) => {
+      state.userEnrollments = action.payload
+    },
   },
 })
 export const { 
   setEnrollments,
-  setEnrollment
+  setEnrollment,
+  setUserEnrollments
  } = enrollmentsSlice.actions
 
 export default enrollmentsSlice.reducer

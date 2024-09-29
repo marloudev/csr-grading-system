@@ -63,13 +63,13 @@ export default function TableSection() {
                     
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
-                    <Button
+                    {/* <Button
                       onClick={()=>router.visit(`/administrator/students/${res.id}`)}
                       size='small'
                       variant='contained'
                       color='success'>
                       <Visibility />
-                    </Button>
+                    </Button> */}
                   </div>
                 </TableCell>
               </TableRow>

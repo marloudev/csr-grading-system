@@ -13,7 +13,8 @@ export function get_enrollments_thunk() {
 
 export function get_enrollments_by_id_thunk(id) {
   return async function (dispatch, getState) {
-    const res = get_enrollments_by_id_service(id)
+    const res = await get_enrollments_by_id_service(id)
+    dispatch(enrollmentsSlice.actions.setUserEnrollments(res.data.response));
     return res
   };
 }

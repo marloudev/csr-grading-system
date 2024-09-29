@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('section_id')->nullable();
             $table->string('semester')->nullable();
             $table->string('academic_year')->nullable();
+            $table->string('year')->nullable();
             $table->timestamps();
         });
     }

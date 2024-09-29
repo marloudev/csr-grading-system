@@ -21,28 +21,28 @@ export default function AddEnrollmentSection({ data }) {
     const { departments } = useSelector((state) => state.department)
     const { courses } = useSelector((state) => state.courses)
     const { sections } = useSelector((state) => state.sections)
-    const [form,setForm] = useState({})
+    const [form, setForm] = useState({})
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setForm({
             ...data,
-            academic_year:current_academic_year(),
-            semester:'1st Semester'
+            academic_year: current_academic_year(),
+            semester: '1st Semester'
         })
-    },[])
+    }, [])
 
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-console.log('formsss',form)
+    console.log('formsss', form)
 
     async function submitForm(params) {
         setLoading(true)
         const result = await store.dispatch(store_enrollments_thunk(form))
         if (result.status == 200) {
-           await store.dispatch(get_student_thunk())
+            await store.dispatch(get_student_thunk())
             setNotify(true)
             setError({})
             setLoading(false)
@@ -156,6 +156,24 @@ console.log('formsss',form)
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='year'
+                                    label="year"
+                                    value={form.year}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    <MenuItem value="1st Year">1st Year</MenuItem>
+                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
+                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
+                                    <MenuItem value="4th Year">4th Year</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Sections</InputLabel>
                                 <Select
                                     id="demo-simple-select"
@@ -174,8 +192,8 @@ console.log('formsss',form)
                                     }
                                 </Select>
                             </FormControl>
-                           
-                            
+
+
                             {/* <TextField onChange={(e) => setForm({
                                 ...data,
                                 [e.target.name]: e.target.value

@@ -13,127 +13,95 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useSelector } from "react-redux";
 
-function createData(name, calories, fat, carbs, protein, price) {
-    return {
-        name,
-        calories,
-        fat,
-        carbs,
-        protein,
-        price,
-        history: [
-            {
-                date: "2020-01-05",
-                customerId: "11091700",
-                amount: 3,
-            },
-            {
-                date: "2020-01-02",
-                customerId: "Anonymous",
-                amount: 1,
-            },
-        ],
-    };
+function GradeCategoryTable({ categoryName, grades }) {
+    return (
+        <Box className='py-6 w-full' sx={{ margin: 1 }}>
+            <Typography variant="h6" gutterBottom component="div">
+                {categoryName}
+            </Typography>
+            <Table size="small" aria-label="grades">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Score</TableCell>
+                        <TableCell>Total</TableCell>
+                        <TableCell>Percent</TableCell>
+                        <TableCell>Remarks</TableCell>
+                        <TableCell>Date</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {grades?.map((res, i) => (
+                        <TableRow key={i}>
+                            <TableCell>{res.score}</TableCell>
+                            <TableCell>{res.total}</TableCell>
+                            <TableCell>{res.percent}%</TableCell>
+                            <TableCell>{res.remarks}</TableCell>
+                            <TableCell>{res.date}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </Box>
+    );
 }
-
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
-
     return (
         <React.Fragment>
-            <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-                <TableCell className="w-full">
-                    <IconButton
-                        className="w-full"
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? (
-                            <KeyboardArrowUpIcon />
-                        ) : (
-                            <KeyboardArrowDownIcon />
-                        )}
-                        <div className="w-full flex items-center justify-between">
-                            <div className="flex gap-4 w-full">
-                                <div className="text-black">2023 - 2024</div>
-                                <div className="text-sm">1st Semester</div>
-                            </div>
-                            <div className="text-black text-sm flex gap-3">
-                                <div>Remarks:</div> <div className="font-black">Passed</div>
-                            </div>
-                        </div>
-                    </IconButton>
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={6}
-                >
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography
-                                variant="h6"
-                                gutterBottom
-                                component="div"
-                            >
-                                History
-                            </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
-                                        <TableCell>Amount</TableCell>
-                                        <TableCell>Total price ($)</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.date}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                {historyRow.date}
-                                            </TableCell>
-                                            <TableCell>
-                                                {historyRow.customerId}
-                                            </TableCell>
-                                            <TableCell>
-                                                {historyRow.amount}
-                                            </TableCell>
-                                            <TableCell>
-                                                {Math.round(
-                                                    historyRow.amount *
-                                                        row.price *
-                                                        100,
-                                                ) / 100}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </React.Fragment>
+        {/* The entire row is clickable to toggle */}
+        <TableRow
+            sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }}
+            onClick={()=>setOpen(!open)}
+        >
+            <TableCell>
+                <IconButton aria-label="expand row" size="small">
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                </IconButton>
+                {row?.user?.fname} {row?.user?.lname} ({row.academic_year})
+            </TableCell>
+            <TableCell component="th" scope="row">
+                
+            </TableCell>
+        </TableRow>
+        <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <div className='flex gap-3 w-full'>
+                        <GradeCategoryTable
+                            categoryName="Examination"
+                            grades={row?.grade?.examination ?? []}
+                        />
+                        <GradeCategoryTable
+                            categoryName="Quizzes"
+                            grades={row?.grade?.quiz ?? []}
+                        />
+                    </div>
+                    <div className='flex gap-3 w-full'>
+                        <GradeCategoryTable
+                            categoryName="Projects / Assignments"
+                            grades={row?.grade?.projects ?? []}
+                        />
+                        <GradeCategoryTable
+                            categoryName="Class Participation"
+                            grades={row?.grade?.class_participation ?? []}
+                        />
+                    </div>
+
+                </Collapse>
+            </TableCell>
+        </TableRow>
+    </React.Fragment>
     );
 }
 
-const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-    createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-    createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-    createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
-];
 
 export default function StudentIdTableSection() {
+    
+    const {userEnrollments} = useSelector((store)=>store.enrollments)
+    console.log('userEnrollments',userEnrollments)
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -150,8 +118,8 @@ export default function StudentIdTableSection() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row} />
+                    {userEnrollments.map((row,i) => (
+                        <Row key={i} row={row} />
                     ))}
                 </TableBody>
             </Table>

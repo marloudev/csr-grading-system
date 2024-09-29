@@ -39,7 +39,7 @@ const NAVIGATION = [
         children: [
             {
               segment: 'registered',
-              title: 'Registered Record',
+              title: 'Preregistered',
               icon: <DescriptionIcon />,
             },
             {
@@ -164,7 +164,7 @@ function AdminLayout({ children }, props) {
         >
             <DashboardLayout>
                 <LogoutSection open={open} setOpen={setOpen}/>
-                {/* <div className="p-4">{children}</div> */}
+                <div className="p-4">{children}</div>
             </DashboardLayout>
         </AppProvider>
         // preview-end
