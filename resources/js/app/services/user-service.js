@@ -10,6 +10,15 @@ export async function search_students_service(data) {
     }
 }
 
+export async function get_user_login_service() {
+    try {
+        const res = await axios.get("/api/user");
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function get_user_service() {
     try {
         const res = await axios.get("/api/account");

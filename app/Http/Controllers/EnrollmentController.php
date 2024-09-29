@@ -15,21 +15,21 @@ class EnrollmentController extends Controller
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
-        ])->with(['user', 'course','grade'])->get();
+        ])->with(['user', 'course','grade','section'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);
     }
     public function index(Request $request)
     {
-        $a = Enrollment::with(['user', 'course'])->paginate(10);
+        $a = Enrollment::with(['user', 'course','section'])->paginate(10);
         return response()->json([
             'response' => $a,
         ], 200);
     }
     public function show($id)
     {
-        $enrollments =Enrollment::where('user_id', $id)->with(['user','course','grade'])->get();
+        $enrollments =Enrollment::where('user_id', $id)->with(['user','course','grade','section'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);

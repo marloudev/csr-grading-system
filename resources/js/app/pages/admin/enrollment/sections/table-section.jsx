@@ -26,44 +26,45 @@ export default function TableSection() {
             <TableCell>Student ID</TableCell>
             <TableCell>Firstname</TableCell>
             <TableCell >Lastname</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Department</TableCell>
+            <TableCell>Semester</TableCell>
+            <TableCell>Section</TableCell>
             <TableCell>Course</TableCell>
             <TableCell>Year</TableCell>
-            <TableCell>Age</TableCell>
-            <TableCell>Address</TableCell>
+            {/* <TableCell>Age</TableCell>
+            <TableCell>Address</TableCell> */}
             <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {enrollments?.data.map((res, i) => {
-            const dob = moment(res.user.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
+            const dob = moment(res?.user?.dob, 'YYYY-MM-DD'); // Replace with actual date of birth
             const age = moment().diff(dob, 'years');
+            console.log('res',res)
             return (
               <TableRow
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">{res.user.user_id}</TableCell>
+                <TableCell component="th" scope="row">{res?.user?.user_id}</TableCell>
                 <TableCell>
-                  {res.user.fname}
+                  {res?.user?.fname}
                 </TableCell>
                 <TableCell>
-                  {res.user.lname}
+                  {res?.user?.lname}
                 </TableCell>
-                <TableCell>{res.user.email}</TableCell>
-                <TableCell>{res?.user?.department?.name ?? ''}</TableCell>
+                <TableCell>{res?.semester}</TableCell>
+                <TableCell>{res?.section?.name ?? ''}</TableCell>
                 <TableCell>{res?.course?.name ?? ''}</TableCell>
                 <TableCell>{res?.year ?? ''}</TableCell>
-                <TableCell>{age}</TableCell>
-                <TableCell>{res.user.address}</TableCell>
+                {/* <TableCell>{age}</TableCell>
+                <TableCell>{res?.user?.address}</TableCell> */}
                 <TableCell>
                   <div className='flex gap-2'>
                     {/* <AddEnrollmentSection data={res}/> */}
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                     <Button
-                      onClick={()=>router.visit(`/administrator/students/enrollment/${res.user.user_id}`)}
+                      onClick={()=>router.visit(`/administrator/students/enrollment/${res?.user?.user_id}`)}
                       size='small'
                       variant='contained'
                       color='success'>

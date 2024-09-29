@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
 import { AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, Groups, Groups2, HistoryEdu, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
+import store from "../store/store";
+import { get_user_login_thunk } from "@/app/redux/app-thunk";
 
 const NAVIGATION = [
     {
@@ -131,6 +133,11 @@ function AdminLayout({ children }, props) {
     const { window } = props;
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
+
+
+    useEffect(()=>{
+        store.dispatch(get_user_login_thunk())
+    },[])
 
     const router = React.useMemo(() => {
         return {

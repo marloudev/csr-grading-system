@@ -21,6 +21,7 @@ export default function CreateGradeFormSection() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({}); // To store validation errors
     const { students, search } = useSelector((store) => store.instructors);
+    const { user } = useSelector((store) => store.app);
     const dispatch = useDispatch()
     
     useEffect(() => {
@@ -96,6 +97,7 @@ export default function CreateGradeFormSection() {
         try {
             const res = await store.dispatch(store_grade_thunk({
                 ...quizType,
+                user_id:user.id,
                 search,
                 records,
                 date: moment().format('LL')
@@ -106,6 +108,13 @@ export default function CreateGradeFormSection() {
             console.error('Submission error:', error);
             setLoading(false);
         }
+        // console.log('ssss',{
+        //     ...quizType,
+        //     user_id:user.id,
+        //     search,
+        //     records,
+        //     date: moment().format('LL')
+        // })
     };
 
     return (

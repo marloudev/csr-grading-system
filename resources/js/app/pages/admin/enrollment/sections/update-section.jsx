@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import store from '@/app/pages/store/store';
 import { get_enrollments_thunk, update_enrollments_thunk } from '../redux/enrollment-thunk';
 import { useSelector } from 'react-redux';
+import academic_year from '@/app/lib/academic-year';
 
 export default function UpdateSection({ data }) {
     const [open, setOpen] = React.useState(false);
@@ -18,6 +19,7 @@ export default function UpdateSection({ data }) {
     const [loading, setLoading] = useState(false)
     const { departments } = useSelector((state) => state.department)
     const { courses } = useSelector((state) => state.courses)
+    const { sections } = useSelector((state) => state.sections)
 
     useEffect(() => {
         setForm(data)
@@ -73,7 +75,7 @@ export default function UpdateSection({ data }) {
                                 Edit enrollments
                             </div>
                             <TextField onChange={(e) => setForm({
-                                ...data,
+                                ...form,
                                 [e.target.name]: e.target.value
                             })}
                                 value={form.user_id}
@@ -85,73 +87,23 @@ export default function UpdateSection({ data }) {
                                 label="Employee ID"
                                 variant="outlined"
                             />
-                            <TextField onChange={(e) => setForm({
-                                ...form,
-                                [e.target.name]: e.target.value
-                            })}
-                                value={form.fname}
-                                error={error?.fname ? true : false}
-                                helperText={error?.fname ?? ''}
-                                name="fname"
-                                type='text'
-                                id="outlined-basic"
-                                label="First Name"
-                                variant="outlined"
-                            />
-                            <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                value={form.lname}
-                                error={error?.lname ? true : false}
-                                helperText={error?.lname ?? ''}
-                                name='lname'
-                                type='text'
-                                id="outlined-basic"
-                                label="Last Name"
-                                variant="outlined" />
-                            {/* <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                value={form.email}
-                                error={error?.email ? true : false}
-                                helperText={error?.email ?? ''}
-                                name='email'
-                                type='email'
-                                id="outlined-basic"
-                                label="Email"
-                                variant="outlined" /> */}
-                            <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.password ? true : false}
-                                helperText={error?.password ?? ''}
-                                name='password'
-                                type='password'
-                                id="outlined-basic"
-                                label="Password"
-                                variant="outlined" />
-                        
-                        <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                            
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
                                 <Select
+                                    labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    name='department_id'
-                                    label="Department"
-                                    value={form.department_id}
+                                    value={form.academic_year ?? ''}
+                                    name="academic_year"
+                                    label="Academic Year"
                                     onChange={(e) => setForm({
-                                        ...data,
+                                        ...form,
                                         [e.target.name]: e.target.value
                                     })}
                                 >
                                     {
-                                        departments.data.map((res, i) => {
-                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        academic_year().map((res, i) => {
+                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
                                         })
                                     }
                                 </Select>
@@ -164,7 +116,7 @@ export default function UpdateSection({ data }) {
                                     label="Course"
                                     value={form.course_id}
                                     onChange={(e) => setForm({
-                                        ...data,
+                                        ...form,
                                         [e.target.name]: e.target.value
                                     })}
                                 >
@@ -175,31 +127,61 @@ export default function UpdateSection({ data }) {
                                     }
                                 </Select>
                             </FormControl>
-                            <TextField
-                                value={form.dob}
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.dob ? true : false}
-                                helperText={error?.dob ?? ''}
-                                name='dob'
-                                type='date'
-                                id="outlined-basic"
-                                variant="outlined" />
-                            <TextField
-
-                                value={form.address}
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.address ? true : false}
-                                helperText={error?.address ?? ''}
-                                name='address'
-                                id="outlined-basic"
-                                label="Address"
-                                variant="outlined" />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='year'
+                                    label="year"
+                                    value={form?.year ?? ''}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    <MenuItem value="1st Year">1st Year</MenuItem>
+                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
+                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
+                                    <MenuItem value="4th Year">4th Year</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='section_id'
+                                    label="Section"
+                                    value={form.section_id}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    {
+                                        sections.data.map((res, i) => {
+                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Semester</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={form.semester}
+                                    name="semester"
+                                    label="Semester"
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    <MenuItem value='1st Semester'>1st Semester</MenuItem>
+                                    <MenuItem value='2nd Semester'>2nd Semester</MenuItem>
+                                    <MenuItem value='Summer'>Summer</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                         <Button
                             onClick={submitForm}

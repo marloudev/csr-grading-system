@@ -7,7 +7,8 @@ export const appSlice = createSlice({
   name: 'app',
   initialState: {
     isModalOpen: false,
-    pathname:'/'+window.location.pathname.split("/")[2]
+    pathname:'/'+window.location.pathname.split("/")[2],
+    user:{}
   },
   reducers: {
     setIsModalOpen: (state, action) => {
@@ -16,10 +17,14 @@ export const appSlice = createSlice({
     setPathname: (state, action) => {
       state.pathname = action.payload
     },
+    setUser: (state, action) => {
+      state.user = action.payload
+    },
   },
 })
 export const { 
   setPathname,
+  setUser
  } = appSlice.actions
 
 export default appSlice.reducer

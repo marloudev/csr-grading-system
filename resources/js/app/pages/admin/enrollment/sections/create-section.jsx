@@ -7,20 +7,34 @@ import { useState } from 'react';
 import store from '@/app/pages/store/store';
 import { get_enrollments_thunk, store_enrollments_thunk } from '../redux/enrollment-thunk';
 import { useSelector } from 'react-redux';
+import academic_year from '@/app/lib/academic-year';
+import { useEffect } from 'react';
+import current_academic_year from '@/app/lib/current-academic-year';
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({})
     const [error, setError] = useState({})
-    const [notify, setNotify] = useState(false)
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: '',
+        type: ''
+    })
     const { departments } = useSelector((state) => state.department)
     const { courses } = useSelector((state) => state.courses)
+    const { sections } = useSelector((state) => state.sections)
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
+    useEffect(() => {
+        setData({
+            ...data,
+            academic_year: current_academic_year()
+        })
+    }, [])
 
     async function submitForm(params) {
         setLoading(true)
@@ -30,11 +44,20 @@ export default function CreateSection() {
         }))
         if (result.status == 200) {
             await store.dispatch(get_enrollments_thunk())
-            setNotify(true)
+            setNotify({
+                isOpen: true,
+                message: 'Successfully Registered!',
+                type: 'success'
+            })
             setError({})
             setLoading(false)
         } else {
             setLoading(false)
+            setNotify({
+                isOpen: true,
+                message: 'Student is already enrolled!',
+                type: 'warning'
+            })
             setError(result.response.data.errors)
         }
     }
@@ -49,16 +72,16 @@ export default function CreateSection() {
 
     return (
         <div>
-            <Snackbar open={notify}
+            <Snackbar open={notify.isOpen}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 autoHideDuration={3000} onClose={handleClose}>
                 <Alert
                     onClose={handleClose}
-                    severity="success"
+                    severity={notify.type}
                     variant="filled"
                     sx={{ width: '100%' }}
                 >
-                    Successfully Created!
+                    {notify.message}
                 </Alert>
             </Snackbar>
             <Button variant='contained' onClick={toggleDrawer(true)}>Create enrollments</Button>
@@ -84,74 +107,26 @@ export default function CreateSection() {
                                 label="Employee ID"
                                 variant="outlined"
                             />
-                            <TextField onChange={(e) => setData({
-                                ...data,
-                                [e.target.name]: e.target.value
-                            })}
-                                error={error?.fname ? true : false}
-                                helperText={error?.fname ?? ''}
-                                name="fname"
-                                type='text'
-                                id="outlined-basic"
-                                label="First Name"
-                                variant="outlined"
-                            />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.lname ? true : false}
-                                helperText={error?.lname ?? ''}
-                                name='lname'
-                                type='text'
-                                id="outlined-basic"
-                                label="Last Name"
-                                variant="outlined" />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.email ? true : false}
-                                helperText={error?.email ?? ''}
-                                name='email'
-                                type='email'
-                                id="outlined-basic"
-                                label="Email"
-                                variant="outlined" />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.password ? true : false}
-                                helperText={error?.password ?? ''}
-                                name='password'
-                                type='password'
-                                id="outlined-basic"
-                                label="Password"
-                                variant="outlined" />
-
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
                                 <Select
+                                    labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    name='department_id'
-                                    label="Department"
+                                    value={data.academic_year ?? ''}
+                                    name="academic_year"
+                                    label="Academic Year"
                                     onChange={(e) => setData({
                                         ...data,
                                         [e.target.name]: e.target.value
                                     })}
                                 >
                                     {
-                                        departments.data.map((res, i) => {
-                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        academic_year().map((res, i) => {
+                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
                                         })
                                     }
                                 </Select>
                             </FormControl>
-
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Course</InputLabel>
                                 <Select
@@ -171,28 +146,62 @@ export default function CreateSection() {
                                     }
                                 </Select>
                             </FormControl>
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.dob ? true : false}
-                                helperText={error?.dob ?? ''}
-                                name='dob'
-                                type='date'
-                                id="outlined-basic"
-                                variant="outlined" />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.address ? true : false}
-                                helperText={error?.address ?? ''}
-                                name='address'
-                                id="outlined-basic"
-                                label="Address"
-                                variant="outlined" />
+
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='year'
+                                    label="year"
+                                    value={data.year}
+                                    onChange={(e) => setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    <MenuItem value="1st Year">1st Year</MenuItem>
+                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
+                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
+                                    <MenuItem value="4th Year">4th Year</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name='section'
+                                    label="Section"
+                                    value={data.section}
+                                    onChange={(e) => setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    {
+                                        sections.data.map((res, i) => {
+                                            return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Semester</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={data.section}
+                                    name="semester"
+                                    label="Semester"
+                                    onChange={(e) => setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                >
+                                    <MenuItem value='1st Semester'>1st Semester</MenuItem>
+                                    <MenuItem value='2nd Semester'>2nd Semester</MenuItem>
+                                    <MenuItem value='Summer'>Summer</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                         <Button
                             onClick={submitForm}

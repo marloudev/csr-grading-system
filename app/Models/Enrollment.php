@@ -30,4 +30,8 @@ class Enrollment extends Model
     {
         return $this->hasOne(Grade::class,'enrollment_id','id')->with(['class_participation','examination','quiz','project']);
     }
+    public function section(): HasOne
+    {
+        return $this->hasOne(Section::class,'id','section_id');
+    }
 }

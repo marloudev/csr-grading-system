@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('instructor_id')->nullable();
+            $table->bigInteger('student_id')->nullable();
             $table->bigInteger('enrollment_id')->nullable();
             $table->bigInteger('course_id')->nullable();
             $table->string('grading_period')->nullable();

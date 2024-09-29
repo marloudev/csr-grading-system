@@ -13,6 +13,8 @@ class Grade extends Model
     protected $fillable = [
         'enrollment_id',
         'course_id',
+        'instructor_id',
+        'student_id',
         'semester',
         'remarks',
         'total',
