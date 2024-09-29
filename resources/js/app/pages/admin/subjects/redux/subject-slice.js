@@ -10,6 +10,8 @@ export const subjectSlice = createSlice({
       data:[]
     },
     subject: {},
+    subjectHandleds:[],
+    handleds:[]
   },
   reducers: {
     setSubjects: (state, action) => {
@@ -18,11 +20,19 @@ export const subjectSlice = createSlice({
     setSubject: (state, action) => {
       state.subject = action.payload
     },
+    setSubjectHandleds: (state, action) => {
+      state.subjectHandleds = action.payload
+    },
+    setHandleds: (state, action) => {
+      state.handleds = action.payload
+    },
   },
 })
 export const { 
   setSubjects,
-  setSubject
+  setSubject,
+  setSubjectHandleds,
+  setHandleds
  } = subjectSlice.actions
 
 export default subjectSlice.reducer

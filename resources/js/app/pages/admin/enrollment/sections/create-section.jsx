@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, Checkbox, CircularProgress, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import store from '@/app/pages/store/store';
 import { get_enrollments_thunk, store_enrollments_thunk } from '../redux/enrollment-thunk';
@@ -10,6 +10,18 @@ import { useSelector } from 'react-redux';
 import academic_year from '@/app/lib/academic-year';
 import { useEffect } from 'react';
 import current_academic_year from '@/app/lib/current-academic-year';
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
@@ -200,6 +212,30 @@ export default function CreateSection() {
                                     <MenuItem value='1st Semester'>1st Semester</MenuItem>
                                     <MenuItem value='2nd Semester'>2nd Semester</MenuItem>
                                     <MenuItem value='Summer'>Summer</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-multiple-checkbox-label">List Of Subject</InputLabel>
+                                <Select
+                                    labelId="demo-multiple-checkbox-label"
+                                    id="demo-multiple-checkbox"
+                                    multiple
+                                    // value={personName}
+                                    onChange={(e) => setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value
+                                    })}
+                                    label="Subject List"
+                                    input={<OutlinedInput label="List Of Subject" />}
+                                    renderValue={(selected) => selected.join(', ')}
+                                    MenuProps={MenuProps}
+                                >
+                                    {/* {names.map((name) => (
+                                        <MenuItem key={name} value={name}>
+                                            <Checkbox checked={personName.includes(name)} />
+                                            <ListItemText primary={name} />
+                                        </MenuItem>
+                                    ))} */}
                                 </Select>
                             </FormControl>
                         </div>

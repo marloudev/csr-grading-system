@@ -40,7 +40,6 @@ Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
                 return Inertia::render('admin/instructor/id/page3');
             });
         });
-       
     });
     Route::prefix('students')->group(function () {
         Route::get('/', function () {
@@ -56,15 +55,20 @@ Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
             return Inertia::render('admin/enrollment/id/page');
         });
     });
-    
+
     Route::get('/department', function () {
         return Inertia::render('admin/department/page');
     });
     Route::get('/courses', function () {
         return Inertia::render('admin/courses/page');
     });
-    Route::get('/subjects', function () {
-        return Inertia::render('admin/subjects/page');
+    Route::prefix('subjects')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('admin/subjects/page');
+        });
+        Route::get('/{id}', function () {
+            return Inertia::render('admin/subjects/id/page');
+        });
     });
 
     Route::get('/grades', function () {

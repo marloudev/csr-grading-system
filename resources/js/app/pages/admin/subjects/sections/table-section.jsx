@@ -10,6 +10,9 @@ import UpdateSection from './update-section';
 import DeleteSection from './delete-section';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { Button } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
+import { router } from '@inertiajs/react';
 
 
 export default function TableSection() {
@@ -42,6 +45,13 @@ export default function TableSection() {
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
+                    <Button
+                      onClick={()=>router.visit(`/administrator/subjects/${res.code}`)}
+                      size='small'
+                      variant='contained'
+                      color='success'>
+                      <Visibility />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

@@ -12,6 +12,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectHandledController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,6 @@ Route::resource('grade', GradeController::class);
 Route::resource('project', ProjectController::class);
 Route::resource('quiz', QuizController::class);
 Route::resource('subject', SubjectController::class);
+Route::resource('subject_handled', SubjectHandledController::class);
+
 Route::resource('sections', SectionController::class);

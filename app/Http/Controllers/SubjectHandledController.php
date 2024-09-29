@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subject;
+use App\Models\SubjectHandled;
 use Illuminate\Http\Request;
 
-class SubjectController extends Controller
+class SubjectHandledController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Subject::paginate(10);
+        $a = SubjectHandled::paginate(10);
 
         // Return the paginated response
         return response()->json([
@@ -17,23 +17,23 @@ class SubjectController extends Controller
         ], 200);
 
     }
-    public function show($id)
+    public function show($code)
     {
-        $subjects = Subject::where('id', $id)->with(['subject_handled'])->first();
+       $sh= SubjectHandled::where('subject_code', $code)->with(['user','grades'])->get();
         return response()->json([
-            'response' => $subjects,
+            'response' => $sh,
         ], 200);
     }
     public function store(Request $request)
     {
-        Subject::create($request->all());
+        SubjectHandled::create($request->all());
         return response()->json([
             'response' => 'success',
         ], 200);
     }
     public function update(Request $request, $id)
     {
-        $a = Subject::where('id', $id);
+        $a = SubjectHandled::where('id', $id);
         $a->update($request->all());
         return response()->json([
             'response' => 'success',
@@ -41,7 +41,7 @@ class SubjectController extends Controller
     }
     public function destroy($id)
     {
-        Subject::where('id', $id)->delete();
+        SubjectHandled::where('id', $id)->delete();
         return response()->json([
             'response' => 'success',
         ], 200);
