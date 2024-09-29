@@ -15,6 +15,7 @@ import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
 import { AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, Groups, Groups2, HistoryEdu, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
+import LogoutSection from "../_sections/logout-section";
 
 const NAVIGATION = [
     {
@@ -129,14 +130,20 @@ function AdminLayout({ children }, props) {
     const { pathname } = useSelector((state) => state.app);
     const { window } = props;
     const dispatch = useDispatch();
+    const [open, setOpen] = React.useState(false);
 
     const router = React.useMemo(() => {
         return {
             pathname,
             searchParams: new URLSearchParams(),
             navigate: (path) => {
-                route.visit(String("/administrator" + path));
-                dispatch(setPathname(path));
+                if (path == '/logout') {
+                    setOpen(true)
+                }else{  
+                    route.visit(String("/administrator" + path));
+                    dispatch(setPathname(path));
+                }
+               
             },
         };
     }, [pathname]);
@@ -156,7 +163,8 @@ function AdminLayout({ children }, props) {
             }}
         >
             <DashboardLayout>
-                <div className="p-4">{children}</div>
+                <LogoutSection open={open} setOpen={setOpen}/>
+                {/* <div className="p-4">{children}</div> */}
             </DashboardLayout>
         </AppProvider>
         // preview-end

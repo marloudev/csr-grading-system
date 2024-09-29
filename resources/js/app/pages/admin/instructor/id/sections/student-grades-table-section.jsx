@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 // Reusable GradeCategoryTable component for different grade types
 function GradeCategoryTable({ categoryName, grades }) {
     return (
-        <Box className='py-6' sx={{ margin: 1 }}>
+        <Box className='py-6 w-full' sx={{ margin: 1 }}>
             <Typography variant="h6" gutterBottom component="div">
                 {categoryName}
             </Typography>
@@ -51,38 +51,44 @@ function Row({ row, isOpen, onClick }) {
     return (
         <React.Fragment>
             {/* The entire row is clickable to toggle */}
-            <TableRow 
-                sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }} 
+            <TableRow
+                sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }}
                 onClick={onClick}
             >
                 <TableCell>
                     <IconButton aria-label="expand row" size="small">
                         {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
+                    {row?.user?.fname} {row?.user?.lname}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row?.user?.fname} {row?.user?.lname}
+                    
                 </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                        <GradeCategoryTable
-                            categoryName="Examination"
-                            grades={row?.grade?.examination ?? []}
-                        />
-                        <GradeCategoryTable
-                            categoryName="Quizzes"
-                            grades={row?.grade?.quiz ?? []}
-                        />
-                        <GradeCategoryTable
-                            categoryName="Projects / Assignments"
-                            grades={row?.grade?.projects ?? []}
-                        />
-                        <GradeCategoryTable
-                            categoryName="Class Participation"
-                            grades={row?.grade?.class_participation ?? []}
-                        />
+                        <div className='flex gap-3 w-full'>
+                            <GradeCategoryTable
+                                categoryName="Examination"
+                                grades={row?.grade?.examination ?? []}
+                            />
+                            <GradeCategoryTable
+                                categoryName="Quizzes"
+                                grades={row?.grade?.quiz ?? []}
+                            />
+                        </div>
+                        <div className='flex gap-3 w-full'>
+                            <GradeCategoryTable
+                                categoryName="Projects / Assignments"
+                                grades={row?.grade?.projects ?? []}
+                            />
+                            <GradeCategoryTable
+                                categoryName="Class Participation"
+                                grades={row?.grade?.class_participation ?? []}
+                            />
+                        </div>
+
                     </Collapse>
                 </TableCell>
             </TableRow>
