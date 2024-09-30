@@ -9,7 +9,7 @@ class SubjectController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Subject::paginate(10);
+        $a = Subject::with(['user'])->get();
 
         // Return the paginated response
         return response()->json([
@@ -19,7 +19,7 @@ class SubjectController extends Controller
     }
     public function show($id)
     {
-        $subjects = Subject::where('id', $id)->with(['subject_handled'])->first();
+        $subjects = Subject::where('instructor_id', $id)->get();
         return response()->json([
             'response' => $subjects,
         ], 200);

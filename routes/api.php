@@ -34,7 +34,10 @@ Route::resource('examination', ExaminationController::class);
 Route::resource('grade', GradeController::class);
 Route::resource('project', ProjectController::class);
 Route::resource('quiz', QuizController::class);
+
 Route::resource('subject', SubjectController::class);
+Route::post('get_instructor_subject', [SubjectController::class, 'get_instructor_subject']);
+
 Route::resource('subject_handled', SubjectHandledController::class);
 
 Route::resource('sections', SectionController::class);

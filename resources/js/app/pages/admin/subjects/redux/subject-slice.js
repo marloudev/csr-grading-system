@@ -15,7 +15,7 @@ export const subjectSlice = createSlice({
   },
   reducers: {
     setSubjects: (state, action) => {
-      state.subjects = action.payload
+      state.subjects.data = action.payload
     },
     setSubject: (state, action) => {
       state.subject = action.payload

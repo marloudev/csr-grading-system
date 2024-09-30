@@ -63,7 +63,7 @@ export default function TableSection() {
                                         <Button
                                             onClick={() =>
                                                 router.visit(
-                                                    `/administrator/instructor/${res.id}/create_grades`,
+                                                    `/administrator/instructor/${res.user_id}/create_grades`,
                                                 )
                                             }
                                             size="small"

@@ -7,12 +7,16 @@ import SearchSection from './sections/search-section'
 import { useEffect } from 'react'
 import store from '../../store/store'
 import { get_subject_thunk } from './redux/subject-thunk'
+import { get_instructor_thunk } from '../instructor/redux/instructor-thunk'
+import { get_sections_thunk } from '../sections/redux/sections-thunk'
 
 export default function SubjectPage() {
 
 
   useEffect(()=>{
     store.dispatch(get_subject_thunk())
+    store.dispatch(get_instructor_thunk())
+    store.dispatch(get_sections_thunk())
   },[])
   return (
     <AdminLayout>

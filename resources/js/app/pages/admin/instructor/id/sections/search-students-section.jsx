@@ -18,6 +18,7 @@ export default function SearchStudentsSection() {
   const { sections } = useSelector((store) => store.sections)
   const { search } = useSelector((store) => store.instructors)
   const { courses } = useSelector((store) => store.courses)
+  const { handleds } = useSelector((store) => store.subjects)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(setSearch({
@@ -36,9 +37,27 @@ export default function SearchStudentsSection() {
   async function search_students(params) {
     await store.dispatch(search_students_thunk(search))
   }
+  console.log('handleds',handleds)
   return (
     <div className='w-full'>
       <div className='flex gap-3'>
+      <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Subject</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={search.subject_code ?? ''}
+            name="subject_code"
+            label="Subject"
+            onChange={handleChange}
+          >
+            {
+              handleds.map((res, i) => {
+                return <MenuItem key={i} value={res.code}>{res.name}</MenuItem>
+              })
+            }
+          </Select>
+        </FormControl>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
           <Select
@@ -58,17 +77,17 @@ export default function SearchStudentsSection() {
         </FormControl>
 
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Section</InputLabel>
+          <InputLabel id="demo-simple-select-label">Course</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={search.section_id ?? ''}
-            name="section_id"
-            label="Section"
+            value={search.course_id ?? ''}
+            name="course_id"
+            label="course"
             onChange={handleChange}
           >
             {
-              sections.data.map((res, i) => {
+              courses.data.map((res, i) => {
                 return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
               })
             }
@@ -89,23 +108,26 @@ export default function SearchStudentsSection() {
             <MenuItem value="4th Year">4th Year</MenuItem>
           </Select>
         </FormControl>
+
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Course</InputLabel>
+          <InputLabel id="demo-simple-select-label">Section</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={search.course_id ?? ''}
-            name="course_id"
-            label="course"
+            value={search.section_id ?? ''}
+            name="section_id"
+            label="Section"
             onChange={handleChange}
           >
             {
-              courses.data.map((res, i) => {
+              sections.data.map((res, i) => {
                 return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
               })
             }
           </Select>
         </FormControl>
+      
+    
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Semester</InputLabel>
           <Select

@@ -45,13 +45,13 @@ export default function TableSection() {
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
-                    <Button
+                    {/* <Button
                       onClick={()=>router.visit(`/administrator/subjects/${res.code}`)}
                       size='small'
                       variant='contained'
                       color='success'>
                       <Visibility />
-                    </Button>
+                    </Button> */}
                   </div>
                 </TableCell>
               </TableRow>

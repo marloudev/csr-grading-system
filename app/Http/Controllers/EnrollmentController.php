@@ -3,33 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
+use App\Models\Grade;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
 {
     public function search_students(Request $request)
     {
-        $enrollments = Enrollment::where([
+        $enrollments = Grade::where([
             ['section_id', '=', $request->section_id],
             ['course_id', '=', $request->course_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
-        ])->with(['user', 'course','grade','section'])->get();
+            ['subject_code', '=', $request->subject_code],
+        ])->with(['user', 'course', 'grade', 'section'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);
     }
     public function index(Request $request)
     {
-        $a = Enrollment::with(['user', 'course','section'])->paginate(10);
+        $a = Enrollment::with(['user', 'course', 'section'])->paginate(10);
         return response()->json([
             'response' => $a,
         ], 200);
     }
     public function show($id)
     {
-        $enrollments =Enrollment::where('user_id', $id)->with(['user','course','grade','section'])->get();
+        $enrollments = Enrollment::where('user_id', $id)->with(['user', 'course', 'grade', 'section'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);
@@ -42,13 +45,29 @@ class EnrollmentController extends Controller
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
+            ['section_id', '=', $request->section_id],
         ])->first();
+
         if ($enrollment) {
             return response()->json([
                 'response' => 'exist',
             ], 202);
         } else {
-            Enrollment::create($request->all());
+            $enroll = Enrollment::create($request->all());
+            foreach ($request->subject_codes as $key => $value) {
+                $subject = Subject::where('code',$value)->first();
+                Grade::create([
+                    'course_id' => $request->course_id,
+                    'enrollment_id' => $enroll->id,
+                    'subject_code' => $value,
+                    'instructor_id' => $subject->instructor_id,
+                    'semester' => $request->semester,
+                    'student_id' => $request->user_id,
+                    'academic_year' => $request->academic_year,
+                    'section_id' => $request->section_id,
+                    'year' => $request->year,
+                ]);
+            }
             return response()->json([
                 'response' => 'success',
             ], 200);

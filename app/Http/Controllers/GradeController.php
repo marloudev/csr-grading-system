@@ -31,19 +31,10 @@ class GradeController extends Controller
         foreach ($request->records as $key => $record) {
             $grade = Grade::where([
                 ['academic_year', '=', $record['academic_year']],
-                ['enrollment_id', '=', $record['id']],
-                ['instructor_id', '=', $request->user_id],
-                ['student_id', '=', $record['user']['id']],
+                ['enrollment_id', '=', $record['enrollment_id']],
+                ['instructor_id', '=',$record['instructor_id']],
+                ['student_id', '=', $record['student_id']],
             ])->first();
-            // if (!$grade) {
-            //     $grade =  Grade::create([
-            //         'academic_year' => $record['academic_year'],
-            //         'course_id' => $record['course_id'],
-            //         'enrollment_id' => $record['id'],
-            //         'instructor_id' => $request->user_id,
-            //         'student_id' => $record['user']['id'],
-            //     ]);
-            // }
             if ($request->lecture == 'Examination') {
                 Examination::create([
                     'grade_id' => $grade['id'],
@@ -75,6 +66,7 @@ class GradeController extends Controller
             }
         }
         return response()->json([
+            $grade,
             'response' => 'success',
         ], 200);
     }

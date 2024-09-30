@@ -86,7 +86,7 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Name of Course"
                                 variant="outlined" />
-                            <FormControl fullWidth>
+                            {/* <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Instructor</InputLabel>
                                 <Select
                                     value={form.instructor_id}
@@ -156,7 +156,7 @@ export default function UpdateSection({ data }) {
                                         <MenuItem key={index} value={year}>{year}</MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
                         </div>
                         <Button
                             onClick={submitForm}

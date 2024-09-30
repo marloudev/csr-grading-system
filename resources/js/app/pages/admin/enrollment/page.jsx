@@ -7,18 +7,18 @@ import SearchSection from './sections/search-section'
 import { useEffect } from 'react'
 import store from '../../store/store'
 import { get_enrollments_thunk } from './redux/enrollment-thunk'
-import { get_department_thunk } from '../department/redux/department-thunk'
 import { get_course_thunk } from '../courses/redux/course-thunk'
 import { get_sections_thunk } from '../sections/redux/sections-thunk'
+import { get_subject_thunk } from '../subjects/redux/subject-thunk'
 
 export default function EnrollmentPage() {
 
 
   useEffect(()=>{
     store.dispatch(get_enrollments_thunk())
-    store.dispatch(get_department_thunk())
     store.dispatch(get_course_thunk())
     store.dispatch(get_sections_thunk())
+    store.dispatch(get_subject_thunk())
   },[])
   return (
     <AdminLayout>

@@ -20,10 +20,10 @@ export default function TableSection() {
         <TableHead>
           <TableRow>
             <TableCell>Name of Course</TableCell>
-            <TableCell>Instructor</TableCell>
+            {/* <TableCell>Instructor</TableCell>
             <TableCell >Semester</TableCell>
-            <TableCell>Academic Year</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell>Academic Year</TableCell> */}
+            <TableCell align='right'>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,13 +34,13 @@ export default function TableSection() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">{res.name}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   {res.instructor_id}
                 </TableCell>
                 <TableCell>{res.semester}</TableCell>
-                <TableCell>{res.academic_year}</TableCell>
-                <TableCell>
-                  <div className='flex gap-2'>
+                <TableCell>{res.academic_year}</TableCell> */}
+                <TableCell  align='right'>
+                  <div className='flex gap-2 items-end justify-end'>
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                   </div>
