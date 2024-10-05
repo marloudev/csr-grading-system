@@ -29,10 +29,10 @@ export default function UpdateSection({ data }) {
     async function submitForm(params) {
         setLoading(true)
         const result = await store.dispatch(update_subject_thunk({
-            id:form.id,
-            code:form.code,
-            name:form.name,
-            semester:form.semester,
+            id: form.id,
+            code: form.code,
+            name: form.name,
+            semester: form.semester,
         }))
         if (result.status == 200) {
             await store.dispatch(get_subject_thunk())
@@ -77,10 +77,10 @@ export default function UpdateSection({ data }) {
                             <div className='text-2xl font-black'>
                                 Create subject
                             </div>
-                            <TextField
+                            {/* <TextField
                                 value={form.name}
                                 onChange={(e) => setForm({
-                                    ...data,
+                                    ...form,
                                     [e.target.name]: e.target.value
                                 })}
                                 error={error?.name ? true : false}
@@ -94,7 +94,7 @@ export default function UpdateSection({ data }) {
                             <TextField
                                 value={form.code}
                                 onChange={(e) => setForm({
-                                    ...data,
+                                    ...form,
                                     [e.target.name]: e.target.value
                                 })}
                                 error={error?.code ? true : false}
@@ -112,13 +112,140 @@ export default function UpdateSection({ data }) {
                                     label="Semester"
                                     value={form.semester}
                                     onChange={(e) => setForm({
-                                        ...data,
+                                        ...form,
                                         [e.target.name]: e.target.value
                                     })}
                                 >
                                     <MenuItem value="1st Semester">1st Semester</MenuItem>
                                     <MenuItem value="2nd Semester">2nd Semester</MenuItem>
                                     <MenuItem value="Summer">Summer</MenuItem>
+                                </Select>
+                            </FormControl> */}
+                            <TextField
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                error={error?.name ? true : false}
+                                helperText={error?.name ?? ""}
+                                name="name"
+                                type="text"
+                                value={form.name}
+                                id="outlined-basic"
+                                label="Name of Subject"
+                                variant="outlined"
+                            />
+                            <TextField
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                error={error?.code ? true : false}
+                                helperText={error?.code ?? ""}
+                                value={form.code}
+                                name="code"
+                                type="text"
+                                id="outlined-basic"
+                                label="Subject Code"
+                                variant="outlined"
+                            />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={form?.academic_year ?? ''}
+                                    name="academic_year"
+                                    label="Academic Year"
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    {
+                                        academic_year().map((res, i) => {
+                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                    Semester
+                                </InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name="semester"
+                                    label="Semester"
+                                    value={form?.semester ?? ''}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    <MenuItem value="1st Semester">
+                                        1st Semester
+                                    </MenuItem>
+                                    <MenuItem value="2nd Semester">
+                                        2nd Semester
+                                    </MenuItem>
+                                    <MenuItem value="Summer">Summer</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                    Instructor
+                                </InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name="instructor_id"
+                                    label="Instructor"
+                                    value={form.instructor_id}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    {instructors.data.map((res, i) => {
+                                        return (
+                                            <MenuItem value={res.user_id}>
+                                                {res.fname} {res.lname}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                    Year
+                                </InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="year"
+                                    label="Year"
+                                    value={form.year}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    <MenuItem value="1st Year">1st Year</MenuItem>
+                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
+                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
+                                    <MenuItem value="4th Year">4th Year</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
