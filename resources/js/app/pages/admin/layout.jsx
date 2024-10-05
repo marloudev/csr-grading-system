@@ -57,11 +57,11 @@ const NAVIGATION = [
         title: "Subjects",
         icon: <HistoryEdu />,
     },
-    // {
-    //     segment: "department",
-    //     title: "Department",
-    //     icon: <FolderShared />,
-    // },
+    {
+        segment: "department",
+        title: "Department",
+        icon: <FolderShared />,
+    },
     
     {
         segment: "courses",
