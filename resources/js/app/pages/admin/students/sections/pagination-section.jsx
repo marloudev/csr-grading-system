@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react'
 import { Pagination } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
