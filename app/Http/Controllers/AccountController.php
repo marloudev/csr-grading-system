@@ -57,10 +57,10 @@ class AccountController extends Controller
         User::create([
             'user_id' => $validatedData['user_id'],
             'email' => $validatedData['email'],
-            'address' => $request->address??'',
+            // 'address' => $request->address??'',
             'course_id' => $validatedData['course_id'] ?? null,
             'department_id' => $validatedData['department_id'],
-            'dob' =>  $request->dob??'',
+            // 'dob' =>  $request->dob??'',
             'fname' => $validatedData['fname'],
             'lname' => $validatedData['lname'],
             'user_type' => $request->user_type,

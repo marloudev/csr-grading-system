@@ -136,8 +136,8 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Password"
                                 variant="outlined" />
-                        
-                        <FormControl fullWidth>
+
+                            <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Department</InputLabel>
                                 <Select
                                     id="demo-simple-select"
@@ -175,7 +175,7 @@ export default function UpdateSection({ data }) {
                                     }
                                 </Select>
                             </FormControl>
-                            <TextField
+                            {/* <TextField
                                 value={form.dob}
                                 onChange={(e) => setForm({
                                     ...form,
@@ -199,7 +199,7 @@ export default function UpdateSection({ data }) {
                                 name='address'
                                 id="outlined-basic"
                                 label="Address"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                         </div>
                         <Button
                             onClick={submitForm}

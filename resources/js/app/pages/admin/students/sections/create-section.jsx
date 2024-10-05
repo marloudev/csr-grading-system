@@ -171,7 +171,7 @@ export default function CreateSection() {
                                     }
                                 </Select>
                             </FormControl>
-                            <TextField
+                            {/* <TextField
                                 onChange={(e) => setData({
                                     ...data,
                                     [e.target.name]: e.target.value
@@ -192,7 +192,7 @@ export default function CreateSection() {
                                 name='address'
                                 id="outlined-basic"
                                 label="Address"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                         </div>
                         <Button
                             onClick={submitForm}

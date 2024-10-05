@@ -29,8 +29,8 @@ export default function TableSection() {
             <TableCell>Email</TableCell>
             <TableCell>Department</TableCell>
             <TableCell>Course</TableCell>
-            <TableCell>Age</TableCell>
-            <TableCell>Address</TableCell>
+            {/* <TableCell>Age</TableCell>
+            <TableCell>Address</TableCell> */}
             <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
@@ -53,8 +53,8 @@ export default function TableSection() {
                 <TableCell>{res.email}</TableCell>
                 <TableCell>{res?.department?.name ?? ''}</TableCell>
                 <TableCell>{res?.course?.name ?? ''}</TableCell>
-                <TableCell>{age}</TableCell>
-                <TableCell>{res.address}</TableCell>
+                {/* <TableCell>{age}</TableCell> */}
+                {/* <TableCell>{res.address}</TableCell> */}
                 <TableCell>
                   <div className='flex gap-2'>
                     {
