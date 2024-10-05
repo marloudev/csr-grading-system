@@ -12,12 +12,23 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         // Fetch paginated users, you can specify how many items per page, e.g., 10
-        $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->paginate(10);
+        if($request->page){
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->paginate(10);
+            return response()->json([
+                'response' => $users,
+            ], 200);
+        }else{
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->get();
+            return response()->json([
+                'response' => [
+                    'data' => $users
+                ],
+            ], 200);
+        }
+        
 
         // Return the paginated response
-        return response()->json([
-            'response' => $users,
-        ], 200);
+    
     }
 
     public function show($id)
@@ -46,10 +57,10 @@ class AccountController extends Controller
         User::create([
             'user_id' => $validatedData['user_id'],
             'email' => $validatedData['email'],
-            // 'address' => $validatedData['address'],
+            'address' => $request->address??'',
             'course_id' => $validatedData['course_id'] ?? null,
             'department_id' => $validatedData['department_id'],
-            // 'dob' => $validatedData['dob'],
+            'dob' =>  $request->dob??'',
             'fname' => $validatedData['fname'],
             'lname' => $validatedData['lname'],
             'user_type' => $request->user_type,
