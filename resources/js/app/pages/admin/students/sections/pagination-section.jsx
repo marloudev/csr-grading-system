@@ -5,12 +5,26 @@ import { useSelector } from 'react-redux'
 export default function PaginationSection() {
   const { students } = useSelector((state) => state.students)
   console.log('students', students)
+  const path = window.location.pathname;
+  const url = path + window.location.search;
+
+  const getQueryParam = (url, paramName) => {
+    const searchParams = new URLSearchParams(url.split("?")[1]);
+    return searchParams.get(paramName);
+  };
+
+  const page = getQueryParam(url, "page");
+  const currentPage = page ? parseInt(page, 10) : 1;
+  function page_handler(params, page) {
+    const newUrl = path + "?page=" + page
+    router.visit(newUrl)
+  }
   return (
     <div className='flex w-full items-center justify-end'>
-      <Pagination
-        count={Number.isFinite(students?.total) && students?.data?.length
-          ? Math.ceil(students.total / students.data.length)
-          : 0}  // Default to 0 if the data is invalid
+       <Pagination
+        onChange={page_handler}
+        count={students.last_page}
+        defaultPage={currentPage}
         color="primary"
         shape="rounded"
       />

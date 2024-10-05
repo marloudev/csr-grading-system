@@ -148,7 +148,7 @@ function AdminLayout({ children }, props) {
                 if (path == '/logout') {
                     setOpen(true)
                 }else{  
-                    if (path == '/instructor') {
+                    if (path == '/instructor' || path == '/students/registered' || path == '/students/enrollment') {
                         route.visit(String("/administrator" + path+'?page=1'));
                     }else{
                         route.visit(String("/administrator" + path));

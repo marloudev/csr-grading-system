@@ -81,7 +81,7 @@ export default function CreateSection() {
                                 name="user_id"
                                 type='text'
                                 id="outlined-basic"
-                                label="Employee ID"
+                                label="Student ID"
                                 variant="outlined"
                             />
                             <TextField onChange={(e) => setData({

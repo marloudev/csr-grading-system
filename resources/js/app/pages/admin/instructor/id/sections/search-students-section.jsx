@@ -37,11 +37,11 @@ export default function SearchStudentsSection() {
   async function search_students(params) {
     await store.dispatch(search_students_thunk(search))
   }
-  console.log('handleds',handleds)
+  console.log('handleds', handleds)
   return (
     <div className='w-full'>
       <div className='flex gap-3'>
-      <FormControl fullWidth>
+        <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Subject</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -109,8 +109,28 @@ export default function SearchStudentsSection() {
           </Select>
         </FormControl>
 
-      
-    
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">
+            Section
+          </InputLabel>
+          <Select
+            id="demo-simple-select"
+            name="section_id"
+            label="Section"
+            value={search.section_id ?? ''}
+            onChange={handleChange}
+          >
+            {sections.data.map((res, i) => {
+              return (
+                <MenuItem key={i} value={res.id}>
+                  {res.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+
+
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Semester</InputLabel>
           <Select
