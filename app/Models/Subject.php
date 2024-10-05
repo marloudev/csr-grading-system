@@ -18,6 +18,7 @@ class Subject extends Model
         'code',
         'credits',
         'semester',
+        'year',
     ];
 
     public function subject_handled(): HasMany

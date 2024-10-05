@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('instructor_id')->nullable();
             $table->string('section_id')->nullable();
+            $table->string('academic_year')->nullable();
             $table->string('name')->nullable();
             $table->string('code')->nullable();
             $table->string('credits')->nullable();
             $table->string('semester')->nullable();
+            $table->string('year')->nullable();
             $table->timestamps();
         });
     }

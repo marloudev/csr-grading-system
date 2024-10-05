@@ -24,14 +24,14 @@ export default function CreateSection() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         semester: "1st Semester",
-        academic_year:current_academic_year()
+        academic_year: current_academic_year()
     });
     const [error, setError] = useState({});
     const [notify, setNotify] = useState(false);
     const { sections } = useSelector((state) => state.sections);
     const { instructors } = useSelector((state) => state.instructors);
 
-    
+
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -190,13 +190,13 @@ export default function CreateSection() {
                             </FormControl>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
-                                    Section
+                                    Year
                                 </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    name="section_id"
-                                    label="Section"
+                                    name="year"
+                                    label="Year"
                                     onChange={(e) =>
                                         setData({
                                             ...data,
@@ -204,13 +204,10 @@ export default function CreateSection() {
                                         })
                                     }
                                 >
-                                    {sections.data.map((res, i) => {
-                                        return (
-                                            <MenuItem key={i} value={res.id}>
-                                                {res.name}
-                                            </MenuItem>
-                                        );
-                                    })}
+                                    <MenuItem value="1st Year">1st Year</MenuItem>
+                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
+                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
+                                    <MenuItem value="4th Year">4th Year</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>

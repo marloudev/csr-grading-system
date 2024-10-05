@@ -12,7 +12,6 @@ class EnrollmentController extends Controller
     public function search_students(Request $request)
     {
         $enrollments = Grade::where([
-            ['section_id', '=', $request->section_id],
             ['course_id', '=', $request->course_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],

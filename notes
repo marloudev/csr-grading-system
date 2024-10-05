@@ -1,8 +1,8 @@
 * Add Print Record for the grades
 * add grading_period in grades table
 
-* add instructor_id & section_id in subject table
-* add subject_code & section_id & year in grades table
+* add instructor_id & year in subject table
+* add subject_code &  year in grades table
 
 
 

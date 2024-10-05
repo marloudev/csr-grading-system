@@ -109,23 +109,6 @@ export default function SearchStudentsSection() {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Section</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={search.section_id ?? ''}
-            name="section_id"
-            label="Section"
-            onChange={handleChange}
-          >
-            {
-              sections.data.map((res, i) => {
-                return <MenuItem key={i} value={res.id}>{res.name}</MenuItem>
-              })
-            }
-          </Select>
-        </FormControl>
       
     
         <FormControl fullWidth>

@@ -75,7 +75,7 @@ export default function UpdateSection({ data }) {
                                 ...data,
                                 [e.target.name]: e.target.value
                             })}
-                                value={form.name}
+                                value={form.user_id}
                                 error={error?.user_id ? true : false}
                                 helperText={error?.user_id ?? ''}
                                 name="user_id"
