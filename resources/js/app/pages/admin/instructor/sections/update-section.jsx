@@ -166,7 +166,7 @@ export default function UpdateSection({ data }) {
                                 id="outlined-basic"
                                 label="Course"
                                 variant="outlined" /> */}
-                            <TextField
+                            {/* <TextField
                                 value={form.dob}
                                 onChange={(e) => setForm({
                                     ...form,
@@ -190,7 +190,7 @@ export default function UpdateSection({ data }) {
                                 name='address'
                                 id="outlined-basic"
                                 label="Address"
-                                variant="outlined" />
+                                variant="outlined" /> */}
                         </div>
                         <Button
                             onClick={submitForm}
