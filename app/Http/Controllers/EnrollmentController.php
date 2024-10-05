@@ -13,6 +13,7 @@ class EnrollmentController extends Controller
     {
         $enrollments = Grade::where([
             // ['course_id', '=', $request->course_id],
+            ['section_id', '=', $request->section_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
