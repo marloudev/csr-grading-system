@@ -78,7 +78,7 @@ export default function UpdateSection({ data }) {
                     <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
-                                Update subject
+                                Update Subject
                             </div>
                             {/* <TextField
                                 value={form.name}

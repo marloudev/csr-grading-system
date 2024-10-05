@@ -51,7 +51,7 @@ export default function TableSection() {
                 <TableCell>{res.department}</TableCell>
                 <TableCell>{res.course}</TableCell>
                 <TableCell>{age}</TableCell> */}
-                <TableCell>{res.created_at}</TableCell>
+                <TableCell>{moment(res.created_at).format('LL')}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />

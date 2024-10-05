@@ -29,7 +29,6 @@ export default function SubjectPage() {
           <TableSection />
           <PaginationSection />
         </div>
-
       </div>
     </AdminLayout>
   )
