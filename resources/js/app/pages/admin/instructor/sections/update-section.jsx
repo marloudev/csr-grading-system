@@ -58,6 +58,7 @@ export default function UpdateSection({ data }) {
                     sx={{ width: '100%' }}
                 >
                     Successfully Updated!
+                    
                 </Alert>
             </Snackbar>
             <Button size='small' variant='contained' onClick={toggleDrawer(true)}><Edit /></Button>
