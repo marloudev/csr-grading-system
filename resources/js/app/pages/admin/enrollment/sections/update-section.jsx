@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, Autocomplete, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { useEffect } from 'react';
@@ -20,6 +20,7 @@ export default function UpdateSection({ data }) {
     const { departments } = useSelector((state) => state.department)
     const { courses } = useSelector((state) => state.courses)
     const { sections } = useSelector((state) => state.sections)
+    const { subjects } = useSelector((state) => state.subjects);
 
     useEffect(() => {
         setForm(data)
@@ -49,6 +50,7 @@ export default function UpdateSection({ data }) {
         setOpen(false);
     };
 
+    console.log('subject_codes',form)
     return (
         <div>
             <Snackbar open={notify}
@@ -87,7 +89,7 @@ export default function UpdateSection({ data }) {
                                 label="Employee ID"
                                 variant="outlined"
                             />
-                            
+
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
                                 <Select
@@ -182,6 +184,29 @@ export default function UpdateSection({ data }) {
                                     <MenuItem value='Summer'>Summer</MenuItem>
                                 </Select>
                             </FormControl>
+                            <Autocomplete
+                                id="multiple-limit-tags"
+                                multiple
+                                name="subjects"
+                                options={subjects.data.map(res => ({
+                                    label: res.name,
+                                    value: res.code,
+                                    code: res.code,
+                                    id: res.id,
+                                }))}
+                                filterSelectedOptions
+                                isOptionEqualToValue={(option, value) => option.value === value.value}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Subjects"
+                                    />
+                                )}
+                                onChange={(e, value) => setForm({
+                                    ...form,
+                                    subject_codes: value,
+                                })}
+                            />
                         </div>
                         <Button
                             onClick={submitForm}

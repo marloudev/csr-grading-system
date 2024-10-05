@@ -76,7 +76,7 @@ export default function SearchStudentsSection() {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
+        {/* <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Course</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -92,7 +92,7 @@ export default function SearchStudentsSection() {
               })
             }
           </Select>
-        </FormControl>
+        </FormControl> */}
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Year</InputLabel>
           <Select

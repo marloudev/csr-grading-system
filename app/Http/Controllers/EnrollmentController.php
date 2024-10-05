@@ -12,7 +12,7 @@ class EnrollmentController extends Controller
     public function search_students(Request $request)
     {
         $enrollments = Grade::where([
-            ['course_id', '=', $request->course_id],
+            // ['course_id', '=', $request->course_id],
             ['semester', '=', $request->semester],
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
@@ -53,20 +53,23 @@ class EnrollmentController extends Controller
             ], 202);
         } else {
             $enroll = Enrollment::create($request->all());
-            foreach ($request->subject_codes as $key => $value) {
-                $subject = Subject::where('code',$value)->first();
-                Grade::create([
-                    'course_id' => $request->course_id,
-                    'enrollment_id' => $enroll->id,
-                    'subject_code' => $value,
-                    'instructor_id' => $subject->instructor_id,
-                    'semester' => $request->semester,
-                    'student_id' => $request->user_id,
-                    'academic_year' => $request->academic_year,
-                    'section_id' => $request->section_id,
-                    'year' => $request->year,
-                ]);
+            if ($request->subject_codes) {
+                // foreach ($request->subject_codes as $key => $value) {
+                //     $subject = Subject::where('code', $value->code)->first();
+                //     Grade::create([
+                //         'course_id' => $request->course_id,
+                //         'enrollment_id' => $enroll->id,
+                //         'subject_code' => $value->code,
+                //         'instructor_id' => $subject->instructor_id,
+                //         'semester' => $request->semester,
+                //         'student_id' => $request->user_id,
+                //         'academic_year' => $request->academic_year,
+                //         'section_id' => $request->section_id,
+                //         'year' => $request->year,
+                //     ]);
+                // }
             }
+
             return response()->json([
                 'response' => 'success',
             ], 200);
@@ -75,7 +78,27 @@ class EnrollmentController extends Controller
     public function update(Request $request, $id)
     {
         $a = Enrollment::where('id', $id);
-        $a->update($request->all());
+        $a->update([
+            'academic_year'=>$request->academic_year,
+            'section_id'=>$request->section_id,
+            'semester'=>$request->semester,
+            'year'=>$request->year,
+        ]);
+
+        foreach ($request->subject_codes as $key => $value) {
+            $subject = Subject::where('code', $value['code'])->first();
+            Grade::create([
+                'course_id' => $request->course['id'],//
+                'enrollment_id' => $request->id,//
+                'subject_code' => $value['code'],//
+                'instructor_id' => $subject->instructor_id,//
+                'semester' => $request->semester,//
+                'student_id' => $request->user_id,
+                'academic_year' => $request->academic_year,//
+                'section_id' => $request->section_id,//
+                'year' => $request->year,//
+            ]);
+        }
         return response()->json([
             'response' => 'success',
         ], 200);

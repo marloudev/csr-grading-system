@@ -4,6 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import {
     Alert,
+    Autocomplete,
     Checkbox,
     CircularProgress,
     FormControl,
@@ -50,20 +51,11 @@ export default function CreateSection() {
     const { courses } = useSelector((state) => state.courses);
     const { sections } = useSelector((state) => state.sections);
     const { subjects } = useSelector((state) => state.subjects);
-    const [selectedSubject, setSelectedSubject] = useState([]);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setSelectedSubject(
-            typeof value === "string" ? value.split(",") : value,
-        );
-    };
     useEffect(() => {
         setData({
             ...data,
@@ -77,7 +69,6 @@ export default function CreateSection() {
             store_enrollments_thunk({
                 ...data,
                 user_type: 3,
-                subject_codes:selectedSubject
             }),
         );
         if (result.status == 200) {
@@ -283,38 +274,29 @@ export default function CreateSection() {
                                     <MenuItem value="Summer">Summer</MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-multiple-checkbox-label">
-                                    List Of Subject
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-multiple-checkbox-label"
-                                    id="demo-multiple-checkbox"
-                                    multiple
-                                    value={selectedSubject}
-                                    name="subject_codes"
-                                    onChange={handleChange}
-                                    label="Subject List"
-                                    input={
-                                        <OutlinedInput label="List Of Subject" />
-                                    }
-                                    renderValue={(selected) =>
-                                        selected.join(", ")
-                                    }
-                                    MenuProps={MenuProps}
-                                >
-                                    {subjects.data.map((res,i) => (
-                                        <MenuItem key={i} value={res?.code}>
-                                            <Checkbox
-                                                checked={selectedSubject.includes(
-                                                    res?.code,
-                                                )}
-                                            />
-                                            <ListItemText primary={`${res?.name} - ${res?.user?.fname} ${res?.user?.lname}`} />
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                            <Autocomplete
+                                id="multiple-limit-tags"
+                                multiple
+                                name="subjects"
+                                options={subjects.data.map(res => ({
+                                    label: res.name,
+                                    value: res.code,
+                                    code: res.code,
+                                    id: res.id,
+                                }))}
+                                filterSelectedOptions
+                                isOptionEqualToValue={(option, value) => option.value === value.value}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Subjects"
+                                    />
+                                )}
+                                onChange={(e, value) => setData({
+                                    ...data,
+                                    subject_codes: value,
+                                })}
+                            />
                         </div>
                         <Button
                             onClick={submitForm}

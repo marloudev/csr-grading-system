@@ -17,20 +17,23 @@ import { router } from '@inertiajs/react';
 
 export default function TableSection() {
   const { subjects } = useSelector((state) => state.subjects)
-  console.log('subjects',subjects)
+  console.log('subjects', subjects)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Name of Course</TableCell>
+            <TableCell>Instructor</TableCell>
             <TableCell>Subject Code</TableCell>
             <TableCell >Semester</TableCell>
+            <TableCell >Academic Year</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {subjects?.data.map((res,i) => {
+          {subjects?.data.map((res, i) => {
+            console.log('res', res)
             return (
               <TableRow
                 key={i}
@@ -38,9 +41,13 @@ export default function TableSection() {
               >
                 <TableCell component="th" scope="row">{res.name}</TableCell>
                 <TableCell>
+                  {res?.user?.fname}    {res?.user?.lname}
+                </TableCell>
+                <TableCell>
                   {res.code}
                 </TableCell>
                 <TableCell>{res.semester}</TableCell>
+                <TableCell>{res.academic_year}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
                     <UpdateSection data={res} />
