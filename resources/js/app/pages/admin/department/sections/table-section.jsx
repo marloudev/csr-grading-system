@@ -41,16 +41,6 @@ export default function TableSection() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">{res.name}</TableCell>
-                {/* <TableCell>
-                  {res.fname}
-                </TableCell>
-                <TableCell>
-                  {res.lname}
-                </TableCell>
-                <TableCell>{res.email}</TableCell>
-                <TableCell>{res.department}</TableCell>
-                <TableCell>{res.course}</TableCell>
-                <TableCell>{age}</TableCell> */}
                 <TableCell>{moment(res.created_at).format('LL')}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
