@@ -33,6 +33,9 @@ export default function UpdateSection({ data }) {
             code: form.code,
             name: form.name,
             semester: form.semester,
+            academic_year: form.academic_year,
+            year: form.year,
+            instructor_id: form.instructor_id,
         }))
         if (result.status == 200) {
             await store.dispatch(get_subject_thunk())
@@ -75,7 +78,7 @@ export default function UpdateSection({ data }) {
                     <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
-                                Create subject
+                                Update subject
                             </div>
                             {/* <TextField
                                 value={form.name}
