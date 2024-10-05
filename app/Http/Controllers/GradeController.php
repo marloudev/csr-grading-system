@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassParticipation;
+use App\Models\Enrollment;
 use App\Models\Examination;
 use App\Models\Grade;
 use App\Models\Project;
@@ -11,6 +12,22 @@ use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
+
+    public function get_student_grade($id)
+    {
+        $enrollment = Enrollment::where('id',$id)->first();
+        $a = Grade::where([
+            ['enrollment_id', '=', $enrollment->id],
+            ['student_id', '=', $enrollment->user_id],
+            ['section_id', '=', $enrollment->section_id],
+            ['semester', '=', $enrollment->semester],
+            ['academic_year', '=', $enrollment->academic_year],
+        ])->with(['project', 'quiz', 'examination', 'class_participation'])->get();
+        return response()->json([
+            $enrollment,
+            'response' => $a,
+        ], 200);
+    }
     public function index(Request $request)
     {
         $a = Grade::get();
@@ -32,7 +49,7 @@ class GradeController extends Controller
             $grade = Grade::where([
                 ['academic_year', '=', $record['academic_year']],
                 ['enrollment_id', '=', $record['enrollment_id']],
-                ['instructor_id', '=',$record['instructor_id']],
+                ['instructor_id', '=', $record['instructor_id']],
                 ['student_id', '=', $record['student_id']],
             ])->first();
             if ($request->lecture == 'Examination') {

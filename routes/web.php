@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
         Route::get('/enrollment', function () {
             return Inertia::render('admin/enrollment/page');
         });
-        Route::get('/enrollment/{id}', function () {
+        Route::get('/enrollment/{enrollment_id}', function () {
             return Inertia::render('admin/enrollment/id/page');
         });
     });

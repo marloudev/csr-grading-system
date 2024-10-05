@@ -64,7 +64,7 @@ export default function TableSection() {
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                     <Button
-                      onClick={()=>router.visit(`/administrator/students/enrollment/${res?.user?.user_id}`)}
+                      onClick={()=>router.visit(`/administrator/students/enrollment/${res.id}`)}
                       size='small'
                       variant='contained'
                       color='success'>

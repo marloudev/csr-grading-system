@@ -49,6 +49,7 @@ function GradeCategoryTable({ categoryName, grades }) {
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    console.log('row',row)
     return (
         <React.Fragment>
         {/* The entire row is clickable to toggle */}
@@ -56,14 +57,11 @@ function Row(props) {
             sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }}
             onClick={()=>setOpen(!open)}
         >
-            <TableCell>
+            <TableCell className="bg-blue-400 w-full">
                 <IconButton aria-label="expand row" size="small">
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </IconButton>
-                {row?.user?.fname} {row?.user?.lname} ({row.academic_year})
-            </TableCell>
-            <TableCell component="th" scope="row">
-                
+                {row?.subject_code} ({row.academic_year})
             </TableCell>
         </TableRow>
         <TableRow>
@@ -72,21 +70,21 @@ function Row(props) {
                     <div className='flex gap-3 w-full'>
                         <GradeCategoryTable
                             categoryName="Examination"
-                            grades={row?.grade?.examination ?? []}
+                            grades={row?.examination ?? []}
                         />
                         <GradeCategoryTable
                             categoryName="Quizzes"
-                            grades={row?.grade?.quiz ?? []}
+                            grades={row?.quiz ?? []}
                         />
                     </div>
                     <div className='flex gap-3 w-full'>
                         <GradeCategoryTable
                             categoryName="Projects / Assignments"
-                            grades={row?.grade?.projects ?? []}
+                            grades={row?.projects ?? []}
                         />
                         <GradeCategoryTable
                             categoryName="Class Participation"
-                            grades={row?.grade?.class_participation ?? []}
+                            grades={row?.class_participation ?? []}
                         />
                     </div>
 
@@ -100,8 +98,8 @@ function Row(props) {
 
 export default function StudentIdTableSection() {
     
-    const {userEnrollments} = useSelector((store)=>store.enrollments)
-    console.log('userEnrollments',userEnrollments)
+    const {userGrades} = useSelector((store)=>store.grades)
+    console.log('userGrades',userGrades)
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -111,14 +109,10 @@ export default function StudentIdTableSection() {
                             <div className="font-black">School Year</div>
                         </TableCell>
                         <TableCell />
-                        <TableCell />
-                        <TableCell />
-                        <TableCell />
-                        <TableCell />
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {userEnrollments.map((row,i) => (
+                    {userGrades.map((row,i) => (
                         <Row key={i} row={row} />
                     ))}
                 </TableBody>

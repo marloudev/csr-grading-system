@@ -35,7 +35,11 @@ Route::resource('enrollments', EnrollmentController::class);
 Route::resource('dashboard', DashboardController::class);
 Route::resource('department', DepartmentController::class);
 Route::resource('examination', ExaminationController::class);
+
 Route::resource('grade', GradeController::class);
+Route::get('get_student_grade/{enrollment_id}', [GradeController::class, 'get_student_grade']);
+
+
 Route::resource('project', ProjectController::class);
 Route::resource('quiz', QuizController::class);
 

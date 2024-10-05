@@ -38,7 +38,7 @@ class Grade extends Model
     {
         return $this->hasMany(Quiz::class);
     }
-    public function Examination(): HasMany
+    public function examination(): HasMany
     {
         return $this->hasMany(Examination::class);
     }

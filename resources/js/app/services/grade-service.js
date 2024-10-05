@@ -18,6 +18,16 @@ export async function get_grade_by_id_service(id) {
     }
 }
 
+export async function get_student_grade_service(enrollment_id) {
+    try {
+        const res = await axios.get(`/api/get_student_grade/${enrollment_id}`);
+        return res;
+    } catch (error) {
+        return error;
+    }
+}
+
+
 export async function store_grade_service(data) {
     try {
         const res = await axios.post('/api/grade', data);
