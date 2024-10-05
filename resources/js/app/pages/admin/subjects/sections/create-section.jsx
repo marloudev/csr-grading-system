@@ -17,17 +17,21 @@ import store from "@/app/pages/store/store";
 import { get_subject_thunk, store_subject_thunk } from "../redux/subject-thunk";
 import { useSelector } from "react-redux";
 import academic_year from "@/app/lib/academic-year";
+import current_academic_year from "@/app/lib/current-academic-year";
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         semester: "1st Semester",
+        academic_year:current_academic_year()
     });
     const [error, setError] = useState({});
     const [notify, setNotify] = useState(false);
     const { sections } = useSelector((state) => state.sections);
     const { instructors } = useSelector((state) => state.instructors);
+
+    
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -113,7 +117,28 @@ export default function CreateSection() {
                                 label="Subject Code"
                                 variant="outlined"
                             />
-
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={data?.academic_year ?? ''}
+                                    name="academic_year"
+                                    label="Academic Year"
+                                    onChange={(e) =>
+                                        setData({
+                                            ...data,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    {
+                                        academic_year().map((res, i) => {
+                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
                                     Semester
@@ -122,7 +147,7 @@ export default function CreateSection() {
                                     id="demo-simple-select"
                                     name="semester"
                                     label="Semester"
-                                    value="1st Semester"
+                                    value={data?.semester ?? ''}
                                     onChange={(e) =>
                                         setData({
                                             ...data,
