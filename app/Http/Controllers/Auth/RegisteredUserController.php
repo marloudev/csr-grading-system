@@ -48,11 +48,11 @@ class RegisteredUserController extends Controller
 
         // return redirect(route('dashboard', absolute: false));
         switch ($user->user_type) {
-            case '0':
-                return redirect()->route('admin.dashboard');  // Redirect admins
             case '1':
-                return redirect()->route('instructor.dashboard');   // Redirect regular users
+                return redirect()->route('admin.dashboard');  // Redirect admins
             case '2':
+                return redirect()->route('instructor.dashboard');   // Redirect regular users
+            case '3':
                 return redirect()->route('student.dashboard');     // Default redirection
         }
     }
