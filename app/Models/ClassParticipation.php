@@ -11,6 +11,7 @@ class ClassParticipation extends Model
 
     protected $fillable = [
         'grade_id',
+        'assessment',
         'score',
         'percent',
         'total',

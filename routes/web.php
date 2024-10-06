@@ -82,6 +82,57 @@ Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
         return Inertia::render('admin/sections/page');
     });
 });
+
+Route::middleware('auth:sanctum')->prefix('instructor')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('instructor/dashboard/page');
+    })->name('instructor.dashboard');
+
+    Route::prefix('subjects')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('instructor/subjects/page');
+        });
+        Route::prefix('{user_id}')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('instructor/subjects/id/page1');
+            });
+
+            Route::get('/create_grades', function () {
+                return Inertia::render('instructor/subjects/id/page2');
+            });
+
+            Route::get('/students', function () {
+                return Inertia::render('instructor/subjects/id/page3');
+            });
+        });
+    });
+    // Route::get('/subjects', function () {
+    //     return Inertia::render('instructor/subjects/page');
+    // })->name('instructor.subjects');
+
+    // Route::get('/subjects/{code}', function () {
+    //     return Inertia::render('instructor/subjects/id/page');
+    // })->name('instructor.subject.code');
+
+    Route::get('/settings', function () {
+        return Inertia::render('instructor/settings/page');
+    })->name('instructor.settings');
+});
+
+Route::middleware('auth:sanctum')->prefix('student')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('student/dashboard/page');
+    })->name('student.dashboard');
+
+    Route::get('/subjects', function () {
+        return Inertia::render('student/subjects/page');
+    })->name('student.subject');
+
+
+    Route::get('/settings', function () {
+        return Inertia::render('student/settings/page');
+    })->name('student.settings');
+});
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

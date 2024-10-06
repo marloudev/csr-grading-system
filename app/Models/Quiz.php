@@ -11,6 +11,7 @@ class Quiz extends Model
 
     protected $fillable = [
         'grade_id',
+        'assessment',
         'score',
         'total',
         'percent',

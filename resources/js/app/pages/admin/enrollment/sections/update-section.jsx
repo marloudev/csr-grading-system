@@ -50,7 +50,7 @@ export default function UpdateSection({ data }) {
         setOpen(false);
     };
 
-    console.log('subject_codes',form)
+    console.log('subject_codes', data)
     return (
         <div>
             <Snackbar open={notify}
@@ -74,7 +74,7 @@ export default function UpdateSection({ data }) {
                     <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
-                                Edit enrollments
+                                Edit Enrollments
                             </div>
                             <TextField onChange={(e) => setForm({
                                 ...form,
@@ -184,29 +184,32 @@ export default function UpdateSection({ data }) {
                                     <MenuItem value='Summer'>Summer</MenuItem>
                                 </Select>
                             </FormControl>
-                            <Autocomplete
-                                id="multiple-limit-tags"
-                                multiple
-                                name="subjects"
-                                options={subjects.data.map(res => ({
-                                    label: res.name,
-                                    value: res.code,
-                                    code: res.code,
-                                    id: res.id,
-                                }))}
-                                filterSelectedOptions
-                                isOptionEqualToValue={(option, value) => option.value === value.value}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Subjects"
-                                    />
-                                )}
-                                onChange={(e, value) => setForm({
-                                    ...form,
-                                    subject_codes: value,
-                                })}
-                            />
+                            {
+                                !data.grade && <Autocomplete
+                                    id="multiple-limit-tags"
+                                    multiple
+                                    name="subjects"
+                                    options={subjects.data.map(res => ({
+                                        label: res.name,
+                                        value: res.code,
+                                        code: res.code,
+                                        id: res.id,
+                                    }))}
+                                    filterSelectedOptions
+                                    isOptionEqualToValue={(option, value) => option.value === value.value}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Subjects"
+                                        />
+                                    )}
+                                    onChange={(e, value) => setForm({
+                                        ...form,
+                                        subject_codes: value,
+                                    })}
+                                />
+                            }
+
                         </div>
                         <Button
                             onClick={submitForm}

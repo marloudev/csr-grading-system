@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('grade_id')->nullable();
+            $table->string('assessment')->nullable();
             $table->float('score')->nullable();
             $table->float('total')->nullable();
             $table->float('percent')->nullable();

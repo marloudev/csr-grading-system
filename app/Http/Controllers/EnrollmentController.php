@@ -18,14 +18,14 @@ class EnrollmentController extends Controller
             ['academic_year', '=', $request->academic_year],
             ['year', '=', $request->year],
             ['subject_code', '=', $request->subject_code],
-        ])->with(['user', 'course', 'grade', 'section'])->get();
+        ])->with(['user', 'course', 'grade', 'section', 'project', 'quiz', 'examination', 'class_participation'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);
     }
     public function index(Request $request)
     {
-        $a = Enrollment::with(['user', 'course', 'section'])->paginate(10);
+        $a = Enrollment::with(['user', 'course', 'section','grade'])->paginate(10);
         return response()->json([
             'response' => $a,
         ], 200);
@@ -80,26 +80,29 @@ class EnrollmentController extends Controller
     {
         $a = Enrollment::where('id', $id);
         $a->update([
-            'academic_year'=>$request->academic_year,
-            'section_id'=>$request->section_id,
-            'semester'=>$request->semester,
-            'year'=>$request->year,
+            'academic_year' => $request->academic_year,
+            'section_id' => $request->section_id,
+            'semester' => $request->semester,
+            'year' => $request->year,
         ]);
 
-        foreach ($request->subject_codes as $key => $value) {
-            $subject = Subject::where('code', $value['code'])->first();
-            Grade::create([
-                'course_id' => $request->course['id'],//
-                'enrollment_id' => $request->id,//
-                'subject_code' => $value['code'],//
-                'instructor_id' => $subject->instructor_id,//
-                'semester' => $request->semester,//
-                'student_id' => $request->user_id,
-                'academic_year' => $request->academic_year,//
-                'section_id' => $request->section_id,//
-                'year' => $request->year,//
-            ]);
+        if ($request->subject_codes) {
+            foreach ($request->subject_codes as $key => $value) {
+                $subject = Subject::where('code', $value['code'])->first();
+                Grade::create([
+                    'course_id' => $request->course['id'], //
+                    'enrollment_id' => $request->id, //
+                    'subject_code' => $value['code'], //
+                    'instructor_id' => $subject->instructor_id, //
+                    'semester' => $request->semester, //
+                    'student_id' => $request->user_id,
+                    'academic_year' => $request->academic_year, //
+                    'section_id' => $request->section_id, //
+                    'year' => $request->year, //
+                ]);
+            }
         }
+
         return response()->json([
             'response' => 'success',
         ], 200);

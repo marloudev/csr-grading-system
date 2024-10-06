@@ -44,21 +44,17 @@ export default function CreateGradeFormSection() {
         }
     }, [students.length]);
 
-    const handleScoreChange = (e, user_id, user) => {
+    const handleScoreChange = (e, user_id) => {
         const score = e.target.value;
-        // Update records
-        setRecords((prevRecords) => {
-            const existingIndex = prevRecords.findIndex(
-                (item) => item.user_id === user_id,
-            );
-            if (existingIndex !== -1) {
-                const updatedRecords = [...prevRecords];
-                updatedRecords[existingIndex].score = score;
-                return updatedRecords;
-            } else {
-                return [...prevRecords, { user_id, user, score }];
-            }
-        });
+
+        // Update records immutably
+        setRecords((prevRecords) =>
+            prevRecords.map((record) =>
+                record.user_id === user_id
+                    ? { ...record, score } // Update only the matching record's score
+                    : record // Leave other records unchanged
+            )
+        );
 
         // Remove error for the current user if input is valid
         if (score !== "") {
@@ -68,7 +64,6 @@ export default function CreateGradeFormSection() {
             });
         }
     };
-
     const validateScores = () => {
         let isValid = true;
         let validationErrors = {};
@@ -96,8 +91,8 @@ export default function CreateGradeFormSection() {
         setErrors(validationErrors);
         return isValid;
     };
-
     const submitRecords = async () => {
+        console.log('records', records.map(res => res.score))
         if (!validateScores()) {
             return; // Don't proceed if validation fails
         }
@@ -107,6 +102,7 @@ export default function CreateGradeFormSection() {
                 store_grade_thunk({
                     ...quizType,
                     user_id: user.user_id,
+                    subject_code:search.subject_code,
                     search,
                     records,
                     date: moment().format("LL"),
@@ -217,6 +213,8 @@ export default function CreateGradeFormSection() {
                                 </TableCell>
                                 <TableCell>
                                     <TextField
+                                        type="number"
+                                        value={res.score}
                                         onChange={(e) =>
                                             handleScoreChange(
                                                 e,

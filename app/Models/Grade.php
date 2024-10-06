@@ -30,6 +30,7 @@ class Grade extends Model
     {
         return $this->hasOne(Enrollment::class,'id','course_id');
     }
+    //
     public function project(): HasMany
     {
         return $this->hasMany(Project::class);

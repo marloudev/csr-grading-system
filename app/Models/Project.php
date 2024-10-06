@@ -10,6 +10,7 @@ class Project extends Model
     use HasFactory;
     protected $fillable = [
         'grade_id',
+        'assessment',
         'score',
         'percent',
         'total',

@@ -51,31 +51,36 @@ class GradeController extends Controller
                 ['enrollment_id', '=', $record['enrollment_id']],
                 ['instructor_id', '=', $record['instructor_id']],
                 ['student_id', '=', $record['student_id']],
+                ['subject_code','=',$request->subject_code]
             ])->first();
             if ($request->lecture == 'Examination') {
                 Examination::create([
-                    'grade_id' => $grade['id'],
+                    'grade_id' => $record['id'],
+                    'assessment' =>$request->assessment,
                     'score' => $record['score'],
                     'percent' => 30,
                     'date' => $request->date
                 ]);
             } else if ($request->lecture == 'Quizzes') {
                 Quiz::create([
-                    'grade_id' => $grade['id'],
+                    'grade_id' => $record['id'],
+                    'assessment' =>$request->assessment,
                     'score' => $record['score'],
                     'percent' => 30,
                     'date' => $request->date
                 ]);
             } else if ($request->lecture == 'Projects/Assignment') {
                 Project::create([
-                    'grade_id' => $grade['id'],
+                    'grade_id' => $record['id'],
+                    'assessment' =>$request->assessment,
                     'score' => $record['score'],
                     'percent' => 20,
                     'date' => $request->date
                 ]);
             } else if ($request->lecture == 'Class Participation') {
                 ClassParticipation::create([
-                    'grade_id' => $grade['id'],
+                    'grade_id' => $record['id'],
+                    'assessment' =>$request->assessment,
                     'score' => $record['score'],
                     'percent' => 20,
                     'date' => $request->date

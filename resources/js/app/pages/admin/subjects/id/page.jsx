@@ -6,10 +6,10 @@ import store from '@/app/pages/store/store'
 import { get_subject_handled_by_id_thunk } from '../redux/subject-thunk'
 
 export default function StudentIDPage() {
-    const code = window.location.pathname.split('/')[3]
-    useEffect(()=>{
-        store.dispatch(get_subject_handled_by_id_thunk(code))
-    },[])
+    // const code = window.location.pathname.split('/')[3]
+    // useEffect(()=>{
+    //     store.dispatch(get_subject_handled_by_id_thunk(code))
+    // },[])
   return (
     <AdminLayout>
         <SubjectIDTableSection />
