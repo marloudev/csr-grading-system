@@ -40,7 +40,7 @@ const NAVIGATION = [
     },
     {
         kind: "header",
-        title: "Analytics",
+        title: "Sub Navigation",
     },
     {
         segment: "settings",

@@ -19,7 +19,6 @@ Route::middleware('redirectBasedOnRole')->get('/', function () {
     return Inertia::render('login/page');
 })->name('login');
 
-// Route::middleware('auth:sanctum', 'role:1')->prefix('administrator')->group(function () {
 Route::middleware('auth:sanctum','administrator')->prefix('administrator')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('admin/dashboard/page');
