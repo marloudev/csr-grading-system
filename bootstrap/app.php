@@ -15,6 +15,19 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+           
+        ]);
+        $middleware->appendToGroup('redirectBasedOnRole', [
+            \App\Http\Middleware\RedirectBasedOnRole::class,
+        ]);
+        $middleware->appendToGroup('administrator', [
+            \App\Http\Middleware\Administrator::class,
+        ]);
+        $middleware->appendToGroup('instructor', [
+            \App\Http\Middleware\Instructor::class,
+        ]);
+        $middleware->appendToGroup('student', [
+            \App\Http\Middleware\Student::class,
         ]);
         $middleware->api(append: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,

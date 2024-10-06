@@ -14,12 +14,13 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/', function () {
+
+Route::middleware('redirectBasedOnRole')->get('/', function () {
     return Inertia::render('login/page');
 })->name('login');
 
 // Route::middleware('auth:sanctum', 'role:1')->prefix('administrator')->group(function () {
-Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
+Route::middleware('auth:sanctum','administrator')->prefix('administrator')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('admin/dashboard/page');
     })->name('admin.dashboard');
@@ -83,7 +84,7 @@ Route::middleware('auth:sanctum')->prefix('administrator')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->prefix('instructor')->group(function () {
+Route::middleware('auth:sanctum','instructor')->prefix('instructor')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('instructor/dashboard/page');
     })->name('instructor.dashboard');
@@ -119,7 +120,7 @@ Route::middleware('auth:sanctum')->prefix('instructor')->group(function () {
     })->name('instructor.settings');
 });
 
-Route::middleware('auth:sanctum')->prefix('student')->group(function () {
+Route::middleware('auth:sanctum','student')->prefix('student')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('student/dashboard/page');
     })->name('student.dashboard');
