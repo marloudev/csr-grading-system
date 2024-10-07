@@ -18,14 +18,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import store from "@/app/pages/store/store";
-import {
-    get_enrollments_thunk,
-    store_enrollments_thunk,
-} from "../redux/enrollment-thunk";
 import { useSelector } from "react-redux";
 import academic_year from "@/app/lib/academic-year";
 import { useEffect } from "react";
 import current_academic_year from "@/app/lib/current-academic-year";
+import {
+    get_enrollments_thunk,
+    store_enrollments_thunk,
+} from "@/app/pages/admin/enrollment/redux/enrollment-thunk";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,7 +38,7 @@ const MenuProps = {
     },
 };
 
-export default function CreateSection() {
+export default function AddStudentFormSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
@@ -48,21 +48,21 @@ export default function CreateSection() {
         message: "",
         type: "",
     });
+    const { handleds } = useSelector((store) => store.subjects)
     const { courses } = useSelector((state) => state.courses);
     const { sections } = useSelector((state) => state.sections);
-    const { subjects } = useSelector((state) => state.subjects);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-
+    console.log('handleds',handleds)
     useEffect(() => {
         setData({
             ...data,
             academic_year: current_academic_year(),
         });
     }, []);
-
+    
     async function submitForm(params) {
         setLoading(true);
         const result = await store.dispatch(
@@ -80,14 +80,14 @@ export default function CreateSection() {
             });
             setError({});
             setLoading(false);
-            setData({})
+            setData({});
         } else if (result.status == 202) {
             setNotify({
                 isOpen: true,
                 message: "student is not exist in PreRegistration!",
                 type: "warning",
             });
-            // setError(result.response.data);
+            // setError(result.response.data.errors);
             setLoading(false);
         } else {
             setLoading(false);
@@ -287,7 +287,7 @@ export default function CreateSection() {
                                 id="multiple-limit-tags"
                                 multiple
                                 name="subjects"
-                                options={subjects.data.map((res) => ({
+                                options={handleds.map((res) => ({
                                     label: res.name,
                                     value: res.code,
                                     code: res.code,

@@ -36,7 +36,7 @@ export default function CreateGradeFormSection() {
         if (students.length > 0) {
             const defaultRecords = students.map((student) => ({
                 ...student,
-                user_id: student.user.user_id,
+                user_id: student.user?.user_id,
                 score: "", // Default empty score
                 // Add any other fields if needed
             }));
@@ -92,7 +92,7 @@ export default function CreateGradeFormSection() {
         return isValid;
     };
     const submitRecords = async () => {
-        console.log('records', records.map(res => res.score))
+        console.log('records', records.map(res => res?.score))
         if (!validateScores()) {
             return; // Don't proceed if validation fails
         }
@@ -209,27 +209,27 @@ export default function CreateGradeFormSection() {
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {res.user.fname} {res.user.lname}
+                                    {res?.user?.fname} {res?.user?.lname}
                                 </TableCell>
                                 <TableCell>
                                     <TextField
                                         type="number"
-                                        value={res.score}
+                                        value={res?.score}
                                         onChange={(e) =>
                                             handleScoreChange(
                                                 e,
-                                                res.user.user_id,
-                                                res.user,
+                                                res?.user?.user_id,
+                                                res?.user,
                                             )
                                         }
                                         label="Score"
                                         variant="outlined"
                                         error={Boolean(
-                                            errors[res.user.user_id],
-                                        )} // If error exists for user
+                                            errors[res?.user?.user_id],
+                                        )} 
                                         helperText={
-                                            errors[res.user.user_id] ?? ""
-                                        } // Show the error message
+                                            errors[res?.user?.user_id] ?? ""
+                                        } 
                                     />
                                 </TableCell>
                             </TableRow>

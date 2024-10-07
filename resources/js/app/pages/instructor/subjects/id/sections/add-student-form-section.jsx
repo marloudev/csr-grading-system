@@ -18,14 +18,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import store from "@/app/pages/store/store";
-import {
-    get_enrollments_thunk,
-    store_enrollments_thunk,
-} from "../redux/enrollment-thunk";
 import { useSelector } from "react-redux";
 import academic_year from "@/app/lib/academic-year";
 import { useEffect } from "react";
 import current_academic_year from "@/app/lib/current-academic-year";
+import {
+    get_enrollments_thunk,
+    store_enrollments_thunk,
+} from "@/app/pages/admin/enrollment/redux/enrollment-thunk";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,7 +38,7 @@ const MenuProps = {
     },
 };
 
-export default function CreateSection() {
+export default function AddStudentFormSection() {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
@@ -51,7 +51,7 @@ export default function CreateSection() {
     const { courses } = useSelector((state) => state.courses);
     const { sections } = useSelector((state) => state.sections);
     const { subjects } = useSelector((state) => state.subjects);
-
+    const subject = window.location.pathname.split("/")[3];
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -60,9 +60,14 @@ export default function CreateSection() {
         setData({
             ...data,
             academic_year: current_academic_year(),
+            subject_codes: [
+                {
+                    code: subject,
+                },
+            ],
         });
     }, []);
-
+    
     async function submitForm(params) {
         setLoading(true);
         const result = await store.dispatch(
@@ -80,14 +85,14 @@ export default function CreateSection() {
             });
             setError({});
             setLoading(false);
-            setData({})
+            setData({});
         } else if (result.status == 202) {
             setNotify({
                 isOpen: true,
                 message: "student is not exist in PreRegistration!",
                 type: "warning",
             });
-            // setError(result.response.data);
+            // setError(result.response.data.errors);
             setLoading(false);
         } else {
             setLoading(false);
@@ -283,29 +288,16 @@ export default function CreateSection() {
                                     <MenuItem value="Summer">Summer</MenuItem>
                                 </Select>
                             </FormControl>
-                            <Autocomplete
-                                id="multiple-limit-tags"
-                                multiple
-                                name="subjects"
-                                options={subjects.data.map((res) => ({
-                                    label: res.name,
-                                    value: res.code,
-                                    code: res.code,
-                                    id: res.id,
-                                }))}
-                                filterSelectedOptions
-                                isOptionEqualToValue={(option, value) =>
-                                    option.value === value.value
-                                }
-                                renderInput={(params) => (
-                                    <TextField {...params} label="Subjects" />
-                                )}
-                                onChange={(e, value) =>
-                                    setData({
-                                        ...data,
-                                        subject_codes: value,
-                                    })
-                                }
+                            <TextField
+                                disabled
+                                value={subject}
+                                error={error?.user_id ? true : false}
+                                helperText={error?.user_id ?? ""}
+                                name="user_id"
+                                type="text"
+                                id="outlined-basic"
+                                label="Subject"
+                                variant="outlined"
                             />
                         </div>
                         <Button

@@ -20,11 +20,11 @@ class RedirectBasedOnRole
 
         if ($account) {
             switch ($account->user_type) {
-                case '0':
-                    return Inertia::location(route('admin.dashboard'));
                 case '1':
-                    return Inertia::location(route('instructor.dashboard'));
+                    return Inertia::location(route('admin.dashboard'));
                 case '2':
+                    return Inertia::location(route('instructor.dashboard'));
+                case '3':
                     return Inertia::location(route('student.dashboard'));
             }
         }

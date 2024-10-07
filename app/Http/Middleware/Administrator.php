@@ -18,9 +18,9 @@ class Administrator
     public function handle(Request $request, Closure $next): Response
     {
         $account = $request->user();
-        if ($account->user_type ==2) {
+        if ($account->user_type =='2') {
             return Inertia::location(route('instructor.dashboard'));
-        } else if ($account->user_type ==3) {
+        } else if ($account->user_type =='3') {
             return Inertia::location(route('student.dashboard'));
         }
         return $next($request);
