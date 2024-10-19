@@ -42,11 +42,11 @@ const NAVIGATION = [
         kind: "header",
         title: "Analytics",
     },
-    {
-        segment: "settings",
-        title: "Settings",
-        icon: <Engineering />,
-    },
+    // {
+    //     segment: "settings",
+    //     title: "Settings",
+    //     icon: <Engineering />,
+    // },
     {
         segment: "logout",
         title: "Logout",

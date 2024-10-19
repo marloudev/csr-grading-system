@@ -31,8 +31,8 @@ const NAVIGATION = [
     },
  
     {
-        segment: "subjects",
-        title: "Subjects",
+        segment: "enrollments",
+        title: "Enrollments",
         icon: <HistoryEdu />,
     },
     {
@@ -42,11 +42,11 @@ const NAVIGATION = [
         kind: "header",
         title: "Sub Navigation",
     },
-    {
-        segment: "settings",
-        title: "Settings",
-        icon: <Engineering />,
-    },
+    // {
+    //     segment: "settings",
+    //     title: "Settings",
+    //     icon: <Engineering />,
+    // },
     {
         segment: "logout",
         title: "Logout",

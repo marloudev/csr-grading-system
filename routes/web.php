@@ -124,9 +124,13 @@ Route::middleware('auth:sanctum','student')->prefix('student')->group(function (
         return Inertia::render('student/dashboard/page');
     })->name('student.dashboard');
 
-    Route::get('/subjects', function () {
-        return Inertia::render('student/subjects/page');
-    })->name('student.subject');
+    Route::get('/enrollments', function () {
+        return Inertia::render('student/enrollments/page');
+    })->name('student.enrollments');
+
+    Route::get('/enrollments/{id}', function () {
+        return Inertia::render('student/enrollments/id/page');
+    })->name('student.enrollments.id');
 
 
     Route::get('/settings', function () {
