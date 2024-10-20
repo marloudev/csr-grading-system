@@ -15,7 +15,7 @@ const store = configureStore({
     reducer: {
         app: appSlice,
         courses: courseSlice,
-        dashboard: dashboardSlice,
+        dashboards: dashboardSlice,
         department: departmentSlice,
         grades: gradeSlice,
         instructors: instructorSlice,

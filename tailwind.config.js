@@ -17,6 +17,10 @@ export default {
             },
         },
     },
-
+    variants: {
+        extend: {
+            display: ['print'], // Allows print-specific display utilities
+        },
+    },
     plugins: [forms],
 };

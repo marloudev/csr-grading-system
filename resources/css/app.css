@@ -6,3 +6,23 @@
 .MuiStack-root.css-1d9cypr-MuiStack-root{
   display: none;
 } */
+@media print {
+  @page {
+    size: landscape; /* Forces landscape orientation */
+  }
+  /* Ensure borders are shown */
+  table, th, td {
+    border: 2px solid black !important; /* Ensure borders are enforced for print */
+    border-collapse: collapse; /* Ensure borders don't overlap */
+  }
+
+  /* Optional: Customize padding and margins for better print layout */
+  th, td {
+    padding: 8px !important; /* Ensure padding */
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}

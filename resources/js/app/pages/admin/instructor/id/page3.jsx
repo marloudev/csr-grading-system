@@ -8,6 +8,7 @@ import store from "@/app/pages/store/store";
 import { get_grade_thunk } from "../../grades/redux/grade-thunk";
 import { get_sections_thunk } from "../../sections/redux/sections-thunk";
 import { get_course_thunk } from "../../courses/redux/course-thunk";
+import PrintGradeSection from "./sections/print-grade-section";
 
 export default function Page3() {
 
@@ -18,6 +19,7 @@ export default function Page3() {
     return (
         <AdminLayout>
             <InstructorIDLayout>
+              <PrintGradeSection />
               <StudentGradesTableSection />
             </InstructorIDLayout>
         </AdminLayout>

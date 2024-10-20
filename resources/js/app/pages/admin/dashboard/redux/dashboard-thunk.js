@@ -1,12 +1,12 @@
 import { store_dashboard_service, delete_dashboard_service, update_dashboard_service, get_dashboard_by_id_service, get_dashboard_service } from "@/app/services/dashboard-service";
+import {dashboardSlice} from "./dashboard-slice";
 
 
 
 export function get_dashboard_thunk() {
   return async function (dispatch, getState) {
-    // dispatch(appSlice.actions.incrementByAmount(10));
-    const res = get_dashboard_service()
-    return res
+    const res = await get_dashboard_service()
+    dispatch(dashboardSlice.actions.setDashboards(res.data));
   };
 }
 

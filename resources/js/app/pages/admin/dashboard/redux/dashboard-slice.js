@@ -10,17 +10,17 @@ export const dashboardSlice = createSlice({
     dashboard: {},
   },
   reducers: {
-    setCouses: (state, action) => {
+    setDashboards: (state, action) => {
       state.dashboards = action.payload
     },
-    setCouse: (state, action) => {
+    setDashboard: (state, action) => {
       state.dashboard = action.payload
     },
   },
 })
 export const { 
-  setCouses,
-  setCouse
+  setDashboards,
+  setDashboard
  } = dashboardSlice.actions
 
 export default dashboardSlice.reducer

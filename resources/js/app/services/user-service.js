@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function search_students_service(data) {
     try {
-        const res = await axios.post('/api/search_students', data);
+        const res = await axios.post('/api/search_students'+window.location.search, data);
         return res.data;
     } catch (error) {
         return error;

@@ -39,6 +39,10 @@ Route::middleware('auth:sanctum','administrator')->prefix('administrator')->grou
             Route::get('/students', function () {
                 return Inertia::render('admin/instructor/id/page3');
             });
+
+            Route::get('/print', function () {
+                return Inertia::render('admin/instructor/id/print');
+            });
         });
     });
     Route::prefix('students')->group(function () {
