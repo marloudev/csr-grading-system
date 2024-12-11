@@ -81,7 +81,7 @@ class AccountController extends Controller
             // 'email' => 'required|email|unique:users,email', // Uncomment if email is required
             'course_id' => 'nullable|max:255', // Course ID is optional but has a max length
             'address' => 'nullable|string|max:255', // Address is optional and has a max length
-            'department' => 'nullable|string|max:255', // Department is required
+            'department' => 'nullable', // Department is required
             'dob' => 'nullable|date', // Date of birth is optional and must be a valid date
             'fname' => 'required|string|max:255', // First name is required
             'lname' => 'required|string|max:255', // Last name is required
