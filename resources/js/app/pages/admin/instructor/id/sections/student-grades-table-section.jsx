@@ -40,7 +40,7 @@ function GradeCategoryTable({ categoryName, grades }) {
                     {grades.prelim?.map((res, i) => (
                         <TableRow key={i}>
                             <TableCell>{res.score}</TableCell>
-                            <TableCell>{res.total}</TableCell>
+                            <TableCell>{(res.score * res.percent / 100).toFixed(2) * 10}%</TableCell>
                             <TableCell>{res.percent}%</TableCell>
                             <TableCell>{res.remarks}</TableCell>
                             <TableCell>{res.date}</TableCell>
@@ -166,7 +166,7 @@ function Row({ row, isOpen, onClick }) {
                                 grades={group_examination ?? []}
                             />
                             <GradeCategoryTable
-                                categoryName="Quizzes"
+                                categoryName="Quizzes (RLE)"
                                 grades={group_quiz ?? []}
                             />
                             {/* <GradeCategoryTable

@@ -8,27 +8,27 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
-   
+
     public function index(Request $request)
     {
         // Fetch paginated users, you can specify how many items per page, e.g., 10
-        if($request->page){
-            $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->paginate(10);
+        if ($request->page) {
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment'])->paginate(10);
             return response()->json([
                 'response' => $users,
             ], 200);
-        }else{
-            $users = User::where('user_type', $request->user_type)->with(['department', 'course','enrollment'])->get();
+        } else {
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment'])->get();
             return response()->json([
                 'response' => [
                     'data' => $users
                 ],
             ], 200);
         }
-        
+
 
         // Return the paginated response
-    
+
     }
 
     public function show($id)
@@ -77,17 +77,16 @@ class AccountController extends Controller
     {
         // Validate the input with the proper unique rule for the email
         $validatedData = $request->validate([
-            'user_id' => 'required|unique:users,user_id',
-            // 'email' => 'required|email|unique:users,email',
-            'course_id' => 'max:255',
-            'address' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8', // Password is nullable
+            'user_id' => 'required|unique:users,user_id', // Ensures user_id is unique in the users table
+            // 'email' => 'required|email|unique:users,email', // Uncomment if email is required
+            'course_id' => 'nullable|max:255', // Course ID is optional but has a max length
+            'address' => 'nullable|string|max:255', // Address is optional and has a max length
+            'department' => 'required|string|max:255', // Department is required
+            'dob' => 'nullable|date', // Date of birth is optional and must be a valid date
+            'fname' => 'required|string|max:255', // First name is required
+            'lname' => 'required|string|max:255', // Last name is required
+            'password' => 'nullable|string|min:8', // Password is optional, with a minimum length of 8
         ]);
-
         // Find the user by ID
         $user = User::findOrFail($id);
 

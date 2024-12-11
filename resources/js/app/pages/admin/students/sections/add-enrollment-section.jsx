@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, Autocomplete, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import store from '@/app/pages/store/store';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ export default function AddEnrollmentSection({ data }) {
     const { sections } = useSelector((state) => state.sections)
     const [form, setForm] = useState({})
 
+    const { subjects } = useSelector((state) => state.subjects);
 
     useEffect(() => {
         setForm({
@@ -193,7 +194,30 @@ export default function AddEnrollmentSection({ data }) {
                                 </Select>
                             </FormControl>
 
-
+                            <Autocomplete
+                                id="multiple-limit-tags"
+                                multiple
+                                name="subjects"
+                                options={subjects.data.map((res) => ({
+                                    label: res.name,
+                                    value: res.code,
+                                    code: res.code,
+                                    id: res.id,
+                                }))}
+                                filterSelectedOptions
+                                isOptionEqualToValue={(option, value) =>
+                                    option.value === value.value
+                                }
+                                renderInput={(params) => (
+                                    <TextField {...params} label="Subjects" />
+                                )}
+                                onChange={(e, value) =>
+                                    setForm({
+                                        ...form,
+                                        subject_codes: value,
+                                    })
+                                }
+                            />
                             {/* <TextField onChange={(e) => setForm({
                                 ...data,
                                 [e.target.name]: e.target.value
