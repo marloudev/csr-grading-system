@@ -10,8 +10,9 @@ export async function get_enrollments_service() {
 }
 
 export async function get_enrollments_by_id_service(id) {
+ 
     try {
-        const res = await axios.get(`/api/enrollments/${id}`);
+        const res = await axios.get(`/api/enrollments/${id}${window.location.search}`);
         return res;
     } catch (error) {
         return error;

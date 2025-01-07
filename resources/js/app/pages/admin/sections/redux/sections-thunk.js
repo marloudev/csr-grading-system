@@ -5,7 +5,6 @@ import {sectionsSlice} from "./sections-slice";
 
 export function get_sections_thunk() {
   return async function (dispatch, getState) {
-    // dispatch(appSlice.actions.incrementByAmount(10));
     const res =await get_sections_service()
     dispatch(sectionsSlice.actions.setSections(res.data.response));
     return res

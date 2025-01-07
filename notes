@@ -1,41 +1,8 @@
-* Add Print Record for the grades
-* add grading_period in grades table
-
-* add instructor_id & year in subject table
-* add subject_code &  year in grades table
-
-
-
-
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Lecture</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={search.lecture ?? ''}
-            name="lecture"
-            label="lecture"
-            onChange={handleChange}
-          >
-            <MenuItem value='Examination'>Examination (30%)</MenuItem>
-            <MenuItem value='Quizzes'>Quizzes (30%)</MenuItem>
-            <MenuItem value='Projects/Assignment'>Projects/Assignment (20%)</MenuItem>
-            <MenuItem value='Class Participation'>Class Participation (20%)</MenuItem>
-          </Select>
-        </FormControl>
-        
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Assessments</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={search.assessments ?? ''}
-            name="assessments"
-            label="Assessments"
-            onChange={handleChange}
-          >
-            <MenuItem value='Prelim'>Prelim</MenuItem>
-            <MenuItem value='Midterm'>Midterm</MenuItem>
-            <MenuItem value='Final'>Final</MenuItem>
-          </Select>
-        </FormControl>
+* Grades
+student_id  -
+instructor_id -
+section_id -
+subject_code-
+semester-
+academic_year -
+year-

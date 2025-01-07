@@ -11,7 +11,7 @@ export async function get_subject_service() {
 
 export async function get_subject_by_id_service(id) {
     try {
-        const res = await axios.get(`/api/subject/${id}`);
+        const res = await axios.get(`/api/subject/${id}${window.location.search}`);
         return res;
     } catch (error) {
         return error;

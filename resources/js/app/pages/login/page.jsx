@@ -52,7 +52,7 @@ export default function LoginPage() {
                             error={errors?.password ? true : false}
                             helperText={errors?.password ?? ''}
                             name="password"
-                            type='text'
+                            type='password'
                             id="outlined-basic"
                             label="Password"
                             variant="outlined"

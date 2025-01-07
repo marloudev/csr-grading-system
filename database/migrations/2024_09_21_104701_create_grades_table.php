@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->string('academic_year')->nullable();
             $table->float('total')->nullable();
+            $table->float('prelim')->nullable();
+            $table->float('midterm')->nullable();
             $table->float('final')->nullable();
             $table->string('year')->nullable();
             $table->timestamps();

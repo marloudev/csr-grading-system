@@ -26,6 +26,8 @@ import {
     get_enrollments_thunk,
     store_enrollments_thunk,
 } from "@/app/pages/admin/enrollment/redux/enrollment-thunk";
+import { store_grade_thunk } from "../../../grades/redux/grade-thunk";
+import { get_subject_by_id_thunk } from "../../../subjects/redux/subject-thunk";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,7 +40,7 @@ const MenuProps = {
     },
 };
 
-export default function AddStudentFormSection() {
+export default function AddStudentFormSection({ subject }) {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
@@ -48,56 +50,78 @@ export default function AddStudentFormSection() {
         message: "",
         type: "",
     });
-    const { handleds } = useSelector((store) => store.subjects)
+    const query = window.location.search;
+
+    // Parse query string using URLSearchParams
+    const params = new URLSearchParams(query);
+    const parsedParams = {
+        academic_year:
+            params.get("academic_year") ??
+            academic_year()[academic_year().length - 1],
+        semester: params.get("semester") ?? "1st Semester",
+    };
+
+    const { user } = useSelector((store) => store.app);
     const { courses } = useSelector((state) => state.courses);
     const { sections } = useSelector((state) => state.sections);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-    console.log('handleds',handleds)
     useEffect(() => {
         setData({
             ...data,
+            ...parsedParams,
+            subject_code: subject.code,
             academic_year: current_academic_year(),
+            instructor_id: user.user_id,
         });
     }, []);
-    
+
     async function submitForm(params) {
         setLoading(true);
-        const result = await store.dispatch(
-            store_enrollments_thunk({
-                ...data,
-                user_type: 3,
-            }),
-        );
-        if (result.status == 200) {
-            await store.dispatch(get_enrollments_thunk());
-            setNotify({
-                isOpen: true,
-                message: "Successfully Registered!",
-                type: "success",
-            });
+        const res = await store.dispatch(store_grade_thunk(data));
+        console.log("resres", res);
+        if (res.status == 200) {
+            await store.dispatch(get_subject_by_id_thunk(user.user_id));
             setError({});
             setLoading(false);
             setData({});
-        } else if (result.status == 202) {
             setNotify({
                 isOpen: true,
-                message: "student is not exist in PreRegistration!",
-                type: "warning",
+                message: "Student added!",
+                type: "success",
             });
-            // setError(result.response.data.errors);
-            setLoading(false);
         } else {
             setLoading(false);
             setNotify({
                 isOpen: true,
-                message: "Student is already enrolled!",
+                message: res.data.response,
                 type: "warning",
             });
-            // setError(result.response.data.errors);
         }
+
+        // const result = await store.dispatch(
+        //     store_enrollments_thunk({
+        //         ...data,
+        //         user_type: 3,
+        //     }),
+        // );
+        // if (result.status == 200) {
+
+        // } else if (result.status == 202) {
+
+        //     // setError(result.response.data.errors);
+        //     setLoading(false);
+        // } else {
+        //     setLoading(false);
+        //     setNotify({
+        //         isOpen: true,
+        //         message: "Student is already enrolled!",
+        //         type: "warning",
+        //     });
+        //     // setError(result.response.data.errors);
+        // }
     }
 
     const handleClose = (event, reason) => {
@@ -118,7 +142,7 @@ export default function AddStudentFormSection() {
             >
                 <Alert
                     onClose={handleClose}
-                    severity={notify.type}
+                    severity={notify.type??''}
                     variant="filled"
                     sx={{ width: "100%" }}
                 >
@@ -126,14 +150,14 @@ export default function AddStudentFormSection() {
                 </Alert>
             </Snackbar>
             <Button variant="contained" onClick={toggleDrawer(true)}>
-                Create enrollments
+                Add Student
             </Button>
             <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 <Box className="w-[500px] h-full flex" role="presentation">
                     <div className="pt-20 px-3 w-full flex flex-col items-center justify-between pb-5">
                         <div className="flex flex-col gap-3  w-full">
                             <div className="text-2xl font-black">
-                                Create enrollments
+                                Add Student
                             </div>
                             <TextField
                                 onChange={(e) =>
@@ -142,65 +166,14 @@ export default function AddStudentFormSection() {
                                         [e.target.name]: e.target.value,
                                     })
                                 }
-                                error={error?.user_id ? true : false}
-                                helperText={error?.user_id ?? ""}
-                                name="user_id"
+                                error={error?.student_id ? true : false}
+                                helperText={error?.student_id ?? ""}
+                                name="student_id"
                                 type="text"
                                 id="outlined-basic"
                                 label="Student ID"
                                 variant="outlined"
                             />
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                    Academic Year
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={data.academic_year ?? ""}
-                                    name="academic_year"
-                                    label="Academic Year"
-                                    onChange={(e) =>
-                                        setData({
-                                            ...data,
-                                            [e.target.name]: e.target.value,
-                                        })
-                                    }
-                                >
-                                    {academic_year().map((res, i) => {
-                                        return (
-                                            <MenuItem key={i} value={res}>
-                                                {res}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                    Course
-                                </InputLabel>
-                                <Select
-                                    id="demo-simple-select"
-                                    name="course_id"
-                                    label="Course"
-                                    value={data.course_id}
-                                    onChange={(e) =>
-                                        setData({
-                                            ...data,
-                                            [e.target.name]: e.target.value,
-                                        })
-                                    }
-                                >
-                                    {courses.data.map((res, i) => {
-                                        return (
-                                            <MenuItem key={i} value={res.id}>
-                                                {res.name}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
-                            </FormControl>
 
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
@@ -257,56 +230,6 @@ export default function AddStudentFormSection() {
                                     })}
                                 </Select>
                             </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                    Semester
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={data.semester}
-                                    name="semester"
-                                    label="Semester"
-                                    onChange={(e) =>
-                                        setData({
-                                            ...data,
-                                            [e.target.name]: e.target.value,
-                                        })
-                                    }
-                                >
-                                    <MenuItem value="1st Semester">
-                                        1st Semester
-                                    </MenuItem>
-                                    <MenuItem value="2nd Semester">
-                                        2nd Semester
-                                    </MenuItem>
-                                    <MenuItem value="Summer">Summer</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <Autocomplete
-                                id="multiple-limit-tags"
-                                multiple
-                                name="subjects"
-                                options={handleds.map((res) => ({
-                                    label: res.name,
-                                    value: res.code,
-                                    code: res.code,
-                                    id: res.id,
-                                }))}
-                                filterSelectedOptions
-                                isOptionEqualToValue={(option, value) =>
-                                    option.value === value.value
-                                }
-                                renderInput={(params) => (
-                                    <TextField {...params} label="Subjects" />
-                                )}
-                                onChange={(e, value) =>
-                                    setData({
-                                        ...data,
-                                        subject_codes: value,
-                                    })
-                                }
-                            />
                         </div>
                         <Button
                             onClick={submitForm}

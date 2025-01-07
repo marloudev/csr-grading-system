@@ -33,7 +33,7 @@ class EnrollmentController extends Controller
     }
     public function show($id)
     {
-        $enrollments = Enrollment::where('user_id', $id)->with(['user', 'course', 'grade', 'section'])->get();
+        $enrollments = Enrollment::where('user_id','=',$id)->with(['user', 'course', 'grade', 'section'])->get();
         return response()->json([
             'response' => $enrollments,
         ], 200);

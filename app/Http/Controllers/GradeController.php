@@ -8,6 +8,7 @@ use App\Models\Examination;
 use App\Models\Grade;
 use App\Models\Project;
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -15,7 +16,7 @@ class GradeController extends Controller
 
     public function get_student_grade($id)
     {
-        $enrollment = Enrollment::where('id',$id)->first();
+        $enrollment = Enrollment::where('id', $id)->first();
         $a = Grade::where([
             ['enrollment_id', '=', $enrollment->id],
             ['student_id', '=', $enrollment->user_id],
@@ -35,62 +36,42 @@ class GradeController extends Controller
             'response' => $a,
         ], 200);
     }
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $grades = Grade::where('id', $id)->get();
+        // $grades = Grade::where('id', $id)->get();
+        $grades = Grade::where([['student_id', '=', $id], ['academic_year', '=', $request->academic_year], ['semester', '=', $request->semester]])->with('subject')->get();
         return response()->json([
             'response' => $grades,
         ], 200);
     }
     public function store(Request $request)
     {
+        $user = User::where([
+            ['user_id', '=', $request->student_id],
+            ['user_type', '=', 3],
+        ])->first();
 
-        foreach ($request->records as $key => $record) {
-            $grade = Grade::where([
-                ['academic_year', '=', $record['academic_year']],
-                ['enrollment_id', '=', $record['enrollment_id']],
-                ['instructor_id', '=', $record['instructor_id']],
-                ['student_id', '=', $record['student_id']],
-                ['subject_code','=',$request->subject_code]
-            ])->first();
-            if ($request->lecture == 'Examination') {
-                Examination::create([
-                    'grade_id' => $record['id'],
-                    'assessment' =>$request->assessment,
-                    'score' => $record['score'],
-                    'percent' => 30,
-                    'date' => $request->date
-                ]);
-            } else if ($request->lecture == 'Quizzes') {
-                Quiz::create([
-                    'grade_id' => $record['id'],
-                    'assessment' =>$request->assessment,
-                    'score' => $record['score'],
-                    'percent' => 30,
-                    'date' => $request->date
-                ]);
-            } else if ($request->lecture == 'Projects/Assignment') {
-                Project::create([
-                    'grade_id' => $record['id'],
-                    'assessment' =>$request->assessment,
-                    'score' => $record['score'],
-                    'percent' => 20,
-                    'date' => $request->date
-                ]);
-            } else if ($request->lecture == 'Class Participation') {
-                ClassParticipation::create([
-                    'grade_id' => $record['id'],
-                    'assessment' =>$request->assessment,
-                    'score' => $record['score'],
-                    'percent' => 20,
-                    'date' => $request->date
-                ]);
-            }
+        $grade = Grade::where([
+            ['instructor_id', '=', $request->instructor_id],
+            ['academic_year', '=', $request->academic_year],
+            ['student_id', '=', $request->student_id],
+            ['semester', '=', $request->semester],
+            ['subject_code', '=', $request->subject_code],
+        ])->first();
+        if ($grade) {
+            return response()->json([
+                'response' => 'Student is already recorded!',
+            ], 201);
+        } else if (!$user) {
+            return response()->json([
+                'response' =>  'Invalid Student ID',
+            ], 201);
+        } else if ($user) {
+            Grade::create($request->all());
+            return response()->json([
+                'response' => 'success',
+            ], 200);
         }
-        return response()->json([
-            $grade,
-            'response' => 'success',
-        ], 200);
     }
     public function update(Request $request, $id)
     {

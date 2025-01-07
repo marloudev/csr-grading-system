@@ -20,12 +20,17 @@ class Grade extends Model
         'semester',
         'remarks',
         'total',
+        'prelim',
+        'midterm',
         'final',
         'academic_year',
         'grading_period',
         'year'
     ];
-
+    public function subject(): HasOne
+    {
+        return $this->hasOne(Subject::class,'code','subject_code');
+    }
     public function enrollment(): HasOne
     {
         return $this->hasOne(Enrollment::class,'id','course_id');
