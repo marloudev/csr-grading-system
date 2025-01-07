@@ -49,15 +49,15 @@ Route::middleware('auth:sanctum','administrator')->prefix('administrator')->grou
         Route::get('/', function () {
             return Inertia::render('admin/students/page');
         });
-        Route::get('/registered', function () {
-            return Inertia::render('admin/students/page');
-        });
-        Route::get('/enrollment', function () {
-            return Inertia::render('admin/enrollment/page');
-        });
-        Route::get('/enrollment/{enrollment_id}', function () {
-            return Inertia::render('admin/enrollment/id/page');
-        });
+        // Route::get('/registered', function () {
+        //     return Inertia::render('admin/students/page');
+        // });
+        // Route::get('/enrollment', function () {
+        //     return Inertia::render('admin/enrollment/page');
+        // });
+        // Route::get('/enrollment/{enrollment_id}', function () {
+        //     return Inertia::render('admin/enrollment/id/page');
+        // });
     });
 
     Route::get('/department', function () {

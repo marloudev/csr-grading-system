@@ -38,18 +38,18 @@ const NAVIGATION = [
         segment: "students",
         title: "Students",
         icon: <Groups />,
-        children: [
-            {
-              segment: 'registered',
-              title: 'Preregistered',
-              icon: <DescriptionIcon />,
-            },
-            {
-              segment: 'enrollment',
-              title: 'Enrollment Record',
-              icon: <DescriptionIcon />,
-            },
-          ],
+        // children: [
+        //     {
+        //       segment: 'registered',
+        //       title: 'Preregistered',
+        //       icon: <DescriptionIcon />,
+        //     },
+        //     {
+        //       segment: 'enrollment',
+        //       title: 'Enrollment Record',
+        //       icon: <DescriptionIcon />,
+        //     },
+        //   ],
     },
     
     {

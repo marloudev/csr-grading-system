@@ -1,27 +1,33 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import { router } from "@inertiajs/react";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { useSelector } from 'react-redux';
+import StudentGradeTableSection from './student-grade-table-section';
 
-function CustomTabPanel(props) {
+function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
         </div>
     );
 }
 
-CustomTabPanel.propTypes = {
+TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
@@ -29,44 +35,45 @@ CustomTabPanel.propTypes = {
 
 function a11yProps(index) {
     return {
-        id: index,
-        "aria-controls": `simple-tabpanel-${index}`,
+        id: `vertical-tab-${index}`,
+        'aria-controls': `vertical-tabpanel-${index}`,
     };
 }
 
 export default function InstructorIdTabsSection() {
-    const instructor_id = window.location.pathname.split("/")[3];
+    const { handleds } = useSelector((store) => store.subjects)
+    const [value, setValue] = React.useState(0);
+
     const handleChange = (event, newValue) => {
-        router.visit(
-            `/administrator/instructor/${instructor_id}${event.target.id}`,
-        );
+        setValue(newValue);
     };
-    function get_active(params) {
-        const active = window.location.pathname.split("/")[4];
-        if (active == "create_grades") {
-            return 0
-        } else 
-        // if (active == "students") {
-        //     return 1;
-        // } 
-        // else 
-        {
-            return 1;
-        }
-    }
+    console.log('handleds', handleds)
     return (
-        <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                    value={get_active()}
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                >
-                    {/* <Tab label="Details" id="" /> */}
-                    <Tab label="Create Grades" id="/create_grades" />
-                    <Tab label="Students" id="/students" />
-                </Tabs>
-            </Box>
+        <Box
+            sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}
+        >
+            <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={{ borderRight: 1, borderColor: 'divider' }}
+            >
+                {
+                    handleds.map((res, i) => {
+                        return <Tab key={i} label={res.name} {...a11yProps(i)} />
+                    })
+                }
+            </Tabs>
+            {
+                handleds.map((res, i) => {
+                    return <TabPanel value={value} index={i}>
+                      <StudentGradeTableSection />
+                    </TabPanel>
+                })
+            }
+
         </Box>
     );
 }

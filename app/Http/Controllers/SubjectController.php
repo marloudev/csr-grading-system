@@ -19,7 +19,7 @@ class SubjectController extends Controller
     }
     public function show($id)
     {
-        $subjects = Subject::where('instructor_id', $id)->with(['user'])->get();
+        $subjects = Subject::where('instructor_id', $id)->with(['user','student_grade'])->get();
         return response()->json([
             'response' => $subjects,
         ], 200);

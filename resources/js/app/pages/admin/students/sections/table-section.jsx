@@ -57,10 +57,10 @@ export default function TableSection() {
                 {/* <TableCell>{res.address}</TableCell> */}
                 <TableCell>
                   <div className='flex gap-2'>
-                    {
+                    {/* {
                       !res.enrollment && <AddEnrollmentSection data={res}/>
                     }
-                    
+                     */}
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
                     {/* <Button
