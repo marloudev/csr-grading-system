@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import EditGradeSection from "./edit-grade-section";
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -30,6 +31,7 @@ export default function StudentGradeTableSection({ data }) {
                             <TableCell align="right">Midterm</TableCell>
                             <TableCell align="right">Final</TableCell>
                             <TableCell align="right">Grades</TableCell>
+                            <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -54,6 +56,9 @@ export default function StudentGradeTableSection({ data }) {
                                 <TableCell align="right">{res.final}</TableCell>
                                 <TableCell align="right">
                                     {((res.prelim + res.midterm + res.final) / 3).toFixed(2)}
+                                </TableCell>
+                                <TableCell align="right">
+                                  <EditGradeSection data={res}/>
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -76,7 +76,11 @@ class GradeController extends Controller
     public function update(Request $request, $id)
     {
         $a = Grade::where('id', $id);
-        $a->update($request->all());
+        $a->update([
+            'prelim' => $request->prelim,
+            'midterm' => $request->midterm,
+            'final' => $request->final,
+        ]);
         return response()->json([
             'response' => 'success',
         ], 200);

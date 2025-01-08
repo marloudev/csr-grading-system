@@ -45,6 +45,7 @@ export default function AddStudentFormSection({ subject }) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
     const [error, setError] = useState({});
+    const instructor_id = window.location.pathname.split("/")[3];
     const [notify, setNotify] = useState({
         isOpen: false,
         message: "",
@@ -74,7 +75,7 @@ export default function AddStudentFormSection({ subject }) {
             ...parsedParams,
             subject_code: subject.code,
             academic_year: current_academic_year(),
-            instructor_id: user.user_id,
+            instructor_id: user.user_type == "1" ? instructor_id : user.user_id,
         });
     }, []);
 
@@ -83,7 +84,7 @@ export default function AddStudentFormSection({ subject }) {
         const res = await store.dispatch(store_grade_thunk(data));
         console.log("resres", res);
         if (res.status == 200) {
-            await store.dispatch(get_subject_by_id_thunk(user.user_id));
+            await store.dispatch(get_subject_by_id_thunk(user.user_type == "1" ? instructor_id : user.user_id));
             setError({});
             setLoading(false);
             setData({});
@@ -92,6 +93,7 @@ export default function AddStudentFormSection({ subject }) {
                 message: "Student added!",
                 type: "success",
             });
+            setOpen(false);
         } else {
             setLoading(false);
             setNotify({
@@ -129,7 +131,6 @@ export default function AddStudentFormSection({ subject }) {
             return;
         }
         setNotify(false);
-        setOpen(false);
     };
 
     return (
@@ -142,7 +143,7 @@ export default function AddStudentFormSection({ subject }) {
             >
                 <Alert
                     onClose={handleClose}
-                    severity={notify.type??''}
+                    severity={notify.type ?? ""}
                     variant="filled"
                     sx={{ width: "100%" }}
                 >
@@ -232,6 +233,7 @@ export default function AddStudentFormSection({ subject }) {
                             </FormControl>
                         </div>
                         <Button
+                            type="submit"
                             onClick={submitForm}
                             disabled={loading}
                             variant="contained"

@@ -13,15 +13,8 @@ export default function InstructorIDLayout({ children }) {
     }, []);
     return (
         <div className="flex flex-col gap-5">
-            <div>
-                {/* 
-       check the enrollment if exist by, course,section,semester, academic year and year .
-       */}
-            </div>
             <SearchSubjectSection />
-            <InstructorIdTabsSection>{children}</InstructorIdTabsSection>
-            {/* <SearchStudentsSection />
-      {children} */}
+            <InstructorIdTabsSection />
         </div>
     );
 }
