@@ -13,9 +13,12 @@ import moment from "moment";
 import { Button } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { router } from "@inertiajs/react";
+import academic_year from "@/app/lib/academic-year";
 
 export default function TableSection() {
     const { instructors } = useSelector((state) => state.instructors);
+    const year = academic_year()[academic_year().length - 1]
+    
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -63,7 +66,7 @@ export default function TableSection() {
                                         <Button
                                             onClick={() =>
                                                 router.visit(
-                                                    `/administrator/instructor/${res.user_id}/create_grades`,
+                                                    `/administrator/instructor/${res.user_id}/create_grades?academic_year=${year}&semester=1st%20Semester`,
                                                 )
                                             }
                                             size="small"
