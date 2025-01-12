@@ -22,48 +22,59 @@ const rows = [
 
 export default function StudentGradeTableSection({ data }) {
     return (
-            <TableContainer className="w-full" component={Paper}>
-                <Table className="w-full" aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Student Name</TableCell>
-                            <TableCell align="right">Prelim</TableCell>
-                            <TableCell align="right">Midterm</TableCell>
-                            <TableCell align="right">Final</TableCell>
-                            <TableCell align="right">Grades</TableCell>
-                            <TableCell align="right">Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data?.student_grade?.map((res, i) => (
-                            <TableRow
-                                key={i}
-                                sx={{
-                                    "&:last-child td, &:last-child th": {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {res?.user?.fname} {res?.user?.lname}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {res.prelim}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {res.midterm}
-                                </TableCell>
-                                <TableCell align="right">{res.final}</TableCell>
-                                <TableCell align="right">
-                                    {((res.prelim + res.midterm + res.final) / 3).toFixed(2)}
-                                </TableCell>
-                                <TableCell align="right">
+        <TableContainer className="w-full" component={Paper}>
+            <Table className="w-full" aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Student Name</TableCell>
+                        <TableCell>Prelim</TableCell>
+                        <TableCell>Midterm</TableCell>
+                        <TableCell>Final</TableCell>
+                        <TableCell>Grades</TableCell>
+                        {/* <TableCell >Action</TableCell> */}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data?.student_grade?.map((res, i) => (
+                        <TableRow key={i}>
+                            <TableCell sx={{ width: "20%" }}>
+                                {res?.user?.fname} {res?.user?.lname}
+                            </TableCell>
+                            <TableCell sx={{ width: "20%" }}>
+                                {/* {res.prelim} */}
+                                <EditGradeSection
+                                    type="prelim"
+                                    data={res}
+                                    value={res.prelim}
+                                />
+                            </TableCell>
+                            <TableCell sx={{ width: "20%" }}>
+                                <EditGradeSection
+                                    type="midterm"
+                                    data={res}
+                                    value={res.midterm}
+                                />
+                            </TableCell>
+                            <TableCell sx={{ width: "20%" }}>
+                                <EditGradeSection
+                                    type="midterm"
+                                    data={res}
+                                    value={res.final}
+                                />
+                            </TableCell>
+                            <TableCell sx={{ width: "20%" }}>
+                                {(
+                                    (res.prelim + res.midterm + res.final) /
+                                    3
+                                ).toFixed(2)}
+                            </TableCell>
+                            {/* <TableCell >
                                   <EditGradeSection data={res}/>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                </TableCell> */}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }

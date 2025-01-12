@@ -22,137 +22,73 @@ const style = {
     p: 4,
 };
 
-export default function EditGradeSection({ data }) {
+export default function EditGradeSection({ data, value, type }) {
     const [form, setForm] = useState({});
     const [error, setError] = useState({});
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const { user } = useSelector((store) => store.app);
     const [loading, setLoading] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const instructor_id = window.location.pathname.split("/")[3];
-    
+
     useEffect(() => {
         setForm({
-            ...form,
-            prelim: data.prelim ?? 0,
-            midterm: data.midterm ?? 0,
-            final: data.final ?? 0,
+            ...data,
+            [type]: value ?? 0,
         });
     }, []);
+
     async function handled_submit(e) {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            await store.dispatch(
-                update_grade_thunk({
-                    ...form,
-                    id: data.id,
-                }),
-            );
-            await store.dispatch(get_subject_by_id_thunk(user.user_type == "1" ? instructor_id : user.user_id));
-            setLoading(false);
-            setOpen(false)
-        } catch (error) {
-            setLoading(false);
+        if (e.key === "Enter") {
+            setLoading(true);
+            try {
+                await store.dispatch(
+                    update_grade_thunk({
+                        prelim:form.prelim,
+                        midterm:form.midterm,
+                        final:form.final,
+                        id: data.id,
+                    }),
+                );
+                await store.dispatch(
+                    get_subject_by_id_thunk(
+                        user.user_type == "1" ? instructor_id : user.user_id,
+                    ),
+                );
+                setIsEdit(false)
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
         }
     }
-    console.log("datadata", data);
+
+    console.log("formform", form);
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>
-                ADD GRADE
-            </Button>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className="capitalize text-xl mb-3">
-                        {data.user.fname} {data.user.lname} <br />{" "}
-                        {data.user.department.name}
-                    </div>
-                    <div className="flex flex-col gap-3">
-                        <div className="flex gap-3">
-                            <TextField
-                                value={form.prelim}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                                error={error?.prelim ? true : false}
-                                helperText={error?.prelim ?? ""}
-                                name="prelim"
-                                type="text"
-                                id="outlined-basic"
-                                label="Prelim"
-                                variant="outlined"
-                            />
-                            <TextField
-                                value={form.midterm}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                                error={error?.midterm ? true : false}
-                                helperText={error?.midterm ?? ""}
-                                name="midterm"
-                                type="text"
-                                id="outlined-basic"
-                                label="Midterm"
-                                variant="outlined"
-                            />
-                            <TextField
-                                value={form.final}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                                error={error?.final ? true : false}
-                                helperText={error?.final ?? ""}
-                                name="final"
-                                type="text"
-                                id="outlined-basic"
-                                label="Final"
-                                variant="outlined"
-                            />
-                            <TextField
-                                disabled={true}
-                                value={(
-                                    (data.prelim + data.midterm + data.final) /
-                                    3
-                                ).toFixed(2)}
-                                name="final"
-                                type="text"
-                                id="outlined-basic"
-                                label="Grade"
-                                variant="outlined"
-                            />
-                        </div>
-                        <Button
-                            variant="contained"
-                            className="w-full"
-                            size="large"
-                            disabled={loading}
-                            onClick={handled_submit}
-                        >
-                            {loading ? (
-                                <CircularProgress size={24} color="inherit" />
-                            ) : (
-                                "Submit"
-                            )}
-                        </Button>
-                    </div>
-                </Box>
-            </Modal>
+            {
+                loading && <>Loading...</>
+            }
+            {!loading && !isEdit && <a className="flex w-full" onClick={() => setIsEdit(true)}>{form[type]}</a>}
+            {!loading && isEdit && (
+                <TextField
+                    size="small"
+                    onKeyDown={handled_submit}
+                    value={form[type]}
+                    onChange={(e) =>
+                        setForm({
+                            ...form,
+                            [e.target.name]: e.target.value,
+                        })
+                    }
+                    error={error?.prelim ? true : false}
+                    helperText={error?.prelim ?? ""}
+                    name={type}
+                    type="number"
+                    id="outlined-basic"
+                    label="Prelim"
+                    variant="outlined"
+                />
+            )}
         </div>
     );
 }

@@ -1,1 +1,0 @@
-import{j as o}from"./app-C9p3rPgN.js";import{c as r}from"./createSvgIcon-BZe0EXrg.js";const t=r(o.jsx("path",{d:"M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"}),"KeyboardArrowDown"),e=r(o.jsx("path",{d:"M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"}),"KeyboardArrowUp");export{e as K,t as a};
