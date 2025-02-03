@@ -1,8 +1,10 @@
-* Grades
-student_id  -
-instructor_id -
-section_id -
-subject_code-
-semester-
-academic_year -
-year-
+pag create ug student create pud ug grade.
+
+
+grade remove
+-enrollment_id
+-course_if
+-section_id
+-grading_period
+-remarks
+-total

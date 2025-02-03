@@ -50,7 +50,7 @@ export default function StudentGradeTableSection({ data }) {
                             </TableCell>
                             <TableCell sx={{ width: "20%" }}>
                                 <EditGradeSection
-                                    type="midterm"
+                                    type="final"
                                     data={res}
                                     value={res.final}
                                 />

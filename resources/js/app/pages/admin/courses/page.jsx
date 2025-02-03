@@ -15,10 +15,10 @@ export default function CoursePage() {
 
 
   useEffect(()=>{
-    store.dispatch(get_department_thunk())
-    store.dispatch(get_instructor_thunk())
+    // store.dispatch(get_department_thunk())
+    // store.dispatch(get_instructor_thunk())
     store.dispatch(get_course_thunk())
-    store.dispatch(get_subject_thunk())
+    // store.dispatch(get_subject_thunk())
   },[])
   return (
     <AdminLayout>

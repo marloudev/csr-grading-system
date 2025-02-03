@@ -14,10 +14,12 @@ import { Visibility } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { router } from '@inertiajs/react';
 import AddEnrollmentSection from './add-enrollment-section';
+import academic_year from '@/app/lib/academic-year';
 
 
 export default function TableSection() {
   const { students } = useSelector((state) => state.students)
+   const year = academic_year()[academic_year().length - 1]
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -27,7 +29,6 @@ export default function TableSection() {
             <TableCell>Firstname</TableCell>
             <TableCell >Lastname</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Department</TableCell>
             <TableCell>Course</TableCell>
             {/* <TableCell>Age</TableCell>
             <TableCell>Address</TableCell> */}
@@ -51,9 +52,8 @@ export default function TableSection() {
                   {res.lname}
                 </TableCell>
                 <TableCell>{res.email}</TableCell>
-                <TableCell>{res?.department?.name ?? ''}</TableCell>
+                {/* <TableCell>{res?.department?.name ?? ''}</TableCell> */}
                 <TableCell>{res?.course?.name ?? ''}</TableCell>
-                {/* <TableCell>{age}</TableCell> */}
                 {/* <TableCell>{res.address}</TableCell> */}
                 <TableCell>
                   <div className='flex gap-2'>
@@ -63,13 +63,13 @@ export default function TableSection() {
                      */}
                     <UpdateSection data={res} />
                     <DeleteSection data={res} />
-                    {/* <Button
-                      onClick={()=>router.visit(`/administrator/students/${res.id}`)}
+                    <Button
+                      onClick={()=>router.visit(`/administrator/students/${res.user_id}?academic_year=${year}&semester=1st%20Semester`)}
                       size='small'
                       variant='contained'
                       color='success'>
                       <Visibility />
-                    </Button> */}
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

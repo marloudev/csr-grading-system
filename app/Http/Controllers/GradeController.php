@@ -13,6 +13,30 @@ use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
+    public function get_grades(Request $request,$id)
+    {
+        $years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+        $grades_by_year = [];
+        $user = User::where('user_id', $id)->first();
+
+        foreach ($years as $year) {
+            $key = substr(str_replace(' ', '', $year), 1);
+
+            // Fetch grades
+            $grades_by_year[$key] = Grade::where([
+                ['academic_year', '=', $request->academic_year],
+                ['semester', '=', $request->semester],
+                ['student_id', '=', $id],
+                ['year', '=', $year],
+            ])->get();
+        }
+
+        return response()->json([
+            'response' => $grades_by_year,
+        ], 200);
+    }
+
+
 
     public function get_student_grade($id)
     {

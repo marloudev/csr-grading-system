@@ -9,6 +9,7 @@ import store from '../../store/store'
 import { get_subject_thunk } from './redux/subject-thunk'
 import { get_instructor_thunk } from '../instructor/redux/instructor-thunk'
 import { get_sections_thunk } from '../sections/redux/sections-thunk'
+import { get_course_thunk } from '../courses/redux/course-thunk'
 
 export default function SubjectPage() {
 
@@ -16,7 +17,8 @@ export default function SubjectPage() {
   useEffect(()=>{
     store.dispatch(get_subject_thunk())
     store.dispatch(get_instructor_thunk())
-    store.dispatch(get_sections_thunk())
+    // store.dispatch(get_sections_thunk())
+    store.dispatch(get_course_thunk())
   },[])
   return (
     <AdminLayout>

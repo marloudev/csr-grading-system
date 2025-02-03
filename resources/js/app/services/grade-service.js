@@ -9,6 +9,14 @@ export async function get_grade_service() {
     }
 }
 
+export async function get_grades_service(id) {
+    try {
+        const res = await axios.post(`/api/get_grades/${id}${window.location.search}`);
+        return res;
+    } catch (error) {
+        return error;
+    }
+}
 export async function get_grade_by_id_service(id) {
     try {
         const res = await axios.get(`/api/grade/${id}${window.location.search}`);

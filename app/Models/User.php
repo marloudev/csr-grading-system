@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -56,14 +57,18 @@ class User extends Authenticatable
     }
     public function department(): HasOne
     {
-        return $this->hasOne(Department::class,'id','department_id');
+        return $this->hasOne(Department::class, 'id', 'department_id');
+    }
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'student_id', 'user_id')->with(['subject']);
     }
     public function course(): HasOne
     {
-        return $this->hasOne(Course::class,'id','course_id');
+        return $this->hasOne(Course::class, 'id', 'course_id')->with(['subjects']);
     }
     public function enrollment(): HasOne
     {
-        return $this->hasOne(Enrollment::class,'user_id','user_id');
+        return $this->hasOne(Enrollment::class, 'user_id', 'user_id');
     }
 }

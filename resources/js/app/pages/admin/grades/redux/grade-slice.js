@@ -9,6 +9,7 @@ export const gradesSlice = createSlice({
     userGrades:[],
     grades: [],
     grade: {},
+    year_grade:{}
   },
   reducers: {
     setGrades: (state, action) => {
@@ -20,12 +21,16 @@ export const gradesSlice = createSlice({
     setUserGrades: (state, action) => {
       state.userGrades = action.payload
     },
+    setYearGrade: (state, action) => {
+      state.year_grade = action.payload
+    },
   },
 })
 export const { 
   setGrades,
   setGrade,
-  setUserGrades
+  setUserGrades,
+  setYearGrade
  } = gradesSlice.actions
 
 export default gradesSlice.reducer

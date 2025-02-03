@@ -24,15 +24,13 @@ export default function CreateSection() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         semester: "1st Semester",
-        academic_year: current_academic_year()
+        academic_year: current_academic_year(),
     });
     const [error, setError] = useState({});
     const [notify, setNotify] = useState(false);
     const { sections } = useSelector((state) => state.sections);
     const { instructors } = useSelector((state) => state.instructors);
-
-
-
+    const { courses } = useSelector((state) => state.courses)
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -118,11 +116,13 @@ export default function CreateSection() {
                                 variant="outlined"
                             />
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
+                                <InputLabel id="demo-simple-select-label">
+                                    Academic Year
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={data?.academic_year ?? ''}
+                                    value={data?.academic_year ?? ""}
                                     name="academic_year"
                                     label="Academic Year"
                                     onChange={(e) =>
@@ -132,11 +132,13 @@ export default function CreateSection() {
                                         })
                                     }
                                 >
-                                    {
-                                        academic_year().map((res, i) => {
-                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
-                                        })
-                                    }
+                                    {academic_year().map((res, i) => {
+                                        return (
+                                            <MenuItem key={i} value={res}>
+                                                {res}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth>
@@ -147,7 +149,7 @@ export default function CreateSection() {
                                     id="demo-simple-select"
                                     name="semester"
                                     label="Semester"
-                                    value={data?.semester ?? ''}
+                                    value={data?.semester ?? ""}
                                     onChange={(e) =>
                                         setData({
                                             ...data,
@@ -204,13 +206,47 @@ export default function CreateSection() {
                                         })
                                     }
                                 >
-                                    <MenuItem value="1st Year">1st Year</MenuItem>
-                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
-                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
-                                    <MenuItem value="4th Year">4th Year</MenuItem>
+                                    <MenuItem value="1st Year">
+                                        1st Year
+                                    </MenuItem>
+                                    <MenuItem value="2nd Year">
+                                        2nd Year
+                                    </MenuItem>
+                                    <MenuItem value="3rd Year">
+                                        3rd Year
+                                    </MenuItem>
+                                    <MenuItem value="4th Year">
+                                        4th Year
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
+                            <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                                Course
+                            </InputLabel>
+                            <Select
+                                id="demo-simple-select"
+                                name="course_id"
+                                label="Course"
+                                value={data?.course_id??''}
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                            >
+                                {courses.data.map((res, i) => {
+                                    return (
+                                        <MenuItem key={i} value={res.id}>
+                                            {res.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
                         </div>
+                       
                         <Button
                             onClick={submitForm}
                             disabled={loading}

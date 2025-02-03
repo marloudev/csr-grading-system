@@ -38,11 +38,9 @@ export default function LogoutSection({ open, setOpen }) {
                     <Button onClick={handleClose}>Cancel</Button>
                     <Link
                         method="post"
-                        as="button"
                         href={route("logout")}
-                        className="block transition-opacity duration-200 rounded-md p-3 bg-blue-500"
                     >
-                        LOGOUT
+                        <Button variant='contained' color='primary'>LOGOUT</Button>
                     </Link>
                 </DialogActions>
             </Dialog>

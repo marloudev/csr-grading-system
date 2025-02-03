@@ -16,11 +16,11 @@ export default function StudentsPage() {
 
 
   useEffect(()=>{
-    store.dispatch(get_department_thunk())
+    // store.dispatch(get_department_thunk())
     store.dispatch(get_student_thunk())
     store.dispatch(get_course_thunk())
-    store.dispatch(get_sections_thunk())
-    store.dispatch(get_subject_thunk())
+    // store.dispatch(get_sections_thunk())
+    // store.dispatch(get_subject_thunk())
   },[])
   return (
     <AdminLayout>

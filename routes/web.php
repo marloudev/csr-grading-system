@@ -49,9 +49,9 @@ Route::middleware('auth:sanctum','administrator')->prefix('administrator')->grou
         Route::get('/', function () {
             return Inertia::render('admin/students/page');
         });
-        // Route::get('/registered', function () {
-        //     return Inertia::render('admin/students/page');
-        // });
+        Route::get('/{id}', function () {
+            return Inertia::render('admin/students/id/page');
+        });
         // Route::get('/enrollment', function () {
         //     return Inertia::render('admin/enrollment/page');
         // });

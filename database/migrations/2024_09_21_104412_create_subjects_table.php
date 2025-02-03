@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('instructor_id')->nullable();
             $table->string('section_id')->nullable();
+            $table->string('course_id')->nullable();
             $table->string('academic_year')->nullable();
             $table->string('name')->nullable();
             $table->string('code')->nullable();

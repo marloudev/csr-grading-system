@@ -1,7 +1,16 @@
-import { store_grade_service, delete_grade_service, update_grade_service, get_grade_by_id_service, get_grade_service, get_student_grade_service } from "@/app/services/grade-service";
+import { store_grade_service, delete_grade_service, update_grade_service, get_grade_by_id_service, get_grade_service, get_student_grade_service, get_grades_service } from "@/app/services/grade-service";
 import {gradesSlice} from "./grade-slice";
 
 
+
+
+export function get_grades_thunk(id) {
+  return async function (dispatch, getState) {
+    const res =await get_grades_service(id)
+    dispatch(gradesSlice.actions.setYearGrade(res.data.response));
+    return res
+  };
+}
 
 export function get_grade_thunk() {
   return async function (dispatch, getState) {

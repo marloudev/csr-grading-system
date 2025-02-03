@@ -38,6 +38,7 @@ Route::resource('examination', ExaminationController::class);
 
 Route::resource('grade', GradeController::class);
 Route::get('get_student_grade/{enrollment_id}', [GradeController::class, 'get_student_grade']);
+Route::post('get_grades/{student_id}', [GradeController::class, 'get_grades']);
 
 
 Route::resource('project', ProjectController::class);

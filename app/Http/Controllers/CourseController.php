@@ -9,9 +9,7 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Course::paginate(10);
-
-        // Return the paginated response
+        $a = Course::with(['subjects'])->paginate(10);
         return response()->json([
             'response' => $a,
         ], 200);
