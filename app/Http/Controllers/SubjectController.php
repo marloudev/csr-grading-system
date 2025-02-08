@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -15,11 +16,23 @@ class SubjectController extends Controller
         return response()->json([
             'response' => $a,
         ], 200);
-
     }
-    public function show(Request $request,$id)
+    public function get_subjects(Request $request)
     {
-        $subjects = Subject::where([['instructor_id','=',$id],['academic_year','=',$request->academic_year],['semester','=',$request->semester]])->with(['user','student_grade'])->get();
+        $user = User::where('user_id', $request->student_id)->first();
+        $subjects = Subject::where([
+            ['academic_year', '=', $request->academic_year],
+            ['semester', '=', $request->semester],
+            ['year', '=', $request->year],
+            ['course_id', '=',  $user->course_id],
+        ])->get();
+        return response()->json([
+            'response' => $subjects,
+        ], 200);
+    }
+    public function show(Request $request, $id)
+    {
+        $subjects = Subject::where([['instructor_id', '=', $id], ['academic_year', '=', $request->academic_year], ['semester', '=', $request->semester]])->with(['user', 'student_grade'])->get();
         return response()->json([
             'response' => $subjects,
         ], 200);

@@ -38,7 +38,6 @@ function a11yProps(index) {
 export default function StudentTabsSection() {
     const { year_grade } = useSelector((store) => store.grades);
     const [value, setValue] = React.useState(0);
-    
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -58,18 +57,16 @@ export default function StudentTabsSection() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                
-            <TableSection data={year_grade.stYear} />
+                <TableSection data={year_grade?.response?.stYear} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-            <TableSection data={year_grade.ndYear} />
+                <TableSection data={year_grade?.response?.ndYear} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-               
-            <TableSection data={year_grade.rdYear} />
+                <TableSection data={year_grade?.response?.rdYear} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
-                <TableSection data={year_grade.thYear} />
+                <TableSection data={year_grade?.response?.thYear} />
             </CustomTabPanel>
         </Box>
     );

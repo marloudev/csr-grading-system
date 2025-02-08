@@ -8,17 +8,18 @@ use App\Models\Examination;
 use App\Models\Grade;
 use App\Models\Project;
 use App\Models\Quiz;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
-    public function get_grades(Request $request,$id)
+    public function get_grades(Request $request, $id)
     {
         $years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
         $grades_by_year = [];
-        $user = User::where('user_id', $id)->first();
-
+        $user = User::where('user_id', $id)->with(['grades'])->first();
+        $subjects = Subject::where('course_id', $user->course_id)->get();
         foreach ($years as $year) {
             $key = substr(str_replace(' ', '', $year), 1);
 
@@ -32,6 +33,8 @@ class GradeController extends Controller
         }
 
         return response()->json([
+            'user' => $user,
+            'subjects' => $subjects,
             'response' => $grades_by_year,
         ], 200);
     }
@@ -70,32 +73,78 @@ class GradeController extends Controller
     }
     public function store(Request $request)
     {
-        $user = User::where([
-            ['user_id', '=', $request->student_id],
-            ['user_type', '=', 3],
-        ])->first();
+        // $user = User::where([
+        //     ['user_id', '=', $request->student_id],
+        //     ['user_type', '=', 3],
+        // ])->first();
 
-        $grade = Grade::where([
-            ['instructor_id', '=', $request->instructor_id],
-            ['academic_year', '=', $request->academic_year],
-            ['student_id', '=', $request->student_id],
-            ['semester', '=', $request->semester],
-            ['subject_code', '=', $request->subject_code],
-        ])->first();
-        if ($grade) {
-            return response()->json([
-                'response' => 'Student is already recorded!',
-            ], 201);
-        } else if (!$user) {
-            return response()->json([
-                'response' =>  'Invalid Student ID',
-            ], 201);
-        } else if ($user) {
-            Grade::create($request->all());
-            return response()->json([
-                'response' => 'success',
-            ], 200);
+        // $grade = Grade::where([
+        //     ['instructor_id', '=', $request->instructor_id],
+        //     ['academic_year', '=', $request->academic_year],
+        //     ['student_id', '=', $request->student_id],
+        //     ['semester', '=', $request->semester],
+        //     ['subject_code', '=', $request->subject_code],
+        // ])->first();
+        // if ($grade) {
+        //     return response()->json([
+        //         'response' => 'Student is already recorded!',
+        //     ], 201);
+        // } else if (!$user) {
+        //     return response()->json([
+        //         'response' =>  'Invalid Student ID',
+        //     ], 201);
+        // } else if ($user) {
+        //     Grade::create($request->all());
+        //     return response()->json([
+        //         'response' => 'success',
+        //     ], 200);
+        // }
+       
+        foreach ($request->registered as $key => $value) {
+            $grade = Grade::where([
+                ['academic_year', '=', $request->academic_year],
+                ['student_id', '=', $request->student_id],
+                ['semester', '=', $request->semester],
+                ['subject_code', '=',  $value['value']],
+            ])->first();
+
+        
+            if (!$grade) {
+                $subject = Subject::where([
+                    ['academic_year', '=', $request->academic_year],
+                    ['semester', '=', $request->semester],
+                    ['code', '=',  $value['value']],
+                ])->first();
+                Grade::create([
+                    'instructor_id' => $subject->instructor_id,
+                    'academic_year' => $request->academic_year,
+                    'student_id' => $request->student_id,
+                    'semester' => $request->semester,
+                    'subject_code' => $value['value'],
+                    'year' => $request->year,
+                    'prelim' => 0,
+                    'midterm' => 0,
+                    'final' => 0,
+                ]);                
+            }
         }
+
+        foreach ($request->available as $key => $value) {
+            $grade = Grade::where([
+                ['academic_year', '=', $request->academic_year],
+                ['student_id', '=', $request->student_id],
+                ['semester', '=', $request->semester],
+                ['subject_code', '=',  $value['value']],
+            ])->first();
+
+            if ($grade) {
+                $grade->delete();
+            }
+        }
+
+        return response()->json([
+            'response' => 'success',
+        ], 200);
     }
     public function update(Request $request, $id)
     {

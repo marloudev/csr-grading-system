@@ -4,10 +4,10 @@ import {gradesSlice} from "./grade-slice";
 
 
 
-export function get_grades_thunk(id) {
+export function get_grades_thunk(id,search) {
   return async function (dispatch, getState) {
-    const res =await get_grades_service(id)
-    dispatch(gradesSlice.actions.setYearGrade(res.data.response));
+    const res =await get_grades_service(id,search)
+    dispatch(gradesSlice.actions.setYearGrade(res.data));
     return res
   };
 }

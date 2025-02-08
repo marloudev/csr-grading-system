@@ -9,9 +9,9 @@ export async function get_grade_service() {
     }
 }
 
-export async function get_grades_service(id) {
+export async function get_grades_service(id,search) {
     try {
-        const res = await axios.post(`/api/get_grades/${id}${window.location.search}`);
+        const res = await axios.post(`/api/get_grades/${id}${search}`);
         return res;
     } catch (error) {
         return error;

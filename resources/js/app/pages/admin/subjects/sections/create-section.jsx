@@ -166,7 +166,7 @@ export default function CreateSection() {
                                     <MenuItem value="Summer">Summer</MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl fullWidth>
+                            {/* <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
                                     Instructor
                                 </InputLabel>
@@ -189,7 +189,7 @@ export default function CreateSection() {
                                         );
                                     })}
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
                                     Year

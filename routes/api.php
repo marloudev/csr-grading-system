@@ -45,7 +45,7 @@ Route::resource('project', ProjectController::class);
 Route::resource('quiz', QuizController::class);
 
 Route::resource('subject', SubjectController::class);
-Route::post('get_instructor_subject', [SubjectController::class, 'get_instructor_subject']);
+Route::post('get_subjects', [SubjectController::class, 'get_subjects']);
 
 Route::resource('subject_handled', SubjectHandledController::class);
 
