@@ -31,12 +31,12 @@ const NAVIGATION = [
     },
     {
         segment: "instructor",
-        title: "Instructor",
+        title: "Instructor Accounts",
         icon: <Diversity1 />,
     },
     {
         segment: "students",
-        title: "Students",
+        title: "Student Accounts",
         icon: <Groups />,
         // children: [
         //     {
