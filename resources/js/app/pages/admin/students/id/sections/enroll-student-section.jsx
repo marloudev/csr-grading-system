@@ -165,8 +165,8 @@ export default function EnrollStudentSection({ subject }) {
                         enrollment.academic_year === data.academic_year,
                 )
                 .map((res) => ({
-                    value: res.subject.code,
-                    name: res.subject.name,
+                    value: res?.subject?.code,
+                    name: res?.subject?.name,
                 })),
         );
     }, [isLoading, open]);
