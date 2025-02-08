@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const startYear = 2020;
+const startYear = 2024;
 
 // Generate a list of academic years from 2020 onwards using Moment.js
 export default function academic_year() {
