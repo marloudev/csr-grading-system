@@ -1,83 +1,104 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
-import { useState } from 'react';
-import { Edit } from '@mui/icons-material';
-import { useEffect } from 'react';
-import store from '@/app/pages/store/store';
-import { get_subject_thunk, update_subject_thunk } from '../redux/subject-thunk';
-import { useSelector } from 'react-redux';
-import academic_year from '@/app/lib/academic-year';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import {
+    Alert,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Snackbar,
+    TextField,
+} from "@mui/material";
+import { useState } from "react";
+import { Edit } from "@mui/icons-material";
+import { useEffect } from "react";
+import store from "@/app/pages/store/store";
+import {
+    get_subject_thunk,
+    update_subject_thunk,
+} from "../redux/subject-thunk";
+import { useSelector } from "react-redux";
+import academic_year from "@/app/lib/academic-year";
 
 export default function UpdateSection({ data }) {
     const [open, setOpen] = React.useState(false);
-    const [form, setForm] = useState({})
-    const [error, setError] = useState({})
-    const [notify, setNotify] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const { instructors } = useSelector((state) => state.instructors)
-
+    const [form, setForm] = useState({});
+    const [error, setError] = useState({});
+    const [notify, setNotify] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { instructors } = useSelector((state) => state.instructors);
+    const { courses } = useSelector((state) => state.courses);
     useEffect(() => {
-        setForm(data)
-    }, [])
+        setForm(data);
+    }, []);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
     async function submitForm(params) {
-        setLoading(true)
-        const result = await store.dispatch(update_subject_thunk({
-            id: form.id,
-            code: form.code,
-            name: form.name,
-            semester: form.semester,
-            academic_year: form.academic_year,
-            year: form.year,
-            instructor_id: form.instructor_id,
-        }))
+        setLoading(true);
+        const result = await store.dispatch(
+            update_subject_thunk({
+                id: form.id,
+                code: form.code,
+                name: form.name,
+                semester: form.semester,
+                academic_year: form.academic_year,
+                year: form.year,
+                instructor_id: form.instructor_id,
+                course_id: form.course_id,
+            }),
+        );
         if (result.status == 200) {
-            await store.dispatch(get_subject_thunk())
-            setNotify(true)
-            setError({})
-            setLoading(false)
+            await store.dispatch(get_subject_thunk());
+            setNotify(true);
+            setError({});
+            setLoading(false);
         } else {
-            setLoading(false)
-            setError(result.response.data.errors)
+            setLoading(false);
+            setError(result.response.data.errors);
         }
     }
     const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
+        if (reason === "clickaway") {
             return;
         }
-        setNotify(false)
+        setNotify(false);
         setOpen(false);
     };
 
     return (
         <div>
-            <Snackbar open={notify}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar
+                open={notify}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                autoHideDuration={3000}
+                onClose={handleClose}
+            >
                 <Alert
                     onClose={handleClose}
                     severity="success"
                     variant="filled"
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                 >
                     Successfully Updated!
                 </Alert>
             </Snackbar>
-            <Button size='small' variant='contained' onClick={toggleDrawer(true)}><Edit /></Button>
-            <Drawer
-
-                anchor='right'
-                open={open} onClose={toggleDrawer(false)}>
-                <Box className="w-[500px] h-full flex" role="presentation" >
-                    <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
-                        <div className='flex flex-col gap-3  w-full' >
-                            <div className='text-2xl font-black'>
+            <Button
+                size="small"
+                variant="contained"
+                onClick={toggleDrawer(true)}
+            >
+                <Edit />
+            </Button>
+            <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+                <Box className="w-[500px] h-full flex" role="presentation">
+                    <div className="pt-20 px-3 w-full flex flex-col items-center justify-between pb-5">
+                        <div className="flex flex-col gap-3  w-full">
+                            <div className="text-2xl font-black">
                                 Update Subject
                             </div>
                             {/* <TextField
@@ -157,11 +178,13 @@ export default function UpdateSection({ data }) {
                                 variant="outlined"
                             />
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Academic Year</InputLabel>
+                                <InputLabel id="demo-simple-select-label">
+                                    Academic Year
+                                </InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={form?.academic_year ?? ''}
+                                    value={form?.academic_year ?? ""}
                                     name="academic_year"
                                     label="Academic Year"
                                     onChange={(e) =>
@@ -171,11 +194,13 @@ export default function UpdateSection({ data }) {
                                         })
                                     }
                                 >
-                                    {
-                                        academic_year().map((res, i) => {
-                                            return <MenuItem key={i} value={res}>{res}</MenuItem>
-                                        })
-                                    }
+                                    {academic_year().map((res, i) => {
+                                        return (
+                                            <MenuItem key={i} value={res}>
+                                                {res}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth>
@@ -186,7 +211,7 @@ export default function UpdateSection({ data }) {
                                     id="demo-simple-select"
                                     name="semester"
                                     label="Semester"
-                                    value={form?.semester ?? ''}
+                                    value={form?.semester ?? ""}
                                     onChange={(e) =>
                                         setForm({
                                             ...form,
@@ -245,19 +270,57 @@ export default function UpdateSection({ data }) {
                                         })
                                     }
                                 >
-                                    <MenuItem value="1st Year">1st Year</MenuItem>
-                                    <MenuItem value="2nd Year">2nd Year</MenuItem>
-                                    <MenuItem value="3rd Year">3rd Year</MenuItem>
-                                    <MenuItem value="4th Year">4th Year</MenuItem>
+                                    <MenuItem value="1st Year">
+                                        1st Year
+                                    </MenuItem>
+                                    <MenuItem value="2nd Year">
+                                        2nd Year
+                                    </MenuItem>
+                                    <MenuItem value="3rd Year">
+                                        3rd Year
+                                    </MenuItem>
+                                    <MenuItem value="4th Year">
+                                        4th Year
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                    Course
+                                </InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name="course_id"
+                                    label="Course"
+                                    value={form?.course_id ?? ""}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    {courses.data.map((res, i) => {
+                                        return (
+                                            <MenuItem key={i} value={res.id}>
+                                                {res.name}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </Select>
                             </FormControl>
                         </div>
                         <Button
                             onClick={submitForm}
                             disabled={loading}
-                            variant='contained'
-                            className=' w-full'>
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Submit'}
+                            variant="contained"
+                            className=" w-full"
+                        >
+                            {loading ? (
+                                <CircularProgress size={24} color="inherit" />
+                            ) : (
+                                "Submit"
+                            )}
                         </Button>
                     </div>
                 </Box>

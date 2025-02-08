@@ -30,7 +30,7 @@ export default function CreateSection() {
     const [notify, setNotify] = useState(false);
     const { sections } = useSelector((state) => state.sections);
     const { instructors } = useSelector((state) => state.instructors);
-    const { courses } = useSelector((state) => state.courses)
+    const { courses } = useSelector((state) => state.courses);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -221,32 +221,32 @@ export default function CreateSection() {
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                                Course
-                            </InputLabel>
-                            <Select
-                                id="demo-simple-select"
-                                name="course_id"
-                                label="Course"
-                                value={data?.course_id??''}
-                                onChange={(e) =>
-                                    setData({
-                                        ...data,
-                                        [e.target.name]: e.target.value,
-                                    })
-                                }
-                            >
-                                {courses.data.map((res, i) => {
-                                    return (
-                                        <MenuItem key={i} value={res.id}>
-                                            {res.name}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </Select>
-                        </FormControl>
+                                <InputLabel id="demo-simple-select-label">
+                                    Course
+                                </InputLabel>
+                                <Select
+                                    id="demo-simple-select"
+                                    name="course_id"
+                                    label="Course"
+                                    value={data?.course_id ?? ""}
+                                    onChange={(e) =>
+                                        setData({
+                                            ...data,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                >
+                                    {courses.data.map((res, i) => {
+                                        return (
+                                            <MenuItem key={i} value={res.id}>
+                                                {res.name}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                            </FormControl>
                         </div>
-                       
+
                         <Button
                             onClick={submitForm}
                             disabled={loading}
