@@ -26,6 +26,7 @@ export default function TableSection() {
             <TableCell>Name of Course</TableCell>
             <TableCell>Instructor</TableCell>
             <TableCell>Subject Code</TableCell>
+            <TableCell>Course</TableCell>
             <TableCell >Semester</TableCell>
             <TableCell >Academic Year</TableCell>
             <TableCell>Action</TableCell>
@@ -45,6 +46,9 @@ export default function TableSection() {
                 </TableCell>
                 <TableCell>
                   {res.code}
+                </TableCell>
+                <TableCell>
+                  {res?.course?.name??''}
                 </TableCell>
                 <TableCell>{res.semester}</TableCell>
                 <TableCell>{res.academic_year}</TableCell>

@@ -31,6 +31,10 @@ class Subject extends Model
     {
         return $this->hasOne(User::class,'user_id','instructor_id');
     }
+    public function course(): HasOne
+    {
+        return $this->hasOne(Course::class,'id','course_id');
+    }
     public function student_grade(): HasMany
     {
         return $this->hasMany(Grade::class,'subject_code','code')->with(['class_participation','examination','quiz','project','user']);

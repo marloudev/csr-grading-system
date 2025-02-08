@@ -10,7 +10,7 @@ class SubjectController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Subject::with(['user'])->get();
+        $a = Subject::with(['user','course'])->get();
 
         // Return the paginated response
         return response()->json([
