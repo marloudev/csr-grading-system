@@ -126,6 +126,7 @@ export default function EnrollStudentSection({ subject }) {
                 setIsLoading(true);
                 try {
                     await store.dispatch(get_subjects_thunk(data));
+               
                     setSubjects(subject_list);
                     setIsLoading(false);
                 } catch (error) {

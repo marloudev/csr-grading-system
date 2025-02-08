@@ -10,13 +10,27 @@ class SubjectController extends Controller
 {
     public function index(Request $request)
     {
-        $a = Subject::with(['user','course'])->get();
+        $course_id = $request->input('course_id');
+        $semester = $request->input('semester');
+        $academic_year = $request->input('academic_year');
 
-        // Return the paginated response
+        $subjects = Subject::when($course_id, function ($query, $course_id) {
+            return $query->where('course_id', $course_id);
+        })
+            ->when($semester, function ($query, $semester) {
+                return $query->where('semester', $semester);
+            })
+            ->when($academic_year, function ($query, $academic_year) {
+                return $query->where('academic_year', $academic_year);
+            })
+            ->with('course')
+            ->get();
+
         return response()->json([
-            'response' => $a,
+            'response' => $subjects,
         ], 200);
     }
+
     public function get_subjects(Request $request)
     {
         $user = User::where('user_id', $request->student_id)->first();

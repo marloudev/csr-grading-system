@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function get_subject_service() {
     try {
-        const res = await axios.get("/api/subject");
+        const res = await axios.get(`/api/subject${window.location.search}`);
         return res;
     } catch (error) {
         return error;
