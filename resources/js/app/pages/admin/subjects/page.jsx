@@ -10,6 +10,7 @@ import { get_subject_thunk } from './redux/subject-thunk'
 import { get_instructor_thunk } from '../instructor/redux/instructor-thunk'
 import { get_sections_thunk } from '../sections/redux/sections-thunk'
 import { get_course_thunk } from '../courses/redux/course-thunk'
+import SelectSearchSection from './sections/select-search-section'
 
 export default function SubjectPage() {
 
@@ -27,6 +28,7 @@ export default function SubjectPage() {
         <CreateSection />
         <SearchSection />
         </div>
+        <SelectSearchSection />
         <div className="flex flex-col items-center justify-between h-[82vh] w-full">
           <TableSection />
           <PaginationSection />
