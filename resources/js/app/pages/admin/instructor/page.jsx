@@ -8,12 +8,15 @@ import { useEffect } from 'react'
 import store from '../../store/store'
 import { get_instructor_thunk } from './redux/instructor-thunk'
 import { get_department_thunk } from '../department/redux/department-thunk'
+import { get_available_subject_thunk, get_subject_thunk } from '../subjects/redux/subject-thunk'
+import { get_course_thunk } from '../courses/redux/course-thunk'
 
 export default function AdminInstructorPage() {
 
 
   useEffect(()=>{
-    store.dispatch(get_department_thunk())
+    store.dispatch(get_course_thunk())
+    store.dispatch(get_available_subject_thunk())
     store.dispatch(get_instructor_thunk())
   },[])
   return (

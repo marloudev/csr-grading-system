@@ -13,11 +13,13 @@ import { useSelector } from "react-redux";
 export default function TableSection() {
     const { subjects } = useSelector((state) => state.subjects);
    
-
+console.log('subjects',subjects.data)
  
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table
+            size="small"
+            sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Name of Course</TableCell>

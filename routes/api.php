@@ -46,6 +46,7 @@ Route::resource('quiz', QuizController::class);
 
 Route::resource('subject', SubjectController::class);
 Route::post('get_subjects', [SubjectController::class, 'get_subjects']);
+Route::get('get_available_subject', [SubjectController::class, 'get_available_subject']);
 
 Route::resource('subject_handled', SubjectHandledController::class);
 

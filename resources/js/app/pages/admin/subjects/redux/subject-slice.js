@@ -12,7 +12,8 @@ export const subjectSlice = createSlice({
     subject: {},
     subjectHandleds:[],
     handleds:[],
-    subject_list:[]
+    subject_list:[],
+    available_subjects:[]
   },
   reducers: {
     setSubjects: (state, action) => {
@@ -30,6 +31,9 @@ export const subjectSlice = createSlice({
     setSubjectList: (state, action) => {
       state.subject_list = action.payload
     },
+    setAvailableSubjects: (state, action) => {
+      state.available_subjects = action.payload
+    },
   },
 })
 export const { 
@@ -37,7 +41,8 @@ export const {
   setSubject,
   setSubjectHandleds,
   setHandleds,
-  setSubjectList
+  setSubjectList,
+  setAvailableSubjects
  } = subjectSlice.actions
 
 export default subjectSlice.reducer

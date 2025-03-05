@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+    public function get_available_subject()
+    {
+
+        $subjects = Subject::where('instructor_id', '=', null)->with('course')->orderBy('name', 'asc')->get();
+        return response()->json([
+            'response' => $subjects,
+        ], 200);
+    }
     public function index(Request $request)
     {
         $course_id = $request->input('course_id');
@@ -23,7 +31,8 @@ class SubjectController extends Controller
             ->when($academic_year, function ($query, $academic_year) {
                 return $query->where('academic_year', $academic_year);
             })
-            ->with('course')
+            ->with(['course', 'user'])
+            ->orderBy('name', 'asc')
             ->get();
 
         return response()->json([

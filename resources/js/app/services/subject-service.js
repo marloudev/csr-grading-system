@@ -1,5 +1,15 @@
 import axios from "axios";
 
+
+
+export async function get_available_subject_service() {
+    try {
+        const res = await axios.get(`/api/get_available_subject`);
+        return res;
+    } catch (error) {
+        return error;
+    }
+}
 export async function get_subject_service() {
     try {
         const res = await axios.get(`/api/subject${window.location.search}`);

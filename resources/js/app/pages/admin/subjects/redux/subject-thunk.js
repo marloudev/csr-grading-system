@@ -1,13 +1,22 @@
-import { store_subject_service, delete_subject_service, update_subject_service, get_subject_by_id_service, get_subject_service, get_subjects_service } from "@/app/services/subject-service";
+import { store_subject_service, delete_subject_service, update_subject_service, get_subject_by_id_service, get_subject_service, get_subjects_service, get_available_subject_service } from "@/app/services/subject-service";
 import {subjectSlice} from "./subject-slice";
 import { get_subject_handled_by_id_service, get_subject_handled_service } from "@/app/services/subject-handled-service";
 
 
 
+
+
+export function get_available_subject_thunk() {
+  return async function (dispatch, getState) {
+    const res = await get_available_subject_service()
+    dispatch(subjectSlice.actions.setAvailableSubjects(res.data.response));
+    return res
+  };
+}
+
 export function get_subject_thunk() {
   return async function (dispatch, getState) {
     const res = await get_subject_service()
-    console.log('res.data.response',res.data.response)
     dispatch(subjectSlice.actions.setSubjects(res.data.response));
     return res
   };
