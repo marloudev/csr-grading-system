@@ -55,7 +55,7 @@ export default function TableSection() {
                                 <TableCell>{res.lname}</TableCell>
                                 <TableCell>{res.email}</TableCell>
                                 <TableCell>
-                                    {res?.department?.name ?? ""}
+                                    {res?.course?.name ?? ""}
                                 </TableCell>
                                 {/* <TableCell>{age}</TableCell>
                                 <TableCell>{res.address}</TableCell> */}

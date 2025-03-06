@@ -88,7 +88,23 @@ class AccountController extends Controller
                     ]);
                 }
             }
+        } else if ($request->user_type == 3) {
+            foreach ($request->selected_subjects as $key => $value) {
+                $subject = Subject::where('code', $value['code'])->first();
+                Grade::create([
+                    'instructor_id' => $value['instructor_id'],
+                    'academic_year' => $value['academic_year'],
+                    'student_id' => $validatedData['user_id'],
+                    'semester' => $value['semester'],
+                    'subject_code' =>  $value['code'],
+                    'year' => $value['year'],
+                    'prelim' => 0,
+                    'midterm' => 0,
+                    'final' => 0,
+                ]);
+            }
         }
+
         // Return response
         return response()->json([
             'status' => 'success',
@@ -119,7 +135,7 @@ class AccountController extends Controller
         // Prepare data for update
         $dataToUpdate = [
             'email' => $validatedData['email'],
-            'course_id' => $validatedData['course_id'] ?? null,
+            'course_id' => $validatedData['department_id'] ?? null,
             'address' => $validatedData['address'] ?? $user->address,
             'department_id' => $validatedData['department_id'] ?? $user->department_id,
             'dob' => $validatedData['dob'] ?? $user->dob,

@@ -19,6 +19,7 @@ import { useState } from "react";
 import store from "@/app/pages/store/store";
 import { get_student_thunk, store_student_thunk } from "../redux/student-thunk";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -38,11 +39,14 @@ export default function CreateSection() {
     const [error, setError] = useState({});
     const [notify, setNotify] = useState(false);
     const { departments } = useSelector((state) => state.department);
+    const { subjects } = useSelector((state) => state.subjects);
     const { courses } = useSelector((state) => state.courses);
-    const [subjects, setSubjects] = useState([]);
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
-    };
+    const [subjectDatas, setSubjectDatas] = useState([]);
+
+    useEffect(() => {
+        setSubjectDatas(subjects.data ?? []);
+    }, []);
+    console.log("datadatadata", data);
 
     const handleOpen = () => setOpen(true);
 
@@ -59,6 +63,7 @@ export default function CreateSection() {
             setNotify(true);
             setError({});
             setLoading(false);
+            setOpen(false);
         } else {
             setLoading(false);
             setError(result.response.data.errors);
@@ -72,16 +77,36 @@ export default function CreateSection() {
         setNotify(false);
         setOpen(false);
     };
-    function search_course(e) {
-        const sub = courses.data.find((res) => res.id == e.target.value);
 
-        setSubjects(sub.subjects);
+    function search_course(e) {
+        const subjects_data = subjects.data.filter(
+            (res) =>
+                res.course.id == e.target.value && res.instructor_id != null,
+        );
+        setSubjectDatas(subjects_data);
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
     }
-    console.log("datadata", data);
+
+    // function select_department(e) {
+    //     const selected = available_subjects.filter(
+    //         (res) => res.course.id == e.target.value,
+    //     );
+    //     setSubjectDatas(selected);
+
+    //     setData({
+    //         ...data,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // }
+    const handleChange = (event, newValue) => {
+        setData({
+            ...data,
+            selected_subjects: newValue,
+        });
+    };
     return (
         <>
             <Snackbar
@@ -198,7 +223,6 @@ export default function CreateSection() {
                                 variant="outlined"
                             />
 
-
                             <div className="w-full flex flex-col gap-4">
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">
@@ -269,28 +293,23 @@ export default function CreateSection() {
                                 /> */}
                             </div>
 
-                            {/* <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.dob ? true : false}
-                                helperText={error?.dob ?? ''}
-                                name='dob'
-                                type='date'
-                                id="outlined-basic"
-                                variant="outlined" />
-                            <TextField
-                                onChange={(e) => setData({
-                                    ...data,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.address ? true : false}
-                                helperText={error?.address ?? ''}
-                                name='address'
-                                id="outlined-basic"
-                                label="Address"
-                                variant="outlined" /> */}
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                onChange={handleChange}
+                                options={subjectDatas}
+                                getOptionLabel={(option) => option.name}
+                                // defaultValue={[subjectDatas[13]]}
+                                filterSelectedOptions
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        value={params}
+                                        label="Select Subjects"
+                                        placeholder="Favorites"
+                                    />
+                                )}
+                            />
                         </div>
                         <br />
                         <Button
