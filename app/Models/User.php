@@ -63,6 +63,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Grade::class, 'student_id', 'user_id')->with(['subject']);
     }
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class, 'instructor_id', 'user_id');
+    }
     public function course(): HasOne
     {
         return $this->hasOne(Course::class, 'id', 'course_id')->with(['subjects']);

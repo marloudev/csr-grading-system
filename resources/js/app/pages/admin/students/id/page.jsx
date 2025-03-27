@@ -17,9 +17,9 @@ export default function StudentIDPage() {
     }, []);
     return (
         <AdminLayout>
-           <div className="my-3">
+           {/* <div className="my-3">
            <EnrollStudentSection subject="sadas" />
-           </div>
+           </div> */}
             <SearchSubjectSection />
             <StudentTabsSection />
             {/* <StudentIdTableSection /> */}

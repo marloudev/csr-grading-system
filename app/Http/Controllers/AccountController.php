@@ -17,7 +17,7 @@ class AccountController extends Controller
         $search = $request->input('search');
         // Fetch paginated users, you can specify how many items per page, e.g., 10
         if ($request->page) {
-            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades'])->paginate(10);
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades', 'subjects'])->paginate(10);
             return response()->json([
                 'response' => $users,
             ], 200);
@@ -29,7 +29,7 @@ class AccountController extends Controller
                         ->orWhere('lname', 'LIKE', "%{$search}%")
                         ->orWhere('email', 'LIKE', "%{$search}%");
                 })
-                ->with(['department', 'course', 'enrollment', 'grades'])
+                ->with(['department', 'course', 'enrollment', 'grades', 'subjects'])
                 ->get();
 
             return response()->json([
@@ -91,17 +91,19 @@ class AccountController extends Controller
         } else if ($request->user_type == 3) {
             foreach ($request->selected_subjects as $key => $value) {
                 $subject = Subject::where('code', $value['code'])->first();
-                Grade::create([
-                    'instructor_id' => $value['instructor_id'],
-                    'academic_year' => $value['academic_year'],
-                    'student_id' => $validatedData['user_id'],
-                    'semester' => $value['semester'],
-                    'subject_code' =>  $value['code'],
-                    'year' => $value['year'],
-                    'prelim' => 0,
-                    'midterm' => 0,
-                    'final' => 0,
-                ]);
+                if ($subject) {
+                    Grade::create([
+                        'instructor_id' => $value['instructor_id'],
+                        'academic_year' => $value['academic_year'],
+                        'student_id' => $validatedData['user_id'],
+                        'semester' => $value['semester'],
+                        'subject_code' =>  $value['code'],
+                        'year' => $value['year'],
+                        'prelim' => 0,
+                        'midterm' => 0,
+                        'final' => 0,
+                    ]);
+                }
             }
         }
 
@@ -135,7 +137,7 @@ class AccountController extends Controller
         // Prepare data for update
         $dataToUpdate = [
             'email' => $validatedData['email'],
-            'course_id' => $validatedData['department_id'] ?? null,
+            'course_id' => $validatedData['course_id'] ?? null,
             'address' => $validatedData['address'] ?? $user->address,
             'department_id' => $validatedData['department_id'] ?? $user->department_id,
             'dob' => $validatedData['dob'] ?? $user->dob,
@@ -150,6 +152,34 @@ class AccountController extends Controller
 
         // Update the user with the new data
         $user->update($dataToUpdate);
+
+        if ($user->user_type == 2) {
+            foreach ($request->selected_subjects as $key => $value) {
+                $subject = Subject::where('code', $value['code'])->first();
+                if ($subject) {
+                    $subject->update([
+                        'instructor_id' =>  $user->user_id
+                    ]);
+                }
+            }
+        } else if ($user->user_type == 3) {
+            foreach ($request->selected_subjects as $key => $value) {
+                $subject = Subject::where('code', $value['code'])->first();
+                if ($subject) {
+                    Grade::create([
+                        'instructor_id' => $value['instructor_id'],
+                        'academic_year' => $value['academic_year'],
+                        'student_id' =>  $user->user_id,
+                        'semester' => $value['semester'],
+                        'subject_code' =>  $value['code'],
+                        'year' => $value['year'],
+                        'prelim' => 0,
+                        'midterm' => 0,
+                        'final' => 0,
+                    ]);
+                }
+            }
+        }
 
         // Return success response
         return response()->json([

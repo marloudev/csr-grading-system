@@ -45,14 +45,33 @@ export default function UpdateSection({ data }) {
     const [notify, setNotify] = useState(false);
     const { departments } = useSelector((state) => state.department);
     const { courses } = useSelector((state) => state.courses);
-    const [subjects, setSubjects] = useState([]);
+        const { subjects } = useSelector((state) => state.subjects);
+
+    const [subjectDatas, setSubjectDatas] = useState([]);
+
+    const excludeCodes = data?.grades?.map((res) => res.subject_code)??[];
+
+    useEffect(() => {
+        const filteredCourses = subjects?.data?.filter(
+            (course) => !excludeCodes.includes(course.code),
+        );
+        const subjects_data = filteredCourses.filter(
+            (res) => res.course_id == data.course_id,
+        );
+        setSubjectDatas(subjects_data);
+    }, [open]);
+
+    console.log("formformssss",data);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
 
     useEffect(() => {
-        setForm(data);
-        setSubjects(data?.course?.subjects ?? []);
+        setForm({
+            ...data,
+            selected_subjects: [],
+        });
+        // setSubjects(data?.course?.subjects ?? []);
     }, []);
     const handleOpen = () => setOpen(true);
 
@@ -64,7 +83,7 @@ export default function UpdateSection({ data }) {
             setNotify(true);
             setError({});
             setLoading(false);
-            setOpen(false)
+            setOpen(false);
         } else {
             setLoading(false);
             setError(result.response.data.errors);
@@ -78,16 +97,28 @@ export default function UpdateSection({ data }) {
         setNotify(false);
         setOpen(false);
     };
-    function search_course(e) {
-        const sub = courses.data.find((res) => res.id == e.target.value);
 
-        setSubjects(sub.subjects);
+    function search_course(e) {
+        const filteredCourses = subjects?.data?.filter(
+            (course) => !excludeCodes.includes(course.code),
+        );
+        const subjects_data = filteredCourses.filter(
+            (res) => res.course_id == e.target.value,
+        );
+        console.log('subjects',subjects)
+        setSubjectDatas(subjects_data);
         setForm({
             ...form,
             [e.target.name]: e.target.value,
         });
     }
-    console.log("datadata", form);
+
+    const handleChange = (event, newValue) => {
+        setForm({
+            ...form,
+            selected_subjects: newValue,
+        });
+    };
     return (
         <>
             <Snackbar
@@ -135,6 +166,7 @@ export default function UpdateSection({ data }) {
                                 helperText={error?.user_id ?? ""}
                                 name="user_id"
                                 type="text"
+                                disabled
                                 id="outlined-basic"
                                 label="Student ID"
                                 variant="outlined"
@@ -214,15 +246,10 @@ export default function UpdateSection({ data }) {
                                 </InputLabel>
                                 <Select
                                     id="demo-simple-select"
-                                    name="course"
+                                    name="course_id"
                                     label="Course"
                                     value={form.course_id}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...data,
-                                            [e.target.name]: e.target.value,
-                                        })
-                                    }
+                                    onChange={(e) => search_course(e)}
                                 >
                                     {courses.data.map((res, i) => {
                                         return (
@@ -233,29 +260,23 @@ export default function UpdateSection({ data }) {
                                     })}
                                 </Select>
                             </FormControl>
-
-                            {/* <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.dob ? true : false}
-                                helperText={error?.dob ?? ''}
-                                name='dob'
-                                type='date'
-                                id="outlined-basic"
-                                variant="outlined" />
-                            <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.address ? true : false}
-                                helperText={error?.address ?? ''}
-                                name='address'
-                                id="outlined-basic"
-                                label="Address"
-                                variant="outlined" /> */}
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                onChange={handleChange}
+                                options={subjectDatas}
+                                getOptionLabel={(option) => option.name}
+                                // defaultValue={[subjectDatas[13]]}
+                                filterSelectedOptions
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        value={params}
+                                        label="Select Subjects"
+                                        placeholder="Favorites"
+                                    />
+                                )}
+                            />
                         </div>
                         <br />
                         <Button

@@ -4,6 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import {
     Alert,
+    Autocomplete,
     CircularProgress,
     FormControl,
     InputLabel,
@@ -21,6 +22,7 @@ import {
     update_instructor_thunk,
 } from "../redux/instructor-thunk";
 import { useSelector } from "react-redux";
+import { get_available_subject_thunk } from "../../subjects/redux/subject-thunk";
 
 export default function UpdateSection({ data }) {
     const [open, setOpen] = React.useState(false);
@@ -28,8 +30,23 @@ export default function UpdateSection({ data }) {
     const [error, setError] = useState({});
     const [notify, setNotify] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    // const [data, setData] = useState({});
+    const [selected, setSelected] = useState({});
+    const { available_subjects } = useSelector((state) => state.subjects);
+    const [subjectDatas, setSubjectDatas] = useState([]);
     const { courses } = useSelector((state) => state.courses);
+
+    useEffect(() => {
+        const selected = available_subjects.filter(
+            (res) => res.course.id == data?.course?.id,
+        );
+        setSubjectDatas(selected ?? []);
+    }, [open]);
+
+    console.log("datadatadata", data);
+    console.log("selectedddd", selected);
+    console.log("subjectDatas", subjectDatas);
+
     useEffect(() => {
         setForm(data);
     }, []);
@@ -39,9 +56,15 @@ export default function UpdateSection({ data }) {
 
     async function submitForm(params) {
         setLoading(true);
-        const result = await store.dispatch(update_instructor_thunk(form));
+        const result = await store.dispatch(
+            update_instructor_thunk({
+                ...form,
+                ...selected,
+            }),
+        );
         if (result.status == 200) {
             await store.dispatch(get_instructor_thunk());
+            await store.dispatch(get_available_subject_thunk())
             setNotify(true);
             setError({});
             setLoading(false);
@@ -57,7 +80,23 @@ export default function UpdateSection({ data }) {
         setNotify(false);
         setOpen(false);
     };
+    const handleChange = (event, newValue) => {
+        setSelected({
+            ...data,
+            selected_subjects: newValue,
+        });
+    };
 
+    function select_department(e) {
+        const selected = available_subjects.filter(
+            (res) => res.course.id == e.target.value,
+        );
+        setSubjectDatas(selected);
+        setForm({
+            ...data,
+            [e.target.name]: e.target.value,
+        });
+    }
     return (
         <div>
             <Snackbar
@@ -175,12 +214,14 @@ export default function UpdateSection({ data }) {
                                     name="department_id"
                                     label="Department"
                                     value={form.department_id}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...data,
-                                            [e.target.name]: e.target.value,
-                                        })
-                                    }
+                                    // onChange={(e) =>
+                                    //     setForm({
+                                    //         ...data,
+                                    //         [e.target.name]: e.target.value,
+                                    //     })
+                                    // }
+
+                                    onChange={(e) => select_department(e)}
                                 >
                                     {courses.data.map((res, i) => {
                                         return (
@@ -191,42 +232,26 @@ export default function UpdateSection({ data }) {
                                     })}
                                 </Select>
                             </FormControl>
-                            {/* <TextField
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.course ? true : false}
-                                helperText={error?.course ?? ''}
-                                name='course'
-                                id="outlined-basic"
-                                label="Course"
-                                variant="outlined" /> */}
-                            {/* <TextField
-                                value={form.dob}
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.dob ? true : false}
-                                helperText={error?.dob ?? ''}
-                                name='dob'
-                                type='date'
-                                id="outlined-basic"
-                                variant="outlined" />
-                            <TextField
 
-                                value={form.address}
-                                onChange={(e) => setForm({
-                                    ...form,
-                                    [e.target.name]: e.target.value
-                                })}
-                                error={error?.address ? true : false}
-                                helperText={error?.address ?? ''}
-                                name='address'
-                                id="outlined-basic"
-                                label="Address"
-                                variant="outlined" /> */}
+                            {form?.department_id && (
+                                <Autocomplete
+                                    multiple
+                                    id="tags-outlined"
+                                    onChange={handleChange}
+                                    options={subjectDatas}
+                                    getOptionLabel={(option) => option.name}
+                                    // defaultValue={[subjectDatas[13]]}
+                                    filterSelectedOptions
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            value={params}
+                                            label="Select Subjects"
+                                            placeholder="Favorites"
+                                        />
+                                    )}
+                                />
+                            )}
                         </div>
                         <Button
                             onClick={submitForm}
