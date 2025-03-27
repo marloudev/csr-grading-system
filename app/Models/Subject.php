@@ -29,7 +29,7 @@ class Subject extends Model
 
     public function user(): HasOne
     {
-        return $this->hasOne(User::class,'user_id','instructor_id');
+        return $this->hasOne(User::class,'user_id','instructor_id')->with(['subjects']);
     }
     public function course(): HasOne
     {

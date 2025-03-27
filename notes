@@ -12,3 +12,28 @@ grade remove
 
 
 remove department table
+
+
+
+                        {/* <Text style={styles.title}>Data Table</Text>
+                        <View style={styles.table}>
+                            <View style={styles.tableRow}>
+                                <Text style={styles.tableColHeader}>Students</Text>
+                                <Text style={styles.tableColHeader}>Prelim</Text>
+                                <Text style={styles.tableColHeader}>Midterm</Text>
+                                <Text style={styles.tableColHeader}>Final</Text>
+                                <Text style={styles.tableColHeader}>Overall</Text>
+                            </View>
+                            {data?.student_grade?.map((row, index) => {
+                              console.log('rowrow',row)
+                              return (
+                                <View style={styles.tableRow} key={index}>
+                                    <Text style={styles.tableCol}>{row.col1}</Text>
+                                    <Text style={styles.tableCol}>{row.col2}</Text>
+                                    <Text style={styles.tableCol}>{row.col3}</Text>
+                                    <Text style={styles.tableCol}>{row.col3}</Text>
+                                    <Text style={styles.tableCol}>{row.col3}ss</Text>
+                                </View>
+                              )
+                            })}
+                        </View> */}

@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import { useSelector } from "react-redux";
 import StudentGradeTableSection from "./student-grade-table-section";
 import AddStudentFormSection from "./add-student-form-section";
+import ExportDataSection from "./pdf-data-section";
+import OpenPDFSection from "./open-pdf-section";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -76,7 +78,10 @@ export default function InstructorIdTabsSection() {
                 {handleds.map((res, i) => {
                     return (
                         <TabPanel value={value} index={i}>
-                            <AddStudentFormSection  subject={res}/>
+                            <div className="flex gap-3 items-center justify-between mb-3">
+                                <AddStudentFormSection subject={res} />
+                                <OpenPDFSection data={res} />
+                            </div>
                             <StudentGradeTableSection data={res} />
                         </TabPanel>
                     );

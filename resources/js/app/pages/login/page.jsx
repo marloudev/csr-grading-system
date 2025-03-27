@@ -17,10 +17,11 @@ export default function LoginPage() {
     };
     return (
         <>
-            <div className="absolute inset-0 -z-10 items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+        {/* bg-cover bg-center h-screen w-full */}
+            <div className="absolute inset-0 -z-10 items-center bg-[url('/images/bg.png')] bg-cover bg-center h-screen w-full"></div>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
 
-                <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-5 rounded-md">
+                <div className=" sm:mx-auto sm:w-full sm:max-w-sm bg-white p-5 rounded-md">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm flex w-full items-center justify-center">
                         <div className="flex items-center justify-center flex-col">
                             <img
