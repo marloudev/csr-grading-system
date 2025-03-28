@@ -1,1 +1,0 @@
-import{a as s}from"./app-D1LHTqdq.js";async function a(r){try{return(await s.post("/api/search_students"+window.location.search,r)).data}catch(t){return t}}async function n(){try{return(await s.get("/api/user")).data}catch(r){return r}}export{n as g,a as s};

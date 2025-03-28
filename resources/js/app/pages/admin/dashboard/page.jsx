@@ -9,7 +9,7 @@ import store from '../../store/store'
 export default function AdminDashboardPage() {
 
   useEffect(()=>{
-    store.dispatch(get_dashboard_thunk())
+    store.dispatch(get_dashboard_thunk('?user_type=administrator'))
   },[])
   return (
     <AdminLayout>
