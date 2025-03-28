@@ -201,7 +201,7 @@ class AccountController extends Controller
             $subjects = Subject::where('instructor_id', $user->user_id)->get();
             $user->delete();
             if ($subjects->isNotEmpty()) {
-                Subject::where('instructor_id', $id)->update(['instructor_id' => null]);
+                Subject::where('instructor_id', $user->user_id)->update(['instructor_id' => null]);
             }
             return response()->json([
                 'response' => 'success',
