@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Modal, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { useEffect } from 'react';
@@ -11,6 +11,17 @@ import { get_course_thunk, update_course_thunk } from '../redux/course-thunk';
 import { useSelector } from 'react-redux';
 import academic_year from '@/app/lib/academic-year';
 
+
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+};
 export default function UpdateSection({ data }) {
     const [open, setOpen] = React.useState(false);
     const [form, setForm] = useState({})
@@ -34,6 +45,7 @@ export default function UpdateSection({ data }) {
             await store.dispatch(get_course_thunk())
             setNotify(true)
             setError({})
+            setOpen(false)
             setLoading(false)
         } else {
             setLoading(false)
@@ -63,12 +75,11 @@ export default function UpdateSection({ data }) {
                 </Alert>
             </Snackbar>
             <Button size='small' variant='contained' onClick={toggleDrawer(true)}><Edit /></Button>
-            <Drawer
+            <Modal
 
-                anchor='right'
                 open={open} onClose={toggleDrawer(false)}>
-                <Box className="w-[500px] h-full flex" role="presentation" >
-                    <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
+                <Box sx={style}>
+                    <div className='px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
                                 Create course
@@ -158,6 +169,7 @@ export default function UpdateSection({ data }) {
                                 </Select>
                             </FormControl> */}
                         </div>
+                        <br /><br/>
                         <Button
                             onClick={submitForm}
                             disabled={loading}
@@ -167,7 +179,7 @@ export default function UpdateSection({ data }) {
                         </Button>
                     </div>
                 </Box>
-            </Drawer>
+            </Modal>
         </div>
     );
 }

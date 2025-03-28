@@ -2,12 +2,23 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, CircularProgress, FormControl, InputLabel, MenuItem, Modal, Select, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
 import store from '@/app/pages/store/store';
 import { get_course_thunk, store_course_thunk } from '../redux/course-thunk';
 import { useSelector } from 'react-redux';
 import academic_year from '@/app/lib/academic-year';
+
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+};
 
 export default function CreateSection() {
     const [open, setOpen] = React.useState(false);
@@ -63,12 +74,11 @@ export default function CreateSection() {
                 </Alert>
             </Snackbar>
             <Button variant='contained' onClick={toggleDrawer(true)}>Create course</Button>
-            <Drawer
+            <Modal
 
-                anchor='right'
                 open={open} onClose={toggleDrawer(false)}>
-                <Box className="w-[500px] h-full flex" role="presentation" >
-                    <div className='pt-20 px-3 w-full flex flex-col items-center justify-between pb-5'>
+                 <Box sx={style}>
+                    <div className=' px-3 w-full flex flex-col items-center justify-between pb-5'>
                         <div className='flex flex-col gap-3  w-full' >
                             <div className='text-2xl font-black'>
                                 Create course
@@ -155,6 +165,7 @@ export default function CreateSection() {
                                 </Select>
                             </FormControl> */}
                         </div>
+                        <br /><br/>
                         <Button
                             onClick={submitForm}
                             disabled={loading}
@@ -164,7 +175,7 @@ export default function CreateSection() {
                         </Button>
                     </div>
                 </Box>
-            </Drawer>
+            </Modal>
         </div>
     );
 }
