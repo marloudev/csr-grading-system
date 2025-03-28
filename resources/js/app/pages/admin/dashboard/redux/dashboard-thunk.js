@@ -3,9 +3,9 @@ import {dashboardSlice} from "./dashboard-slice";
 
 
 
-export function get_dashboard_thunk() {
+export function get_dashboard_thunk(search) {
   return async function (dispatch, getState) {
-    const res = await get_dashboard_service()
+    const res = await get_dashboard_service(search)
     dispatch(dashboardSlice.actions.setDashboards(res.data));
   };
 }

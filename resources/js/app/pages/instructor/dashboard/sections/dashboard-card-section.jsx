@@ -12,11 +12,11 @@ export default function DashboardCardSection() {
     const { dashboards } = useSelector((store) => store.dashboards)
     console.log('dashboards', dashboards)
     return (
-        <div className="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8">
+        <div className="grid grid-cols-2 gap-4 px-4 mt-8 sm:grid-cols-2 sm:px-8">
             <Card variant="outlined">
                 <CardComponent
-                    title="Number of Intructors"
-                    count={dashboards.instructorCount}
+                    title="Number of Subjects"
+                    count={dashboards.subjectCount}
                 />
             </Card>
             <Card variant="outlined">
@@ -25,7 +25,7 @@ export default function DashboardCardSection() {
                     count={dashboards.studentCount} 
                     />
             </Card>
-            <Card variant="outlined">
+            {/* <Card variant="outlined">
                 <CardComponent
                     title="Number of Department"
                     count={dashboards.departmentCount} 
@@ -36,7 +36,7 @@ export default function DashboardCardSection() {
                     title="Number of Course Offered"
                     count={dashboards.courseCount} 
                     />
-            </Card>
+            </Card> */}
         </div>
     )
 }
@@ -54,11 +54,10 @@ function CardComponent({ title, count }) {
                 </Typography>
             </CardContent>
             <CardActions className='w-full items-center justify-end'>
-                <Button size="small">Show More</Button>
+                {/* <Button size="small">Show More</Button> */}
             </CardActions>
         </React.Fragment>
     )
-
 }
 
 

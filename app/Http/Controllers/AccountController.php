@@ -17,7 +17,7 @@ class AccountController extends Controller
         $search = $request->input('search');
         // Fetch paginated users, you can specify how many items per page, e.g., 10
         if ($request->page) {
-            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades', 'subjects'])->orderBy('id','desc')->paginate(10);
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades', 'subjects'])->orderBy('id', 'desc')->paginate(10);
             return response()->json([
                 'response' => $users,
             ], 200);
@@ -153,16 +153,16 @@ class AccountController extends Controller
         // Update the user with the new data
         $user->update($dataToUpdate);
 
-        if ($user->user_type == 2) {
+        if ($user->user_type == 2 && $request->selected_subjects) {
             foreach ($request->selected_subjects as $key => $value) {
                 $subject = Subject::where('code', $value['code'])->first();
                 if ($subject) {
                     $subject->update([
-                        'instructor_id' =>  $user->user_id
+                        'instructor_id' =>  $request->user_id
                     ]);
                 }
             }
-        } else if ($user->user_type == 3) {
+        } else if ($user->user_type == 3 && $request->selected_subjects) {
             foreach ($request->selected_subjects as $key => $value) {
                 $subject = Subject::where('code', $value['code'])->first();
                 if ($subject) {
@@ -180,7 +180,14 @@ class AccountController extends Controller
                 }
             }
         }
-
+        if ($request->user_id != $user->user_id) {
+            Subject::where('instructor_id', $user->user_id)->update([
+                'instructor_id' => $request->user_id
+            ]);
+            $user->update([
+                'user_id' => $request->user_id
+            ]);
+        }
         // Return success response
         return response()->json([
             'response' => 'success',
@@ -188,9 +195,21 @@ class AccountController extends Controller
     }
     public function destroy($id)
     {
-        User::where('id', $id)->delete();
+        $user = User::find($id);
+
+        if ($user) {
+            $subjects = Subject::where('instructor_id', $user->user_id)->get();
+            $user->delete();
+            if ($subjects->isNotEmpty()) {
+                Subject::where('instructor_id', $id)->update(['instructor_id' => null]);
+            }
+            return response()->json([
+                'response' => 'success',
+            ], 200);
+        }
+
         return response()->json([
-            'response' => 'success',
-        ], 200);
+            'response' => 'User not found',
+        ], 404);
     }
 }

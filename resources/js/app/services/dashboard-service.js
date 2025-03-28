@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export async function get_dashboard_service() {
+export async function get_dashboard_service(search) {
     try {
-        const res = await axios.get("/api/dashboard");
+        const res = await axios.get("/api/dashboard" + search ?? "");
         return res;
     } catch (error) {
         return error;
@@ -20,7 +20,7 @@ export async function get_dashboard_by_id_service(id) {
 
 export async function store_dashboard_service(data) {
     try {
-        const res = await axios.post('/api/dashboard', data);
+        const res = await axios.post("/api/dashboard", data);
         return res;
     } catch (error) {
         return error;

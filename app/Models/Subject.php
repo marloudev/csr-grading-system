@@ -37,6 +37,6 @@ class Subject extends Model
     }
     public function student_grade(): HasMany
     {
-        return $this->hasMany(Grade::class,'subject_code','code')->with(['class_participation','examination','quiz','project','user']);
+        return $this->hasMany(Grade::class,'subject_code','code')->with(['examination','quiz','project','user']);
     }
 }

@@ -35,6 +35,7 @@ export default function DeleteSection({ data }) {
       await store.dispatch(get_instructor_thunk())
       setNotify(true)
       setLoading(false)
+      setOpen(false)
     } else {
       setLoading(false)
     }
