@@ -8,6 +8,7 @@ import { delete_instructor_thunk, get_instructor_thunk } from '../redux/instruct
 import store from '@/app/pages/store/store';
 import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import { useState } from 'react';
+import { get_available_subject_thunk } from '../../subjects/redux/subject-thunk';
 
 const style = {
   position: 'absolute',
@@ -33,6 +34,7 @@ export default function DeleteSection({ data }) {
     const result = await store.dispatch(delete_instructor_thunk(data.id))
     if (result.status == 200) {
       await store.dispatch(get_instructor_thunk())
+      await store.dispatch(get_available_subject_thunk());
       setNotify(true)
       setLoading(false)
       setOpen(false)
