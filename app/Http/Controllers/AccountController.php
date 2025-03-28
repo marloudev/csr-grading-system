@@ -17,7 +17,7 @@ class AccountController extends Controller
         $search = $request->input('search');
         // Fetch paginated users, you can specify how many items per page, e.g., 10
         if ($request->page) {
-            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades', 'subjects'])->paginate(10);
+            $users = User::where('user_type', $request->user_type)->with(['department', 'course', 'enrollment', 'grades', 'subjects'])->orderBy('id','desc')->paginate(10);
             return response()->json([
                 'response' => $users,
             ], 200);
@@ -64,7 +64,7 @@ class AccountController extends Controller
             'fname' => 'required|string|max:255',  // First name must be a string with a max length of 255
             'lname' => 'required|string|max:255',  // Last name must be a string with a max length of 255
             'password' => 'required|string|min:8',  // Password must be a string with a minimum length of 8
-            'selected_subjects' => 'required|array',
+            'selected_subjects' => 'nullable|array',
         ]);
 
 
@@ -79,7 +79,7 @@ class AccountController extends Controller
             'user_type' => $request->user_type,
             'password' => Hash::make($validatedData['password']),
         ]);
-        if ($request->user_type == 2) {
+        if ($request->user_type == 2 && $request->selected_subjects) {
             foreach ($request->selected_subjects as $key => $value) {
                 $subject = Subject::where('code', $value['code'])->first();
                 if ($subject) {
@@ -88,7 +88,7 @@ class AccountController extends Controller
                     ]);
                 }
             }
-        } else if ($request->user_type == 3) {
+        } else if ($request->user_type == 3 && $request->selected_subjects) {
             foreach ($request->selected_subjects as $key => $value) {
                 $subject = Subject::where('code', $value['code'])->first();
                 if ($subject) {

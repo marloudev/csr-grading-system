@@ -21,7 +21,7 @@ class Administrator
         if ($account->user_type =='2') {
             return Inertia::location(route('instructor.dashboard'));
         } else if ($account->user_type =='3') {
-            return Inertia::location(route('student.dashboard'));
+            return Inertia::location(route('student.enrollments'));
         }
         return $next($request);
     }

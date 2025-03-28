@@ -24,12 +24,12 @@ export default function LoginPage() {
                 <div className=" sm:mx-auto sm:w-full sm:max-w-sm bg-white p-5 rounded-md">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm flex w-full items-center justify-center">
                         <div className="flex items-center justify-center flex-col">
-                            <img
+                            {/* <img
                                 alt="Your Company"
                                 src="/images/logo.png"
                                 className="mx-auto h-32 w-32 "
-                            />
-                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
+                            /> */}
+                            <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight ">
                                 Sign in to your account
                             </h2>
                         </div>

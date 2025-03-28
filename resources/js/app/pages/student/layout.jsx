@@ -24,11 +24,11 @@ const NAVIGATION = [
         kind: "header",
         title: "Main items",
     },
-    {
-        segment: "dashboard",
-        title: "Dashboard",
-        icon: <DashboardIcon />,
-    },
+    // {
+    //     segment: "dashboard",
+    //     title: "Dashboard",
+    //     icon: <DashboardIcon />,
+    // },
  
     {
         segment: "enrollments",
