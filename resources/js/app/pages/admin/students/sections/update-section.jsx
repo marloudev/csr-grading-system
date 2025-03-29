@@ -25,6 +25,7 @@ import {
 import { useSelector } from "react-redux";
 import { Edit } from "@mui/icons-material";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const style = {
     position: "absolute",
@@ -45,11 +46,11 @@ export default function UpdateSection({ data }) {
     const [notify, setNotify] = useState(false);
     const { departments } = useSelector((state) => state.department);
     const { courses } = useSelector((state) => state.courses);
-        const { subjects } = useSelector((state) => state.subjects);
+    const { subjects } = useSelector((state) => state.subjects);
 
     const [subjectDatas, setSubjectDatas] = useState([]);
 
-    const excludeCodes = data?.grades?.map((res) => res.subject_code)??[];
+    const excludeCodes = data?.grades?.map((res) => res.subject_code) ?? [];
 
     useEffect(() => {
         const filteredCourses = subjects?.data?.filter(
@@ -61,7 +62,7 @@ export default function UpdateSection({ data }) {
         setSubjectDatas(subjects_data);
     }, [open]);
 
-    console.log("formformssss",data);
+    console.log("formformssss", data);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -80,7 +81,12 @@ export default function UpdateSection({ data }) {
         const result = await store.dispatch(update_student_thunk(form));
         if (result.status == 200) {
             await store.dispatch(get_student_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
             setOpen(false);
@@ -105,7 +111,7 @@ export default function UpdateSection({ data }) {
         const subjects_data = filteredCourses.filter(
             (res) => res.course_id == e.target.value,
         );
-        console.log('subjects',subjects)
+        console.log("subjects", subjects);
         setSubjectDatas(subjects_data);
         setForm({
             ...form,

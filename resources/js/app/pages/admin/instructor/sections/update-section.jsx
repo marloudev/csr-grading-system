@@ -24,6 +24,7 @@ import {
 } from "../redux/instructor-thunk";
 import { useSelector } from "react-redux";
 import { get_available_subject_thunk } from "../../subjects/redux/subject-thunk";
+import Swal from "sweetalert2";
 
 const style = {
     position: "absolute",
@@ -77,10 +78,15 @@ export default function UpdateSection({ data }) {
         if (result.status == 200) {
             await store.dispatch(get_instructor_thunk());
             await store.dispatch(get_available_subject_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
-            setOpen(false)
+            setOpen(false);
         } else {
             setLoading(false);
             setError(result.response.data.errors);

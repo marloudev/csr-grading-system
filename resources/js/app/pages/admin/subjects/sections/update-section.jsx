@@ -23,7 +23,7 @@ import {
 } from "../redux/subject-thunk";
 import { useSelector } from "react-redux";
 import academic_year from "@/app/lib/academic-year";
-
+import Swal from "sweetalert2";
 
 const style = {
     position: "absolute",
@@ -66,10 +66,15 @@ export default function UpdateSection({ data }) {
         );
         if (result.status == 200) {
             await store.dispatch(get_subject_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
-            setOpen(false)
+            setOpen(false);
         } else {
             setLoading(false);
             setError(result.response.data.errors);
@@ -323,7 +328,8 @@ export default function UpdateSection({ data }) {
                                 </Select>
                             </FormControl>
                         </div>
-                        <br /><br />
+                        <br />
+                        <br />
                         <Button
                             onClick={submitForm}
                             disabled={loading}

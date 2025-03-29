@@ -22,6 +22,7 @@ import current_academic_year from "@/app/lib/current-academic-year";
 import { useEffect } from "react";
 import { store_enrollments_thunk } from "../../enrollment/redux/enrollment-thunk";
 import { get_student_thunk } from "../redux/student-thunk";
+import Swal from "sweetalert2";
 
 export default function AddEnrollmentSection({ data }) {
     const [open, setOpen] = React.useState(false);
@@ -53,7 +54,12 @@ export default function AddEnrollmentSection({ data }) {
         const result = await store.dispatch(store_enrollments_thunk(form));
         if (result.status == 200) {
             await store.dispatch(get_student_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
         } else {
@@ -280,7 +286,6 @@ export default function AddEnrollmentSection({ data }) {
                                     //         ]),
                                     //     ).values(),
                                     // ];
-
                                     // setData({
                                     //     ...data,
                                     //     subjects: uniqueSubjects,

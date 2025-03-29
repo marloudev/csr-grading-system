@@ -20,6 +20,7 @@ import store from "@/app/pages/store/store";
 import { get_student_thunk, store_student_thunk } from "../redux/student-thunk";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const style = {
     position: "absolute",
@@ -60,7 +61,12 @@ export default function CreateSection() {
         );
         if (result.status == 200) {
             await store.dispatch(get_student_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
             setOpen(false);

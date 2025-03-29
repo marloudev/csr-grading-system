@@ -1,7 +1,9 @@
 /* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
-
+.MuiDrawer-root.MuiDrawer-docked.css-1asjls9-MuiDrawer-docked{
+  z-index: 0 !important;
+}
 /* 
 .MuiStack-root.css-1d9cypr-MuiStack-root{
   display: none;
@@ -26,3 +28,5 @@
     padding: 0;
   }
 }
+
+

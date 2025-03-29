@@ -19,6 +19,7 @@ import { get_subject_thunk, store_subject_thunk } from "../redux/subject-thunk";
 import { useSelector } from "react-redux";
 import academic_year from "@/app/lib/academic-year";
 import current_academic_year from "@/app/lib/current-academic-year";
+import Swal from "sweetalert2";
 
 const style = {
     position: "absolute",
@@ -51,10 +52,15 @@ export default function CreateSection() {
         const result = await store.dispatch(store_subject_thunk(data));
         if (result.status == 200) {
             await store.dispatch(get_subject_thunk());
-            setNotify(true);
+            Swal.fire({
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
             setError({});
             setLoading(false);
-            setOpen(false)
+            setOpen(false);
         } else {
             setLoading(false);
             setError(result.response.data.errors);
