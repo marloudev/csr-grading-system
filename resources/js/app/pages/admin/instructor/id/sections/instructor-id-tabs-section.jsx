@@ -79,7 +79,7 @@ export default function InstructorIdTabsSection() {
                     return (
                         <TabPanel value={value} index={i}>
                             <div className="flex gap-3 items-center justify-between mb-3">
-                                <AddStudentFormSection subject={res} />
+                                {/* <AddStudentFormSection subject={res} /> */}
                                 <OpenPDFSection data={res} />
                             </div>
                             <StudentGradeTableSection data={res} />
