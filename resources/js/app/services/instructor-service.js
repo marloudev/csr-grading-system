@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export async function get_instructor_service(user_type) {
+export async function get_instructor_service(user_type,search) {
     try {
-        const res = await axios.get(`/api/account?${window.location.search.substring(1)}&user_type=${user_type}`);
+        const res = await axios.get(`/api/account?search=${search??''}&user_type=${user_type}`);
         return res;
     } catch (error) {
         return error;

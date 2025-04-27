@@ -10,9 +10,9 @@ export async function get_available_subject_service() {
         return error;
     }
 }
-export async function get_subject_service() {
+export async function get_subject_service(search) {
     try {
-        const res = await axios.get(`/api/subject${window.location.search}`);
+        const res = await axios.get(`/api/subject?search=${search??''}`);
         return res;
     } catch (error) {
         return error;

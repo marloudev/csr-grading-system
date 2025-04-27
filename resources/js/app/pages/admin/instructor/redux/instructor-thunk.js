@@ -12,9 +12,9 @@ export function search_students_thunk(data) {
   };
 }
 
-export function get_instructor_thunk() {
+export function get_instructor_thunk(search) {
   return async function (dispatch, getState) {
-    const res = await get_instructor_service(2)
+    const res = await get_instructor_service(2,search)
     dispatch(instructorSlice.actions.setInstructors(res.data.response));
     return res
   };

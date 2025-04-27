@@ -25,7 +25,7 @@ export default function CoursePage() {
       <div className='flex flex-col gap-4'>
         <div className='flex items-center justify-between'>
         <CreateSection />
-        <SearchSection />
+        {/* <SearchSection /> */}
         </div>
         <div className="flex flex-col items-center justify-between h-[82vh] w-full">
           <TableSection />

@@ -14,9 +14,9 @@ export function get_available_subject_thunk() {
   };
 }
 
-export function get_subject_thunk() {
+export function get_subject_thunk(search) {
   return async function (dispatch, getState) {
-    const res = await get_subject_service()
+    const res = await get_subject_service(search)
     dispatch(subjectSlice.actions.setSubjects(res.data.response));
     return res
   };

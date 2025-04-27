@@ -21,6 +21,7 @@ class SubjectController extends Controller
         $course_id = $request->input('course_id');
         $semester = $request->input('semester');
         $academic_year = $request->input('academic_year');
+        $search = $request->input('search');
 
         $subjects = Subject::when($course_id, function ($query, $course_id) {
             return $query->where('course_id', $course_id);
@@ -30,6 +31,13 @@ class SubjectController extends Controller
             })
             ->when($academic_year, function ($query, $academic_year) {
                 return $query->where('academic_year', $academic_year);
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('course', function ($q2) use ($search) {
+                        $q2->where('name', 'like', '%' . $search . '%');
+                    })->orWhere('name', 'like', '%' . $search . '%'); // search in subject name too
+                });
             })
             ->with(['course', 'user'])
             ->orderBy('name', 'asc')

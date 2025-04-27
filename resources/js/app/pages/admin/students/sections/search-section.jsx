@@ -8,14 +8,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
+import store from "@/app/pages/store/store";
+import { get_student_thunk } from "../redux/student-thunk";
 
 export default function SearchSection() {
     const [search, setSearch] = useState("");
     function search_handler(e) {
-        e.preventDefault();
-        if (e.key == "Enter") {
-            router.visit(`?search=${search}`);
-        }
+        // e.preventDefault();
+        // if (e.key == "Enter") {
+        //     router.visit(`?search=${search}`);
+        // }
+        store.dispatch(get_student_thunk(e.target.value))
     }
     return (
         <Paper
@@ -30,7 +33,7 @@ export default function SearchSection() {
                 onKeyUp={search_handler}
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search..."
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={search_handler}
             />
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
                 <SearchIcon />

@@ -3,9 +3,9 @@ import {studentSlice} from "./student-slice";
 
 
 
-export function get_student_thunk() {
+export function get_student_thunk(search) {
   return async function (dispatch, getState) {
-    const res = await get_student_service(3)
+    const res = await get_student_service(3,search)
     dispatch(studentSlice.actions.setStudents(res.data.response));
     return res
   };

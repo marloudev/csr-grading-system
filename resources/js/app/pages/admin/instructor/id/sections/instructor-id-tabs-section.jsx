@@ -9,6 +9,7 @@ import StudentGradeTableSection from "./student-grade-table-section";
 import AddStudentFormSection from "./add-student-form-section";
 import ExportDataSection from "./pdf-data-section";
 import OpenPDFSection from "./open-pdf-section";
+import CsvStudentSection from "./csv-student-section";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -51,7 +52,6 @@ export default function InstructorIdTabsSection() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log("handleds", handleds);
     return (
         <Box
             sx={{
@@ -81,6 +81,7 @@ export default function InstructorIdTabsSection() {
                             <div className="flex gap-3 items-center justify-between mb-3">
                                 {/* <AddStudentFormSection subject={res} /> */}
                                 <OpenPDFSection data={res} />
+                                <CsvStudentSection data={res} />
                             </div>
                             <StudentGradeTableSection data={res} />
                         </TabPanel>
