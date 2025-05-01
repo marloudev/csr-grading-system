@@ -61,6 +61,7 @@ export default function UpdateSection({ data }) {
         );
         setSubjectDatas(subjects_data);
     }, [open]);
+    
 
     console.log("formformssss", data);
     const toggleDrawer = (newOpen) => () => {

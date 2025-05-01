@@ -197,6 +197,10 @@ class AccountController extends Controller
     {
         $user = User::find($id);
 
+        if ($user->user_type == 3) {
+            Grade::where('student_id',$user->user_id)->delete();
+        }
+
         if ($user) {
             $subjects = Subject::where('instructor_id', $user->user_id)->get();
             $user->delete();
@@ -208,6 +212,7 @@ class AccountController extends Controller
             ], 200);
         }
 
+        
         return response()->json([
             'response' => 'User not found',
         ], 404);

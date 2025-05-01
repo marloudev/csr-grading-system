@@ -44,10 +44,12 @@ export default function CreateSection() {
     const { courses } = useSelector((state) => state.courses);
     const [subjectDatas, setSubjectDatas] = useState([]);
 
+    const excludeCodes = data?.grades?.map((res) => res.subject_code) ?? [];
+
     useEffect(() => {
         setSubjectDatas(subjects.data ?? []);
     }, []);
-    console.log("datadatadata", data);
+    console.log("datadatadatasss", data);
 
     const handleOpen = () => setOpen(true);
 
@@ -85,10 +87,13 @@ export default function CreateSection() {
     };
 
     function search_course(e) {
-        const subjects_data = subjects.data.filter(
-            (res) =>
-                res.course.id == e.target.value && res.instructor_id != null,
+        const filteredCourses = subjects?.data?.filter(
+            (course) => !excludeCodes.includes(course.code),
         );
+        const subjects_data = filteredCourses.filter(
+            (res) => res.course_id == e.target.value,
+        );
+        console.log("subjects", subjects);
         setSubjectDatas(subjects_data);
         setData({
             ...data,
