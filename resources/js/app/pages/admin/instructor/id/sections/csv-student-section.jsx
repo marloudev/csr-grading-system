@@ -6,8 +6,8 @@ import { Button } from "@mui/material";
 import moment from "moment";
 
 export default function CsvStudentSection({ data }) {
+    console.log('datadata',data)
     const [loading, setLoading] = useState(false);
-
     const handleDownload = () => {
         const studentRows = data?.student_grade?.map((res, index) => ({
             No: `${index + 1}.`,
@@ -24,9 +24,9 @@ export default function CsvStudentSection({ data }) {
 
         const headerRows = [
             ["Colegio de Santa Rita de San Carlos Inc."],
-            ["Capstone 1"],
+            [data?.name],
             [],
-            ["Teacher:", "Erick Jason Batuto"],
+            ["Teacher:", `${data?.user?.fname} ${data?.user?.lname}`],
             [],
             ["", "Name", "Prelim", "Midterm", "Final", "Grades", "Remarks"], // Add empty first column
             ...studentRows.map((row) => [
